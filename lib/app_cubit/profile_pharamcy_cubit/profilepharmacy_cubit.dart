@@ -125,12 +125,17 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
   void filterLocalityByStateId({required int stateId}) {
     localityList = [];
     emit(FilterLocalityByStateIdLoading());
-    DioHelper.getData(url: 'locality').then((value) {
+    print("A");
+    DioHelper.getData(url: 'locality',query: {'PageSize': 50}).then((value) {
       LocalityModel localityModel = LocalityModel.fromJson(value.data);
+      print("AB");
 
       localityModel.data?.forEach((localityItem) {
+        print(localityItem.stateId);
         if (localityItem.stateId == stateId) {
           localityList.add(localityItem);
+
+
           print(localityItem.name);
         }
       });
@@ -145,7 +150,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
   void filterAreaByLocalityId({required int localityId}) {
     filterAreaList = [];
     emit(FilterAreaByLocalityIdLoading());
-    DioHelper.getData(url: 'area').then((value) {
+    DioHelper.getData(url: 'area',query: {'PageSize': 50}).then((value) {
       AreaModel areaModel = AreaModel.fromJson(value.data);
       areaModel.data?.forEach((areaElement) {
         if (areaElement.localityId == localityId) {

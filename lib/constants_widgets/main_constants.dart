@@ -54,6 +54,7 @@ void resetvalues(TextEditingController result, TextEditingController result2,
 
 //   picker.showModal(context);
 // }
+int localityCount = 8;
 
 showLocalityPicker({
   required BuildContext context,
@@ -70,6 +71,15 @@ showLocalityPicker({
       textStyle: const TextStyle(color: Colors.blue),
       selectedTextStyle: const TextStyle(color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
+      onSelect: (picker, index, selected) {
+        selected.forEach((element) {
+          if ((listLocality.length - 1) == element) {
+            localityCount += 8;
+            BlocProvider.of<AppCubit>(context)
+                .getLocalityList(count: localityCount);
+          }
+        });
+      },
       onConfirm: (Picker picker, List value) {
         List<LocalityModelData> selectedList =
             picker.getSelectedValues() as List<LocalityModelData>;
@@ -84,6 +94,8 @@ showLocalityPicker({
 
   picker.showModal(context);
 }
+
+int count = 8;
 
 showStatePicker({
   required BuildContext context,
@@ -100,17 +112,29 @@ showStatePicker({
       textStyle: const TextStyle(color: Colors.blue),
       selectedTextStyle: const TextStyle(color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
+      onSelect: (picker, index, selected) {
+        selected.forEach((element) {
+          if ((stateList.length - 1) == element) {
+            count += 8;
+
+            BlocProvider.of<AppCubit>(context).getStateList(count: count);
+          }
+        });
+      },
       onConfirm: (Picker picker, List value) {
         List<StateData> selectedList =
             picker.getSelectedValues() as List<StateData>;
         result.text = selectedList[0].name ?? '';
         BlocProvider.of<ProfilePharmacyCubit>(context).stateId =
             selectedList[0].id;
+        print( selectedList[0].id);
         BlocProvider.of<ProfilePharmacyCubit>(context)
             .filterLocalityByStateId(stateId: selectedList[0].id ?? 0);
       });
   statePicker.showModal(context);
 }
+
+int areaCount = 8;
 
 showAreaPicker({
   required BuildContext context,
@@ -129,6 +153,14 @@ showAreaPicker({
       textStyle: const TextStyle(color: Colors.blue),
       selectedTextStyle: const TextStyle(color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
+      onSelect: (picker, index, selected) {
+        selected.forEach((element) {
+          if ((areaList.length - 1) == element) {
+            areaCount += 8;
+            BlocProvider.of<AppCubit>(context).getAreaList(count: areaCount);
+          }
+        });
+      },
       onConfirm: (Picker picker, List value) {
         List<AreaModelData> selectedList =
             picker.getSelectedValues() as List<AreaModelData>;
