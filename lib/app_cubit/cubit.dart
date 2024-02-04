@@ -431,7 +431,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getStateList({int count = 8}) {
     emit(GetStateLoading());
-    DioHelper.getData(url: 'State', query: {'PageSize': count}).then((value) {
+    DioHelper.getData(url: 'State', query: {'PageSize': 19}).then((value) {
       stateModel = StateModel.fromJson(value.data);
       print(stateModel?.data?.length);
       emit(GetStateSuccess());
@@ -445,7 +445,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getAreaList({int count = 8}) {
     emit(GetAreaListLoading());
-    DioHelper.getData(url: 'Area', query: {'PageSize': count}).then((value) {
+    DioHelper.getData(url: 'Area', query: {'PageSize': 2288}).then((value) {
       areaModel = AreaModel.fromJson(value.data);
       emit(GetAreaListSuccess());
     }).catchError((e) {
@@ -457,7 +457,7 @@ class AppCubit extends Cubit<AppStates> {
   LocalityModel? localityModel;
   void getLocalityList({int count = 8}) {
     emit(GetLocalityLoading());
-    DioHelper.getData(url: 'Locality',query: {"PageSize" : count}).then((value) {
+    DioHelper.getData(url: 'Locality',query: {"PageSize" : 110}).then((value) {
       localityModel = LocalityModel.fromJson(value.data);
 
       emit(GetLocalitySuccess());

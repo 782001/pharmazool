@@ -72,6 +72,12 @@ showLocalityPicker({
       selectedTextStyle: const TextStyle(color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
       onSelect: (picker, index, selected) {
+        List<LocalityModelData> selectedList =
+            picker.getSelectedValues() as List<LocalityModelData>;
+
+        BlocProvider.of<ProfilePharmacyCubit>(context)
+            .getAreaBtLocalityId(selectedList[0].id ?? 0);
+
         selected.forEach((element) {
           if ((listLocality.length - 1) == element) {
             localityCount += 8;
@@ -89,7 +95,7 @@ showLocalityPicker({
         BlocProvider.of<ProfilePharmacyCubit>(context).localityId =
             selectedList[0].id;
         BlocProvider.of<ProfilePharmacyCubit>(context)
-            .filterAreaByLocalityId(localityId: selectedList[0].id ?? 0);
+            .getAreaBtLocalityId( selectedList[0].id ?? 0);
       });
 
   picker.showModal(context);
@@ -113,6 +119,12 @@ showStatePicker({
       selectedTextStyle: const TextStyle(color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
       onSelect: (picker, index, selected) {
+        List<StateData> selectedList =
+            picker.getSelectedValues() as List<StateData>;
+        // BlocProvider.of<ProfilePharmacyCubit>(context)
+        //     .filterLocalityByStateId(stateId: selectedList[0].id ?? 0);
+        BlocProvider.of<ProfilePharmacyCubit>(context). getLocalityByStateId(stateId: selectedList[0].id ?? 0);
+
         selected.forEach((element) {
           if ((stateList.length - 1) == element) {
             count += 8;
@@ -127,9 +139,9 @@ showStatePicker({
         result.text = selectedList[0].name ?? '';
         BlocProvider.of<ProfilePharmacyCubit>(context).stateId =
             selectedList[0].id;
-        print( selectedList[0].id);
-        BlocProvider.of<ProfilePharmacyCubit>(context)
-            .filterLocalityByStateId(stateId: selectedList[0].id ?? 0);
+        print(selectedList[0].id);
+        BlocProvider.of<ProfilePharmacyCubit>(context). getLocalityByStateId(stateId: selectedList[0].id ?? 0);
+
       });
   statePicker.showModal(context);
 }

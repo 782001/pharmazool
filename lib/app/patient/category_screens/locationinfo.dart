@@ -107,7 +107,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                       showLocalityPicker(
                                         context: context,
                                         listLocality:
-                                            profileCubit?.localityList ?? [],
+                                            profileCubit?.listLocalityByStateId ?? [],
                                         result: locality,
                                       );
                                     });
@@ -123,7 +123,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                       showAreaPicker(
                                         context: context,
                                         areaList:
-                                            profileCubit?.filterAreaList ?? [],
+                                            profileCubit?.listAreaByLocalityId ?? [],
                                         result: area,
                                       );
                                     });

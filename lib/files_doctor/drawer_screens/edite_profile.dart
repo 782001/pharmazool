@@ -110,7 +110,7 @@ class _EditeProfileState extends State<EditeProfile> {
                   onPress: () {
                     showLocalityPicker(
                       context: context,
-                      listLocality: profileCubit?.localityList ?? [],
+                      listLocality: profileCubit?.listLocalityByStateId ?? [],
                       result: selectedLocalityController,
                     );
                     setState(() {});
@@ -128,7 +128,7 @@ class _EditeProfileState extends State<EditeProfile> {
                   onPress: () {
                     showAreaPicker(
                       context: context,
-                      areaList: profileCubit?.filterAreaList ?? [],
+                      areaList: profileCubit?.listAreaByLocalityId ?? [],
                       result: selectedAreaController,
                     );
                     setState(() {});

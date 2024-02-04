@@ -1,4 +1,4 @@
- import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 
 part 'profilepharmacy_state.dart';
 
@@ -10,6 +10,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
   TextEditingController linkLocationController = TextEditingController();
 
   Position? pressPosition;
+
   void getPressLocation() async {
     emit(GetPressPositionProfileLoading());
     await Geolocator.getCurrentPosition().then((currentP) {
@@ -25,6 +26,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
 
   double lat = 0;
   double lng = 0;
+
   Future<String> _extractLatLng({required String link}) async {
     final RegExp latLngRegExp = RegExp(r'@(-?\d+\.\d+),(-?\d+\.\d+)');
     final match = latLngRegExp.firstMatch(link);
@@ -89,6 +91,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
   String? licenceID;
 
   List<PharmacyModel>? filteredList;
+
   void filterPharmacyByLocalityAndStateAndArea(
       {required String locality, required String area, required String state}) {
     filteredList = [];
@@ -121,23 +124,38 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
     }
   }
 
-  List<LocalityModelData> localityList = [];
-  void filterLocalityByStateId({required int stateId}) {
-    localityList = [];
+  // List<LocalityModelData> localityList = [];
+  // void filterLocalityByStateId({required int stateId}) {
+  //   localityList = [];
+  //   emit(FilterLocalityByStateIdLoading());
+  //   print("A");
+  //   DioHelper.getData(url: 'locality',query: {'PageSize': 50}).then((value) {
+  //     LocalityModel localityModel = LocalityModel.fromJson(value.data);
+  //     print("AB");
+  //
+  //     localityModel.data?.forEach((localityItem) {
+  //       print(localityItem.stateId);
+  //       if (localityItem.stateId == stateId) {
+  //         localityList.add(localityItem);
+  //
+  //
+  //         print(localityItem.name);
+  //       }
+  //     });
+  //     emit(FilterLocalityByStateIdSuccess());
+  //   }).catchError((e) {
+  //     emit(FilterLocalityByStateIdError());
+  //     print("Error in GEt locality $e");
+  //   });
+  // }
+  List<LocalityModelData>? listLocalityByStateId;
+
+  void getLocalityByStateId({required int stateId}) {
     emit(FilterLocalityByStateIdLoading());
-    print("A");
-    DioHelper.getData(url: 'locality',query: {'PageSize': 50}).then((value) {
-      LocalityModel localityModel = LocalityModel.fromJson(value.data);
-      print("AB");
-
-      localityModel.data?.forEach((localityItem) {
-        print(localityItem.stateId);
-        if (localityItem.stateId == stateId) {
-          localityList.add(localityItem);
-
-
-          print(localityItem.name);
-        }
+    DioHelper.getData(url: 'Locality/autoComplete/$stateId').then((value) {
+      listLocalityByStateId = [];
+      value.data.forEach((e) {
+        listLocalityByStateId?.add(LocalityModelData.fromJson(e));
       });
       emit(FilterLocalityByStateIdSuccess());
     }).catchError((e) {
@@ -146,19 +164,34 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
     });
   }
 
-  List<AreaModelData> filterAreaList = [];
-  void filterAreaByLocalityId({required int localityId}) {
-    filterAreaList = [];
+  // List<AreaModelData> filterAreaList = [];
+
+//   void filterAreaByLocalityId({required int localityId}) {
+//     filterAreaList = [];
+//     emit(FilterAreaByLocalityIdLoading());
+//     DioHelper.getData(url: 'area', query: {'PageSize': 50}).then((value) {
+//       AreaModel areaModel = AreaModel.fromJson(value.data);
+//       areaModel.data?.forEach((areaElement) {
+//         if (areaElement.localityId == localityId) {
+//           filterAreaList.add(areaElement);
+//           print(areaElement.name);
+//         }
+//       });
+//       emit(FilterAreaByLocalityIdSuccess());
+//     }).catchError((e) {
+//       emit(FilterAreaByLocalityIdError());
+//     });
+//   }
+// }
+  List<AreaModelData>? listAreaByLocalityId;
+
+  void getAreaBtLocalityId(int localityId) {
     emit(FilterAreaByLocalityIdLoading());
-    DioHelper.getData(url: 'area',query: {'PageSize': 50}).then((value) {
-      AreaModel areaModel = AreaModel.fromJson(value.data);
-      areaModel.data?.forEach((areaElement) {
-        if (areaElement.localityId == localityId) {
-          filterAreaList.add(areaElement);
-          print(areaElement.name);
-        }
+    DioHelper.getData(url: 'Area/autoComplete/$localityId').then((value) {
+      listAreaByLocalityId = [];
+      value.data.forEach((e) {
+        listAreaByLocalityId?.add(AreaModelData.fromJson(e));
       });
-      emit(FilterAreaByLocalityIdSuccess());
     }).catchError((e) {
       emit(FilterAreaByLocalityIdError());
     });
