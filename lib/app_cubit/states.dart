@@ -12,7 +12,12 @@ class changeBarCodeResultState extends AppStates {}
 
 class AppLoginLoadingState extends AppStates {}
 
-class AppLoginSuccesState extends AppStates {}
+class AppLoginSuccesState extends AppStates {
+    final String token;
+
+  AppLoginSuccesState({required this.token});
+
+}
 
 class AppLoginErrorState extends AppStates {}
 
@@ -31,6 +36,9 @@ class DoctorRegisterLoadingState extends AppStates {}
 class DoctorRegisterSuccesState extends AppStates {}
 
 class DoctorRegisterErrorState extends AppStates {}
+class DoctorCheckRegisterSuccesState extends AppStates {}
+
+class DoctorCheckRegisterErrorState extends AppStates {}
 
 //groublist states
 

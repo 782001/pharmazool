@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/doctor/auth/presentation/screens/doctor_sign_in_screen.dart';
 
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
@@ -36,10 +37,8 @@ class _TabBarScreen_doctorState extends State<TabBarScreen_doctor> {
           padding: const EdgeInsets.all(40.0),
           child: Column(
             children: [
-              const AutoSizeText(
-                'P H A R M Z O O L',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
+              const AutoSizeText('P H A R M Z O O L',
+                  style: TextStyles.stylebold30),
               SizedBox(
                 height: context.height * 0.1,
               ),
@@ -56,6 +55,8 @@ class _TabBarScreen_doctorState extends State<TabBarScreen_doctor> {
                         // indicatorPadding: const EdgeInsetsDirectional.only(
                         //     start: 100, end: 100),
                         indicatorColor: AppColors.PharmaColor,
+                        labelStyle: TextStyles.styleblackDefault,
+                        unselectedLabelStyle: TextStyles.styleblackDefault,
                         indicatorSize: TabBarIndicatorSize.tab,
                         tabs: const [
                           Tab(

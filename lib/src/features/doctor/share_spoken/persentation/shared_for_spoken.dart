@@ -1,5 +1,6 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/doctor/share_spoken/logic/share_spoken_cubit.dart';
 import 'package:pharmazool/src/features/doctor/share_spoken/persentation/widgets/head_shared_spoken_screen.dart';
 
@@ -22,7 +23,7 @@ class SharedForSpoken extends StatelessWidget {
               key: reportKey,
               child: Column(
                 children: [
-                  HeadSharedSpokenScreen(),
+                  const HeadSharedSpokenScreen(),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -77,7 +78,7 @@ class SharedForSpoken extends StatelessWidget {
                       if (state is SendEmailSuccess) {
                         flutterToast(msg: "Send Success");
                         nameController.clear();
-                      phoneController.clear();
+                        phoneController.clear();
                         explainYourProblemController.clear();
                       }
                       if (state is SendEmailFailure) {
@@ -107,13 +108,8 @@ class SharedForSpoken extends StatelessWidget {
                                   horizontal: 80,
                                   vertical: 8,
                                 ),
-                                child: const Text(
-                                  'شاركنا اقتراحك',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700),
-                                ),
+                                child: const Text('شاركنا اقتراحك',
+                                    style: TextStyles.stylewhitebold20),
                               ),
                             );
                     },
@@ -122,11 +118,7 @@ class SharedForSpoken extends StatelessWidget {
                   const SizedBox(height: 25),
                   const Text(
                     'او تواصل معنا علي التالي',
-                    style: TextStyle(
-                      color: Colors.teal,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyles.styletealbold25,
                   ),
                   const SizedBox(height: 25),
                   Padding(
@@ -139,13 +131,13 @@ class SharedForSpoken extends StatelessWidget {
                             launch(
                                 'https://www.facebook.com/profile.php?id=100068365090281&mibextid=LQQJ4d');
                           },
-                          child: FaIcon(
+                          child: const FaIcon(
                             FontAwesomeIcons.facebookSquare,
                             color: Colors.blue,
                             size: 60,
                           ),
                         ),
-                        FaIcon(
+                        const FaIcon(
                           FontAwesomeIcons.instagramSquare,
                           color: Colors.redAccent,
                           size: 60,

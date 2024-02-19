@@ -1,11 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmazool/api_dio/services_paths.dart';
 import 'package:pharmazool/app/doctor/screens/tap_doctor_auth_screen.dart';
 import 'package:pharmazool/app/patient/auth_screens/tap_patient_auth_screen.dart';
 import 'package:pharmazool/constants_widgets/utils/assets_images_path.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
+import 'package:pharmazool/src/core/network/local/cashhelper.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
+import 'package:pharmazool/src/features/patient/patient_layout/presentation/screens/patient_layout.dart';
 
 import '../../../constants_widgets/utils/app_theme_colors.dart';
+import '../patient/patient_home/presentation/widgets/show_widget.dart';
 
 class PatientDoctorScreen extends StatelessWidget {
   const PatientDoctorScreen({Key? key}) : super(key: key);
@@ -28,12 +34,10 @@ class PatientDoctorScreen extends StatelessWidget {
                       image: AssetImage('assets/images/logo_11zon_low.png'),
                       fit: BoxFit.fill)),
             ),
-            SizedBox(
-              height: context.height * 0.01
-            ),
+            SizedBox(height: context.height * 0.01),
             Expanded(
               child: Container(
-                 width: context.width * 1,
+                width: context.width * 1,
                 decoration: BoxDecoration(
                   color: AppColors.PharmaColor,
                   borderRadius: const BorderRadius.only(
@@ -49,11 +53,23 @@ class PatientDoctorScreen extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
+                              print("Token on Sign:$token");
+                              if (token!.isNotEmpty) {
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const TabBarScreen_patient()));
+                                    builder: (context) => ShowWidget(
+                                      child: PatientLayout(),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TabBarScreen_patient()));
+                              }
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,12 +82,7 @@ class PatientDoctorScreen extends StatelessWidget {
                                 ),
                                 const AutoSizeText(
                                   'مريض',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      // fontSize: context.height * 0.017,
-                                      fontSize: 18,
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'Schyler'),
+                                  style: TextStyles.styleWhite18,
                                 )
                               ],
                             ),
@@ -97,12 +108,7 @@ class PatientDoctorScreen extends StatelessWidget {
                                 Container(
                                   child: const AutoSizeText(
                                     'صيدلي',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        // fontSize: context.height * 0.017,
-                                        fontSize: 18,
-                                        fontStyle: FontStyle.normal,
-                                        fontFamily: 'Schyler'),
+                                    style: TextStyles.styleWhite18,
                                   ),
                                 )
                               ],
@@ -113,12 +119,7 @@ class PatientDoctorScreen extends StatelessWidget {
                       const Spacer(),
                       const AutoSizeText(
                         'قريب من المنزل, قريب للقلب',
-                        style: TextStyle(
-                            color: Colors.white,
-                            // fontSize: context.height * 0.017,
-                            fontSize: 18,
-                            fontStyle: FontStyle.normal,
-                            fontFamily: 'Schyler'),
+                        style: TextStyles.styleWhite18,
                       ),
                       SizedBox(
                         height: context.height * 0.03,

@@ -3,6 +3,7 @@
 import 'package:pharmazool/app/patient/category_screens/locationinfo.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class EditeProfile extends StatefulWidget {
   EditeProfile({super.key});
@@ -61,12 +62,9 @@ class _EditeProfileState extends State<EditeProfile> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              ' ,مرحبا بك' '\n' '${pharmamodel?.name?? ''}',
+              ' ,مرحبا بك' '\n' '${pharmamodel?.name ?? ''}',
               textAlign: TextAlign.end,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
+              style: TextStyles.stylewhitebold25,
             ),
           ),
         ],
@@ -154,7 +152,9 @@ class _EditeProfileState extends State<EditeProfile> {
                       hintText: "رابط خدمات الموقع",
                       maxLines: 1,
                       prefixIcon: Showcase(
-                        key: locationKey,
+                        key: locationKey,descriptionTextDirection: TextDirection.rtl,
+                                          descTextStyle:
+                                              TextStyles.styleblackDefault,
                         description:
                             "تاكد من تشغيل خدمات الموقع وقم بالضغط هنا لتحديد موقع الصيدلية عن طريق الاقمار الصناعية",
                         child: IconButton(
@@ -181,12 +181,15 @@ class _EditeProfileState extends State<EditeProfile> {
                 ),
                 DefaultTextFormFieldForProblem(
                   validator: (value) {
-                    if (value.isEmpty || value.length <= 10) {
+                    if (value.isEmpty) {
                       return 'برجاء ادخال بيانات';
+                    }
+                    if (value.length < 10 || value.length > 10) {
+                      return 'برجاء ادخال 10 ارقام فقط';
                     }
                   },
                   textEditingController: phoneController,
-                  textInputType: TextInputType.text,
+                  textInputType: TextInputType.number,
                   hintText: "رقم المحمول",
                   maxLines: 1,
                 ),
@@ -248,10 +251,7 @@ class _EditeProfileState extends State<EditeProfile> {
                         ),
                         child: const Text(
                           "حفظ",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700),
+                          style: TextStyles.stylewhitebold20,
                         ),
                       ),
                     );
@@ -297,6 +297,7 @@ class _EditeProfileState extends State<EditeProfile> {
                             decoration: const InputDecoration(
                               hintText: 'اسم الصيدلية',
                               labelText: 'أسم الصيدلية',
+                              labelStyle: TextStyles.styleblackDefault,
                             ),
                           ),
                         ),
@@ -319,6 +320,7 @@ class _EditeProfileState extends State<EditeProfile> {
                             decoration: const InputDecoration(
                               hintText: 'رقم الرخصة',
                               labelText: 'رقم الرخصة',
+                              labelStyle: TextStyles.styleblackDefault,
                             ),
                           ),
                         ),
@@ -335,10 +337,7 @@ class _EditeProfileState extends State<EditeProfile> {
                                   },
                                   child: const AutoSizeText(
                                     'رجوع',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyles.styleblackBold15,
                                   )),
                             ),
                             const SizedBox(width: 30),
@@ -390,10 +389,7 @@ class _EditeProfileState extends State<EditeProfile> {
                                   },
                                   child: const AutoSizeText(
                                     'تأكيد ',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyles.styleblackBold15,
                                   )),
                             ),
                           ],

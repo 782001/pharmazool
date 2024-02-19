@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class DefaultTextFormFieldForProblem extends StatelessWidget {
   Function validator;
@@ -44,7 +43,7 @@ class DefaultTextFormFieldForProblem extends StatelessWidget {
         obscureText: false,
         readOnly: readOnly ?? false,
         cursorColor: Colors.white,
-        style: TextStyle(color: Colors.black),
+        style: TextStyles.styleblackDefault,
         maxLines: maxLines,
         decoration: InputDecoration(
             filled: true,
@@ -52,9 +51,8 @@ class DefaultTextFormFieldForProblem extends StatelessWidget {
             hintText: hintText,
             labelText: labelText,
             // floatingLabelAlignment: FloatingLabelAlignment.center,
-            hintStyle:
-                TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
-            border: UnderlineInputBorder(
+            hintStyle: TextStyles.styleteal,
+            border:const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey))),
       ),
     );

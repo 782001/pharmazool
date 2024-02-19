@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HeadSharedSpokenScreen extends StatelessWidget {
   const HeadSharedSpokenScreen({Key? key}) : super(key: key);
@@ -17,17 +18,13 @@ class HeadSharedSpokenScreen extends StatelessWidget {
           children: [
             Text(
               'في فارمازول',
-              style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+              style: TextStyles.stylewhitebold35,
             ),
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
                 'نحن نهتم بكلماتك و نعمل علي تحسين خدماتنا بناء عليها, شاركنا رأيك و اجعل صوتك مسموعا',
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
+                          style: TextStyles.stylewhite20,  ),
             )
           ],
         ),

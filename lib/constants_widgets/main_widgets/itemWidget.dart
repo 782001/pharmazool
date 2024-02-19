@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharmazool/constants_widgets/main_widgets/catalog-model.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class ItemWidget extends StatelessWidget {
   final Item item;
@@ -21,19 +22,19 @@ class ItemWidget extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-                child: Text(item.name,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18))),
+                child: Text(
+              item.name,
+              style: TextStyles.styleblackBold18,
+            )),
           ),
           subtitle: Center(
-              child: Text(item.desc,
-                  style: TextStyle(color: Colors.blue, fontSize: 15))),
+              child: Text(
+            item.desc,
+            style: TextStyles.styleblue15,
+          )),
           trailing: Text(
             "${item.price} SDG",
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyles.styleblackbold20,
           ),
         ),
       ),

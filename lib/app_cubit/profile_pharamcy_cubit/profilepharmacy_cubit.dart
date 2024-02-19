@@ -15,6 +15,8 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
     emit(GetPressPositionProfileLoading());
     await Geolocator.getCurrentPosition().then((currentP) {
       pressPosition = currentP;
+      print(
+          "pressPosition: $pressPosition");
       linkLocationController =
           TextEditingController(text: "تم تحديد موقع الصيدلية بنحاح");
       emit(GetPressPositionProfileSuccess());

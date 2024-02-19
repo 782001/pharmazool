@@ -11,6 +11,8 @@ import 'package:pharmazool/constants_widgets/main_widgets/loadingwidget.dart';
 import 'package:pharmazool/app/patient/category_screens/locationinfo.dart';
 import 'package:pharmazool/constants_widgets/main_constants.dart';
 import 'package:pharmazool/mymodels/medicine_model.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import '../../../constants_widgets/utils/app_theme_colors.dart';
 import '../../../constants_widgets/utils/assets_images_path.dart';
 import '../nav_screens/BottomNavBarWidget.dart';
@@ -146,7 +148,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
                                           ),
                                           child: TextField(
                                             controller: searchcontrolled,
-                                            style: TextStyle(
+                                            style: TextStyle( fontFamily: cairoFont,
                                               fontSize: context.height * 0.015,
                                             ),
                                             onSubmitted: (value) {
@@ -157,7 +159,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
                                             },
                                             decoration: InputDecoration(
                                               hintText: 'بحث',
-                                              hintStyle: const TextStyle(
+                                              hintStyle: const TextStyle( fontFamily: cairoFont,
                                                 color: Color(0xFF949098),
                                               ),
                                               border: OutlineInputBorder(
@@ -322,8 +324,7 @@ Widget medicineItem(MedicineModel medicineModel, context) {
                     padding: const EdgeInsets.all(8.0),
                     child: AutoSizeText(
                       medicineModel.name.toString(),
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyles.styleblackBold18,
                     ),
                   ),
                 ),
@@ -344,10 +345,7 @@ Widget medicineItem(MedicineModel medicineModel, context) {
                   },
                   child: const AutoSizeText(
                     'بحث',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyles.styleblackBold15,
                   )),
             ),
           ],

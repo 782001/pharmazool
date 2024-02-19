@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class DoctorForgetButton extends StatelessWidget {
   final GlobalKey<FormState> forgetKey;
@@ -47,7 +48,7 @@ class DoctorForgetButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 65),
             child: const Text(
               'تأكيد',
-              style: TextStyle(color: Colors.white, fontSize: 18.0),
+              style: TextStyles.styleWhite18,
             ),
           ),
         ),

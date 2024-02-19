@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pharmazool/api_dio/services_paths.dart';
@@ -14,14 +9,11 @@ import 'package:pharmazool/app_cubit/states.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/constants_widgets/main_widgets/loadingwidget.dart';
 
-import 'package:pharmazool/app/patient/category_screens/locationinfo.dart';
 import 'package:pharmazool/mymodels/medicine_model.dart';
-import 'package:pharmazool/mymodels/pharmacy_model.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
-import '../constants_widgets/utils/app_theme_colors.dart';
 import '../constants_widgets/utils/assets_images_path.dart';
-
-import '../../../files_doctor/nav_screens/floating_botton.dart';
 
 class MedicineScreenDoctor extends StatefulWidget {
   int? id;
@@ -154,6 +146,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                                             child: TextField(
                                               controller: searchcontrolled,
                                               style: TextStyle(
+                                                fontFamily: cairoFont,
                                                 fontSize:
                                                     context.height * 0.015,
                                               ),
@@ -167,6 +160,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                                               decoration: InputDecoration(
                                                 hintText: 'بحث',
                                                 hintStyle: const TextStyle(
+                                                  fontFamily: cairoFont,
                                                   color: Color(0xFF949098),
                                                 ),
                                                 border: OutlineInputBorder(
@@ -301,10 +295,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                       )),
           ),
           title: Text(model.name.toString(),
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15)),
+              style:  TextStyles.styleblackBold15),
           trailing: Switch(
             value: model.status!,
             onChanged: (value) {

@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class DoctorForgetBody extends StatelessWidget {
   DoctorForgetBody({super.key});
@@ -21,17 +22,14 @@ class DoctorForgetBody extends StatelessWidget {
               const Text(
                 ': تأكيد ثم ادخال كلمة مرور جديده',
                 textAlign: TextAlign.right,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                style: TextStyles.styleblackBold18,
               ),
               const SizedBox(height: 50),
               CustomForgetTextField(
                 controller: phoneController,
                 labelText: ' رقم الهاتف',
                 validator: (value) {
-                  if(value == null || value.isEmpty){
+                  if (value == null || value.isEmpty) {
                     return "قم بإدخال رقم الهاتف المربوط بالحساب";
                   }
                   return null;
@@ -42,7 +40,7 @@ class DoctorForgetBody extends StatelessWidget {
                 controller: licenseController,
                 labelText: "رقم الرخصة",
                 validator: (value) {
-                  if(value == null || value.isEmpty){
+                  if (value == null || value.isEmpty) {
                     return "ادخل رقم رخصة الصيدلية";
                   }
                   return null;

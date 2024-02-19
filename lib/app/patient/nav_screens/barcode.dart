@@ -1,17 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pharmazool/app_cubit/cubit.dart';
-import 'package:pharmazool/app_cubit/states.dart';
 import 'package:pharmazool/app/patient/search_screen/search_screen_patient.dart';
 
-import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
-import 'BottomNavBarWidget.dart';
-import '../../../files_doctor/nav_screens/floating_botton.dart';
+
 
 class BarCode extends StatefulWidget {
   const BarCode({Key? key}) : super(key: key);
@@ -74,15 +70,12 @@ class _BarCodeState extends State<BarCode> {
                                   );
                                 }
                               },
-                              child: Row(
-                                children: const [
+                              child: const Row(
+                                children: [
                                   Icon(Icons.file_download),
                                   AutoSizeText(
                                     'Scan File',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyles.styleblackBold15,
                                   ),
                                 ],
                               )),
@@ -104,15 +97,12 @@ class _BarCodeState extends State<BarCode> {
                                   );
                                 }
                               },
-                              child: Row(
-                                children: const [
+                              child:const Row(
+                                children:  [
                                   Icon(Icons.file_download),
                                   AutoSizeText(
                                     'Choose File',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                 style: TextStyles.styleblackBold15,
                                   ),
                                 ],
                               )),
@@ -127,7 +117,7 @@ class _BarCodeState extends State<BarCode> {
               ),
               const Text(
                 'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
-                style: TextStyle(color: Colors.black, fontSize: 25),
+                   style: TextStyles.styleblack25,
                 textAlign: TextAlign.center,
               ),
             ],

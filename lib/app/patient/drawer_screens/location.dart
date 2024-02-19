@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_launcher/maps_launcher.dart';
+// import 'package:maps_launcher/maps_launcher.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 
 class Location extends StatefulWidget {
@@ -38,8 +38,8 @@ class _LocationState extends State<Location> {
 
   List<Marker> markers = [
     Marker(
-      markerId: MarkerId("'موقع فارمسي زول'"),
-      position: LatLng(33.264535374410887, 33.264535374410887),
+      markerId: const MarkerId("'موقع فارمسي زول'"),
+      position: const LatLng(33.264535374410887, 33.264535374410887),
       infoWindow: InfoWindow(onTap: () {}, title: 'موقع فارمسي زول'),
       onTap: () {
         print("Clicked on marker");
@@ -47,9 +47,9 @@ class _LocationState extends State<Location> {
     ),
   ];
 
-  launchMap(lat, long) {
-    MapsLauncher.launchCoordinates(lat, long);
-  }
+  // launchMap(lat, long) {
+  //   MapsLauncher.launchCoordinates(lat, long);
+  // }
 
   @override
   Widget build(BuildContext context) {

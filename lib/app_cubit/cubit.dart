@@ -1,18 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:file_picker/file_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
-import 'package:pharmazool/src/features/patient/patient_home/presentation/screens/patient_home.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
+
+
+
 import 'package:pharmazool/repo/services.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:read_pdf_text/read_pdf_text.dart';
-import 'package:pharmazool/files_doctor/nav_screens/home_doctor_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:pharmazool/mymodels/medicine_model.dart';
-import '../app/patient/nav_screens/history_screen.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(InitialState());
@@ -143,7 +147,7 @@ class AppCubit extends Cubit<AppStates> {
       print("doctor login ******");
       userName = value.data['userName'];
       token = value.data['token'];
-      emit(AppLoginSuccesState());
+      emit(AppLoginSuccesState(token: token!));
     }).catchError((error) {
       print(error.toString());
       emit(AppLoginErrorState());
@@ -174,10 +178,19 @@ class AppCubit extends Cubit<AppStates> {
       value.data['data'].forEach((element) {
         if (element['licenceId'] == licId && element['name'] == name) {
           isverified = true;
+          print(
+              "${element['licenceId']} gggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+        } else {
+          print(
+              "${element['licenceId']} gggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+          print(
+              "${element['name']} gggggggggggggggggggggggggggggggggggggggggggggggggggggg");
         }
       });
+      emit(DoctorCheckRegisterSuccesState());
     }).catchError((error) {
-      print(error);
+      emit(DoctorCheckRegisterErrorState());
+      print("$error ggggggggggggggggggggggggggggggggggggggggggg");
     });
     return isverified;
   }
@@ -244,11 +257,13 @@ class AppCubit extends Cubit<AppStates> {
         emit(DoctorRegisterSuccesState());
       }).catchError((error) {
         print(error);
+        showmydialog(context, "الحساب موجود بالفعل", Icons.warning);
         emit(DoctorRegisterErrorState());
       });
     } else {
       emit(DoctorRegisterErrorState());
-      showmydialog(context, '1 الحساب غير صحيح', Icons.warning);
+      showmydialog(
+          context, 'رقم الرخصه واسم الصيدليه\n غير متوافقان', Icons.warning);
     }
   }
 
@@ -279,6 +294,8 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetPressPositionLoading());
     await Geolocator.getCurrentPosition().then((currentP) {
       pressPosition = currentP;
+      print(
+          "pressPositionpressPositionpressPositionpressPositionpressPosition $pressPosition");
       controller2 = TextEditingController(text: "تم تحديد موقع الصيدلية بنحاح");
       emit(GetPressPositionSuccess());
     }).catchError((e) {
@@ -457,7 +474,7 @@ class AppCubit extends Cubit<AppStates> {
   LocalityModel? localityModel;
   void getLocalityList({int count = 8}) {
     emit(GetLocalityLoading());
-    DioHelper.getData(url: 'Locality',query: {"PageSize" : 110}).then((value) {
+    DioHelper.getData(url: 'Locality', query: {"PageSize": 110}).then((value) {
       localityModel = LocalityModel.fromJson(value.data);
 
       emit(GetLocalitySuccess());
@@ -471,24 +488,60 @@ class AppCubit extends Cubit<AppStates> {
   List<String> doctorSearcher = [''];
 
   File? textImage;
+
+// ...
+
   Future<String> getGalleryImageForPatientSearch() async {
+// create an instance of AppCubit
+
     String search = '';
-    XFile? PickedFile = await ImagePicker().pickImage(
+    XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
     );
 
-    if (PickedFile != null) {
-      textImage = File(PickedFile.path);
-      List<TextBlock> rectext = await recogniseText(textImage);
-      rectext.forEach((element) {
-        search = search + element.text;
-      });
+    if (pickedFile != null) {
+      textImage = File(pickedFile.path);
 
-      emit(PickImageSuccesState());
+      // Open the image in the cropper and get the cropped image
+      File? croppedFile = await CropImage(textImage!);
+
+      print('Cropped Image Path: ${croppedFile?.path}');
+
+      if (croppedFile != null) {
+        List<TextBlock> rectext = await recogniseText(croppedFile);
+        rectext.forEach((element) {
+          search = search + element.text;
+        });
+
+        emit(PickImageSuccesState());
+      } else {
+        emit(PickImageErrorState());
+      }
     } else {
       emit(PickImageErrorState());
     }
+
     return search;
+  }
+
+  Future<File?> CropImage(File originalImage) async {
+    File? croppedFile = await ImageCropper().cropImage(
+      sourcePath: originalImage.path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      compressQuality: 100,
+      androidUiSettings: AndroidUiSettings(
+        toolbarTitle: 'قص الصوره ',
+        toolbarColor: Color(0xff1F252F),
+        toolbarWidgetColor: ui.Color.fromARGB(255, 230, 167, 128),
+        initAspectRatio: CropAspectRatioPreset.original,
+        lockAspectRatio: false,
+      ),
+      iosUiSettings: const IOSUiSettings(
+        minimumAspectRatio: 1.0,
+      ),
+    );
+    print('Original Image Path: ${originalImage.path}');
+    return croppedFile;
   }
 
   Future<void> getPostImage() async {
@@ -499,16 +552,24 @@ class AppCubit extends Cubit<AppStates> {
     doctorSearcher = [''];
     if (PickedFile != null) {
       textImage = File(PickedFile.path);
-      List<TextBlock> rectext = await recogniseText(textImage);
-      rectext.forEach((element) {
-        searcher = searcher + element.text;
-        doctorSearcher.add(element.text);
-      });
-      var splitter = searcher.split('\n');
-      doctorSearcher = splitter;
-      doctorSearcher = doctorSearcher.toSet().toList();
+      // Open the image in the cropper and get the cropped image
+      File? croppedFile = await CropImage(textImage!);
 
-      emit(PickImageSuccesState());
+      print('Cropped Image Path: ${croppedFile?.path}');
+      if (croppedFile != null) {
+        List<TextBlock> rectext = await recogniseText(croppedFile);
+        rectext.forEach((element) {
+          searcher = searcher + element.text;
+          doctorSearcher.add(element.text);
+        });
+        var splitter = searcher.split('\n');
+        doctorSearcher = splitter;
+        doctorSearcher = doctorSearcher.toSet().toList();
+
+        emit(PickImageSuccesState());
+      } else {
+        emit(PickImageErrorState());
+      }
     } else {
       emit(PickImageErrorState());
     }
@@ -543,18 +604,25 @@ class AppCubit extends Cubit<AppStates> {
     doctorSearcher = [''];
     if (PickedFile != null) {
       textImage2 = File(PickedFile.path);
-      List<TextBlock> rectext = await recogniseText(textImage2);
-      rectext.forEach((element) {
-        searcher = searcher + element.text;
-        doctorSearcher.add("${element.text}");
-      });
-      var splitter = searcher.split('\n');
-      doctorSearcher = splitter;
-      doctorSearcher = doctorSearcher.toSet().toList();
+      // Open the image in the cropper and get the cropped image
+      File? croppedFile = await CropImage(textImage2!);
+      print('Cropped Image Path: ${croppedFile?.path}');
+      if (croppedFile != null) {
+        List<TextBlock> rectext = await recogniseText(croppedFile);
+        rectext.forEach((element) {
+          searcher = searcher + element.text;
+          doctorSearcher.add("${element.text}");
+        });
+        var splitter = searcher.split('\n');
+        doctorSearcher = splitter;
+        doctorSearcher = doctorSearcher.toSet().toList();
 
-      print(doctorSearcher);
+        print(doctorSearcher);
 
-      emit(PickImageSuccesState());
+        emit(PickImageSuccesState());
+      } else {
+        emit(PickImageErrorState());
+      }
     } else {
       emit(PickImageErrorState());
     }
@@ -565,17 +633,29 @@ class AppCubit extends Cubit<AppStates> {
     XFile? PickedFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
     );
+
     if (PickedFile != null) {
       textImage2 = File(PickedFile.path);
-      List<TextBlock> rectext = await recogniseText(textImage2);
-      rectext.forEach((element) {
-        search = search + element.text;
-      });
 
-      emit(PickImageSuccesState());
+      // Open the image in the cropper and get the cropped image
+      File? croppedFile = await CropImage(textImage2!);
+
+      print('Cropped Image Path: ${croppedFile?.path}');
+
+      if (croppedFile != null) {
+        List<TextBlock> rectext = await recogniseText(croppedFile);
+        rectext.forEach((element) {
+          search = search + element.text;
+        });
+
+        emit(PickImageSuccesState());
+      } else {
+        emit(PickImageErrorState());
+      }
     } else {
       emit(PickImageErrorState());
     }
+
     return search;
   }
 
@@ -610,14 +690,20 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('تم تغيير حالة العلاج'),
+          title: Text(
+            'تم تغيير حالة العلاج',
+            style: TextStyles.styleblackDefault,
+          ),
           actions: [
             TextButton(
                 onPressed: () {
                   getsearchmedicine(search);
                   Navigator.pop(context);
                 },
-                child: Text('تم'))
+                child: Text(
+                  'تم',
+                  style: TextStyles.styleblackDefault,
+                ))
           ],
         ),
       );
@@ -643,14 +729,20 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('تم تغيير حالة العلاج'),
+          title: Text(
+            'تم تغيير حالة العلاج',
+            style: TextStyles.styleblackDefault,
+          ),
           actions: [
             TextButton(
                 onPressed: () {
                   getsearchmedicine(search);
                   Navigator.pop(context);
                 },
-                child: Text('تم'))
+                child: Text(
+                  'تم',
+                  style: TextStyles.styleblackDefault,
+                ))
           ],
         ),
       );
@@ -679,13 +771,19 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('تم تغيير حالة العلاج'),
+          title: Text(
+            'تم تغيير حالة العلاج',
+            style: TextStyles.styleblackDefault,
+          ),
           actions: [
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('تم'))
+                child: Text(
+                  'تم',
+                  style: TextStyles.styleblackDefault,
+                ))
           ],
         ),
       );
@@ -710,13 +808,19 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('تم تغيير حالة العلاج'),
+          title: Text(
+            'تم تغيير حالة العلاج',
+            style: TextStyles.styleblackDefault,
+          ),
           actions: [
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('تم'))
+                child: Text(
+                  'تم',
+                  style: TextStyles.styleblackDefault,
+                ))
           ],
         ),
       );
@@ -925,7 +1029,10 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('رقم الرخضة غير صحيح'),
+          title: const Text(
+            'رقم الرخضة غير صحيح',
+            style: TextStyles.styleblackDefault,
+          ),
           actions: [
             TextButton(
                 onPressed: () {

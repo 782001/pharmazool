@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmazool/api_dio/services_paths.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/patient/patient_layout/presentation/screens/patient_layout.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -26,10 +27,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         centerTitle: true,
         title: const AutoSizeText(
           "History",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 19,
-          ),
+          style: TextStyles.styleblack19
         ),
         backgroundColor: AppColors.kGreyColor,
       ),
@@ -107,10 +105,7 @@ Widget history(BuildContext context, PharmacyModel model) {
                 child: Center(
                   child: AutoSizeText(
                     '${model.block}:${model.street}',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade700),
+                    style: TextStyles.stylegreyBold15,
                   ),
                 ),
               ),
@@ -131,10 +126,7 @@ Widget history(BuildContext context, PharmacyModel model) {
                   model.name.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                  style:  TextStyles.styleblackBold17,
                 ),
               )
             ],

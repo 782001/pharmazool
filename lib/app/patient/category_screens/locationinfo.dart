@@ -1,4 +1,6 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class LocationInfo extends StatefulWidget {
   final String id;
@@ -58,7 +60,7 @@ class _LocationInfoState extends State<LocationInfo> {
                   child: Text(
                     'حددالولايةاوالمحليةاوالمنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دواءك في الصيدليات المتوفرة بها',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyles.stylewhitebold20,
                   ),
                 ),
                 Expanded(
@@ -106,8 +108,9 @@ class _LocationInfoState extends State<LocationInfo> {
                                     setState(() {
                                       showLocalityPicker(
                                         context: context,
-                                        listLocality:
-                                            profileCubit?.listLocalityByStateId ?? [],
+                                        listLocality: profileCubit
+                                                ?.listLocalityByStateId ??
+                                            [],
                                         result: locality,
                                       );
                                     });
@@ -122,8 +125,9 @@ class _LocationInfoState extends State<LocationInfo> {
                                     setState(() {
                                       showAreaPicker(
                                         context: context,
-                                        areaList:
-                                            profileCubit?.listAreaByLocalityId ?? [],
+                                        areaList: profileCubit
+                                                ?.listAreaByLocalityId ??
+                                            [],
                                         result: area,
                                       );
                                     });
@@ -138,9 +142,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                 const SizedBox(height: 50),
                                 const Text(
                                   'او قم بالبحث عن طريق موقعك',
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyles.stylebold22,
                                 ),
                                 const SizedBox(height: 50),
                                 Container(
@@ -154,9 +156,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                     child: TextButton(
                                       child: const Text(
                                         'البحث عن طريق موقعي',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyles.stylewhiteboldDefault,
                                       ),
                                       onPressed: () {
                                         AppCubit.get(context).getpharmacies(
@@ -164,6 +164,8 @@ class _LocationInfoState extends State<LocationInfo> {
                                             area: area.text,
                                             locality: locality.text,
                                             street: stateController.text);
+                                        print(
+                                            "${area.text + locality.text + stateController.text}");
 
                                         Navigator.push(
                                             context,
@@ -201,8 +203,8 @@ class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
   final VoidCallback onPress;
   final VoidCallback onPressCancel;
   final String labelText;
- final String? Function(String?)? validator;
-final  bool? readOnly;
+  final String? Function(String?)? validator;
+  final bool? readOnly;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -221,7 +223,7 @@ final  bool? readOnly;
                   labelText: labelText,
                   labelStyle: TextStyle(
                     color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,fontFamily: cairoFont,
                   ),
                   border: InputBorder.none,
                 ),
@@ -266,7 +268,7 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
               child: const Text(
                 'بحث',
                 style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    TextStyles.stylewhiteboldDefault,
               ),
               onPressed: () {
                 Navigator.push(context,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pharmazool/app_cubit/cubit.dart';
 import 'package:pharmazool/constants_widgets/main_widgets/constants.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
@@ -15,25 +17,20 @@ class SearchBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Container(
+            child:  SizedBox(
               height: 40.0,
               child: TextField(
-                style: TextStyle(
-                  fontSize: 12,
-                ),
+                style:TextStyles.style12,
                 decoration: InputDecoration(
                   hintText: 'search',
-                  hintStyle: TextStyle(
-                    color: kTextLightColor,
-                    fontSize: 15,
-                  ),
+                  hintStyle: TextStyles.stylekTextLightColor15,
                   filled: true,
                   fillColor: kWhite,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding:const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 8,
                   ),

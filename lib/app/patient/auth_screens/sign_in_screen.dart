@@ -12,6 +12,8 @@ import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
+import 'package:pharmazool/src/core/network/local/cashhelper.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/patient/patient_home/presentation/widgets/show_widget.dart';
 import 'package:pharmazool/src/features/patient/patient_layout/presentation/screens/patient_layout.dart';
 
@@ -55,11 +57,20 @@ class _PatientSigninState extends State<PatientSignin> {
           setState(() {
             isloading = false;
           });
-          Navigator.pushReplacement(
+          CashHelper.SaveData(
+            key: 'token',
+            value: state.token,
+          ).then((value) {
+            print("token Saved succses");
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      const ShowWidget(child: PatientLayout())));
+                builder: (context) => const ShowWidget(
+                  child: PatientLayout(),
+                ),
+              ),
+            );
+          });
         }
         if (state is AppLoginErrorState) {
           setState(() {
@@ -69,162 +80,160 @@ class _PatientSigninState extends State<PatientSignin> {
         }
       },
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: context.height * 0.1,
-                ),
-                TextFormField(
-                  controller: namEController,
-                  keyboardType: TextInputType.name,
-                  onTap: () {},
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'الاسم غير مسجل ';
-                    } else {
-                      return null;
-                    }
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.person_outline,
-                      color: AppColors.PharmaColor,
-                    ),
-                    labelText: 'ادخل الاسم',
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: context.height * 0.1,
                   ),
-                ),
-                SizedBox(
-                  height: context.height * 0.04,
-                ),
-                SizedBox(
-                  width: context.width * 1,
-                  child: TextFormField(
-                    controller: phonEController,
+                  TextFormField(
+                    controller: namEController,
                     keyboardType: TextInputType.name,
                     onTap: () {},
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'رقم الهاتف غير مسجل';
+                        return 'الاسم غير مسجل ';
                       } else {
                         return null;
                       }
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.numbers,
-                        color: AppColors.PharmaColor,
-                      ),
-                      labelText: 'ادخل رقم الهاتف',
-                    ),
+                        prefixIcon: Icon(
+                          Icons.person_outline,
+                          color: AppColors.PharmaColor,
+                        ),
+                        labelText: 'ادخل الاسم',
+                        labelStyle: TextStyles.styleblackDefault),
                   ),
-                ),
-                SizedBox(
-                  height: context.height * 0.04,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const ConfirmPasswordPatientScreen(),
-                          ),
-                        );
+                  SizedBox(
+                    height: context.height * 0.04,
+                  ),
+                  SizedBox(
+                    width: context.width * 1,
+                    child: TextFormField(
+                      controller: phonEController,
+                      keyboardType: TextInputType.number,
+                      onTap: () {},
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'رقم الهاتف غير مسجل';
+                        } else {
+                          return null;
+                        }
                       },
-                      child: const Text(
-                        'نسيت كلمة المرور',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: context.height * 0.04,
-                ),
-                isloading
-                    ? loading()
-                    : Center(
-                        child: Container(
-                          width: context.width * 0.5,
-                          // height: context.height * .25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.numbers,
                             color: AppColors.PharmaColor,
                           ),
-                          child: TextButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                setState(() {
-                                  isloading = true;
-                                });
-                                AppCubit.get(context).userlogin(
-                                    username: namEController.text,
-                                    password: phonEController.text);
-                                if (patientName.isEmpty &&
-                                    patientPhone.isEmpty) {
-                                  await secureStorage.write(
-                                      key: SecureStorageKey.patientName,
-                                      value: namEController.text);
-                                  await secureStorage.write(
-                                      key: SecureStorageKey.patientPhone,
-                                      value: phonEController.text);
+                          labelText: 'ادخل رقم الهاتف',
+                          labelStyle: TextStyles.styleblackDefault),
+                    ),
+                  ),
+                  SizedBox(
+                    height: context.height * 0.04,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ConfirmPasswordPatientScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'نسيت كلمة المرور',
+                          style: TextStyles.styleblackBold15,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: context.height * 0.04,
+                  ),
+                  isloading
+                      ? loading()
+                      : Center(
+                          child: Container(
+                            width: context.width * 0.5,
+                            // height: context.height * .25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.PharmaColor,
+                            ),
+                            child: TextButton(
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isloading = true;
+                                  });
+                                  AppCubit.get(context).userlogin(
+                                      username: namEController.text,
+                                      password: phonEController.text);
+                                  if (patientName.isEmpty &&
+                                      patientPhone.isEmpty) {
+                                    await secureStorage.write(
+                                        key: SecureStorageKey.patientName,
+                                        value: namEController.text);
+                                    await secureStorage.write(
+                                        key: SecureStorageKey.patientPhone,
+                                        value: phonEController.text);
+                                  }
                                 }
-                              }
-                            },
-                            child: const AutoSizeText(
-                              'تسجيل الدخول',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
+                              },
+                              child: const AutoSizeText(
+                                'تسجيل الدخول',
+                                style: TextStyles.styleWhiteBold15,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                Align(
-                  alignment: Alignment.center,
-                  child: InkWell(
-                    onTap: () async {
-                      if (patientPhone.isEmpty && patientPhone.isEmpty) {
-                        flutterToast(msg: "Please Sign First");
-                      } else {
-                        if (await _authenticate() == true) {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                  const ShowWidget(child: PatientLayout())));
+                  Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () async {
+                        if (patientPhone.isEmpty && patientPhone.isEmpty) {
+                          flutterToast(msg: "Please Sign First");
                         } else {
-                          flutterToast(msg: "Not Recognized");
+                          if (await _authenticate() == true) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ShowWidget(
+                                        child: PatientLayout())));
+                          } else {
+                            flutterToast(msg: "Not Recognized");
+                          }
                         }
-                      }
-                    },
-                    child: Image.asset("assets/images/fingerprint_image.jpg",
-                        height: size.height * 0.2, width: size.width * 0.2),
+                      },
+                      child: Image.asset("assets/images/fingerprint_image.jpg",
+                          height: size.height * 0.2, width: size.width * 0.2),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
       },
     );
   }
+
   Future<bool> _authenticate() async {
     try {
       bool authenticated = await auth.authenticate(
         localizedReason:
-        'Subcribe or you will never find any stack overflow answer',
+            'Subcribe or you will never find any stack overflow answer',
         options: AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,

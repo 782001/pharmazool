@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PatientHomeAppBar {
   AppBar patientLayoutAppBar() {
@@ -7,10 +8,7 @@ class PatientHomeAppBar {
       elevation: 0,
       title: const AutoSizeText(
         "الرئيسية",
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 19,
-        ),
+        style: TextStyles.styleblack19,
       ),
       backgroundColor: Colors.white,
       centerTitle: true,

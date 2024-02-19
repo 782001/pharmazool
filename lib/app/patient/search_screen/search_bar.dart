@@ -1,5 +1,6 @@
 // ignore: must_be_immutable
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
 
 class SearchBar1 extends StatefulWidget {
   void Function() function;
@@ -30,12 +31,12 @@ class _SearchBar1State extends State<SearchBar1> {
                       controller: searchController,
                       readOnly: true,
                       onTap: () => widget.function(),
-                      style: TextStyle(
+                      style: TextStyle(fontFamily: cairoFont,
                         fontSize: context.height * 0.015,
                       ),
                       decoration: InputDecoration(
                         hintText: 'بحث',
-                        hintStyle: TextStyle(
+                        hintStyle: TextStyle(fontFamily: cairoFont,
                           color: const Color(0xFF949098),
                           fontSize: context.height * 0.018,
                         ),

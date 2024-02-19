@@ -9,6 +9,7 @@ import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/assets_images_path.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/constants_widgets/main_widgets/loadingwidget.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
 
 class SearchScreenPatient extends StatefulWidget {
   String? search;
@@ -56,12 +57,12 @@ class _SearchScreenPatientState extends State<SearchScreenPatient> {
                     AppCubit.get(context).getsearchmedicine(value);
                   },
                   controller: searchcontroller,
-                  style: TextStyle(
+                  style: TextStyle(fontFamily: cairoFont,
                     fontSize: context.height * 0.015,
                   ),
                   decoration: InputDecoration(
                     hintText: 'بحث',
-                    hintStyle: TextStyle(
+                    hintStyle: TextStyle(fontFamily: cairoFont,
                       color: const Color(0xFF949098),
                       fontSize: context.height * 0.018,
                     ),

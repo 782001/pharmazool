@@ -1,7 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/network/local/cashhelper.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CashHelper.init();
+  token = (await CashHelper.GetData(key: 'token'));
+
   runApp(const MyApp());
 }
 

@@ -6,6 +6,7 @@ import 'package:pharmazool/app_cubit/cubit.dart';
 import 'package:pharmazool/app_cubit/states.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/files_doctor/nav_screens/receipt_screen.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class ScannedTextDoctor extends StatelessWidget {
   const ScannedTextDoctor({super.key});
@@ -36,10 +37,7 @@ class ScannedTextDoctor extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'في حالة الضغط علي تحديث الكل سيقوم فارمازول بتغيير حالة جميع الادوية التي قمت بأدخالها الي المتوفر',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                    style: TextStyles.stylewhiteBold18,
                     textAlign: TextAlign.end,
                   ),
                 ),
@@ -54,7 +52,7 @@ class ScannedTextDoctor extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: TextField(
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyles.stylewhiteDefault,
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
                               decoration: const InputDecoration(
@@ -84,10 +82,7 @@ class ScannedTextDoctor extends StatelessWidget {
                               },
                               child: const AutoSizeText(
                                 ' الغاء',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
+                               style: TextStyles.styleblackBold15,
                               )),
                         ),
                       ),
@@ -115,10 +110,7 @@ class ScannedTextDoctor extends StatelessWidget {
                               },
                               child: const AutoSizeText(
                                 'حذف الادوية',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
+                            style: TextStyles.styleblackBold15,
                               )),
                         ),
                       ),
@@ -145,10 +137,7 @@ class ScannedTextDoctor extends StatelessWidget {
                               },
                               child: const AutoSizeText(
                                 'اضافة الادوية',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
+                              style: TextStyles.styleblackBold15,
                               )),
                         ),
                       ),

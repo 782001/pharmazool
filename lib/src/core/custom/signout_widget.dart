@@ -1,4 +1,7 @@
-import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
+import 'package:flutter/material.dart';
+
 
 class SignOutWidget extends StatelessWidget {
   const SignOutWidget({Key? key, required this.onPress}) : super(key: key);
@@ -26,10 +29,7 @@ class SignOutWidget extends StatelessWidget {
                         },
                         child: const AutoSizeText(
                           'رجوع',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                      style: TextStyles.styleblackBold15,
                         )),
                   ),
                   const SizedBox(width: 30),
@@ -38,10 +38,7 @@ class SignOutWidget extends StatelessWidget {
                         onPressed: onPress,
                         child: const AutoSizeText(
                           'غادر ',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                    style: TextStyles.styleblackBold15,
                         )),
                   ),
                 ],

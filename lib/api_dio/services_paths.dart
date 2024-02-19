@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
-
+import 'package:pharmazool/src/core/utils/styles.dart';
 String? userName;
-String? token;
+String? token = "";
 PharmacyModelData? pharmacyModelData;
 PharmacyModel? pharmamodel;
 List<PharmacyModel> pharmacyhistory = [];
@@ -78,103 +78,107 @@ showmycheckdialog(
             content: SizedBox(
               width: 400,
               height: 400,
-              child: Form(
-                key: formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: TextFormField(
-                          controller: namecontroller,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (namecontoller) {
-                            if (namecontoller!.isEmpty) {
-                              return 'برجاء ادخال اسم الصيدلية';
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            hintText: 'اسم الصيدلية',
-                            labelText: 'أسم الصيدلية',
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            controller: namecontroller,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (namecontoller) {
+                              if (namecontoller!.isEmpty) {
+                                return 'برجاء ادخال اسم الصيدلية';
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'اسم الصيدلية',
+                              labelText: 'أسم الصيدلية',
+                              labelStyle: TextStyles.styleblackDefault,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: TextFormField(
-                          controller: licenceidcontroller,
-                          keyboardType: TextInputType.number,
-                          validator: (licenceController) {
-                            if (licenceController!.isEmpty) {
-                              return 'برجاء ادخال رقم الرخصة';
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (value) {
-                            BlocProvider.of<ProfilePharmacyCubit>(context)
-                                .licenceID = value;
-                          },
-                          decoration: const InputDecoration(
-                            hintText: 'رقم الرخصة',
-                            labelText: 'رقم الرخصة',
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            controller: licenceidcontroller,
+                            keyboardType: TextInputType.number,
+                            validator: (licenceController) {
+                              if (licenceController!.isEmpty) {
+                                return 'برجاء ادخال رقم الرخصة';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              BlocProvider.of<ProfilePharmacyCubit>(context)
+                                  .licenceID = value;
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'رقم الرخصة',
+                              labelText: 'رقم الرخصة',
+                              labelStyle: TextStyles.styleblackDefault,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const AutoSizeText(
-                                  'رجوع',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                          ),
-                          const SizedBox(width: 30),
-                          Expanded(
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    if (await cubit.checkpharmacy(
-                                        licenceidcontroller.text,
-                                        namecontroller.text)) {
-                                      cubit.getDoctorPharmacy(
-                                          licenceId: licenceidcontroller.text);
-                                      // ignore: use_build_context_synchronously
-                                      secureStorage.write(key: SecureStorageKey.doctorLicense, value: licenceidcontroller.text);
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomeLayoutDoctor()));
-                                    } else {
-                                      // ignore: use_build_context_synchronously
-                                      showmydialog(context,
-                                          'البيانات غير صحيحة', Icons.warning);
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const AutoSizeText(
+                                    'رجوع',
+                                    style: TextStyles.styleblackBold15,
+                                  )),
+                            ),
+                            const SizedBox(width: 30),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      if (await cubit.checkpharmacy(
+                                          licenceidcontroller.text,
+                                          namecontroller.text)) {
+                                        cubit.getDoctorPharmacy(
+                                            licenceId:
+                                                licenceidcontroller.text);
+                                        // ignore: use_build_context_synchronously
+                                        secureStorage.write(
+                                            key: SecureStorageKey.doctorLicense,
+                                            value: licenceidcontroller.text);
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const HomeLayoutDoctor()));
+                                      } else {
+                                        // ignore: use_build_context_synchronously
+                                        showmydialog(
+                                            context,
+                                            'البيانات غير صحيحة',
+                                            Icons.warning);
+                                      }
                                     }
-                                  }
-                                },
-                                child: const AutoSizeText(
-                                  'تأكيد ',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ],
+                                  },
+                                  child: const AutoSizeText(
+                                    'تأكيد ',
+                                    style: TextStyles.styleblackBold15,
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -186,19 +190,25 @@ showmydialog(context, String content, IconData icon) {
   showDialog(
       context: context,
       builder: (context) => AlertDialog(
-            content: Row(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(icon),
                 const SizedBox(
                   width: 2,
                 ),
-                Text(content),
+                Text(content,
+                    style: TextStyles.styleblackDefault,
+                    textAlign: TextAlign.center),
               ],
             ),
             actions: [
               TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('رجوع'))
+                  child: const Text(
+                    'رجوع',
+                    style: TextStyles.styleblackBold15,
+                  ))
             ],
           ));
 }

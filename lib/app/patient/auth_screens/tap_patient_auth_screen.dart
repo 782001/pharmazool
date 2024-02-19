@@ -5,6 +5,7 @@ import 'package:pharmazool/app/patient/auth_screens/patient_register_screen.dart
 import 'package:pharmazool/app/patient/auth_screens/sign_in_screen.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class TabBarScreen_patient extends StatefulWidget {
   const TabBarScreen_patient({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _TabBarScreen_patientState extends State<TabBarScreen_patient> {
             children: [
               const AutoSizeText(
                 'P H A R M Z O O L',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyles.stylebold30,
               ),
               SizedBox(
                 height: context.height * 0.1,
@@ -54,14 +55,15 @@ class _TabBarScreen_patientState extends State<TabBarScreen_patient> {
                         indicatorWeight: 6,
                         // indicatorPadding: const EdgeInsetsDirectional.only(
                         //     start: 100, end: 100),
-                        indicatorColor: AppColors.PharmaColor,
+                                             labelStyle: TextStyles.styleblackDefault,
+                        unselectedLabelStyle: TextStyles.styleblackDefault,   indicatorColor: AppColors.PharmaColor,
                         indicatorSize: TabBarIndicatorSize.tab,
                         tabs: const [
-                          Tab(
-                            text: 'Sign In',
+                            Tab(
+                            text: 'تسجيل الدخول',
                           ),
                           Tab(
-                            text: 'Sign Up',
+                            text: 'انشاء حساب جديد',
                           ),
                         ]),
                     Container(

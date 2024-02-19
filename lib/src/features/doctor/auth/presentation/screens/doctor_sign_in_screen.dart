@@ -3,6 +3,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class DoctorSignin extends StatefulWidget {
   const DoctorSignin({super.key});
@@ -56,145 +57,144 @@ class _DoctorSigninState extends State<DoctorSignin> {
         }
       },
       builder: ((context, state) {
-        return Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: context.height * 0.1),
-                TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (emailController) {
-                    if (emailController!.isEmpty) {
-                      return 'برجاء ادخال اسم المستخدم';
-                    } else {
-                      return null;
-                    }
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.person_outline,
-                      color: AppColors.PharmaColor,
-                    ),
-                    labelText: 'أسم المستخدم',
-                  ),
-                ),
-                SizedBox(height: context.height * 0.04),
-                SizedBox(
-                  width: context.width * 1,
-                  child: TextFormField(
-                    controller: passwordController,
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: context.height * 0.1),
+                  TextFormField(
+                    controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    validator: (passwordController) {
-                      if (passwordController!.isEmpty) {
-                        return 'برجاء ادخال كلمة المرور';
+                    validator: (emailController) {
+                      if (emailController!.isEmpty) {
+                        return 'برجاء ادخال اسم المستخدم';
                       } else {
                         return null;
                       }
                     },
                     decoration: InputDecoration(
                       prefixIcon: Icon(
-                        Icons.lock_outlined,
+                        Icons.person_outline,
                         color: AppColors.PharmaColor,
                       ),
-                      labelText: 'كلمة المرور',
+                      labelText: 'أسم المستخدم',
+                      labelStyle: TextStyles.styleblackDefault,
                     ),
                   ),
-                ),
-                SizedBox(height: context.height * 0.04),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const DoctorForgetPasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'نسيت كلمة المرور؟',
-                        style: TextStyle(
-                            color: AppColors.PharmaColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: context.height * 0.04),
-                isloading
-                    ? loading()
-                    : Center(
-                        child: Container(
-                          width: context.width * 0.5,
-                          // height: context.height * .25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.PharmaColor,
-                          ),
-                          child: TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  isloading = true;
-                                });
-                                if (formKey.currentState!.validate()) {
-                                  AppCubit.get(context).userlogin(
-                                      username: emailController.text,
-                                      password: passwordController.text);
-                                  // HomeLayoutDoctor()));
-                                }
-                              },
-                              child: const AutoSizeText(
-                                'تسجيل الدخول',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                      ),
-                Align(
-                  alignment: Alignment.center,
-                  child: InkWell(
-                    onTap: () async {
-                      if (doctorLicense == '') {
-                        flutterToast(msg: "Please Sign First");
-                      } else {
-                        if (await _authenticate() == true) {
-                          BlocProvider.of<AppCubit>(context)
-                              .getDoctorPharmacy(licenceId: doctorLicense);
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                  const HomeLayoutDoctor()));
+                  SizedBox(height: context.height * 0.04),
+                  SizedBox(
+                    width: context.width * 1,
+                    child: TextFormField(
+                      controller: passwordController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (passwordController) {
+                        if (passwordController!.isEmpty) {
+                          return 'برجاء ادخال كلمة المرور';
                         } else {
-                          flutterToast(msg: "Not Recognized");
+                          return null;
                         }
-                      }
-                    },
-                    child: Image.asset("assets/images/fingerprint_image.jpg",
-                        height: size.height * 0.2, width: size.width * 0.2),
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.lock_outlined,
+                          color: AppColors.PharmaColor,
+                        ),
+                        labelText: 'كلمة المرور',
+                        labelStyle: TextStyles.styleblackDefault,
+                      ),
+                    ),
                   ),
-                ),
-                if (_supportState)
-                  const Text("This device is supported")
-                else
-                  const Text("This device is not supported"),
-                ElevatedButton(
-                  onPressed: _getAvailbleBiometrice,
-                  child: const Text("Get available biometrics"),
-                ),
-                ElevatedButton(
-                  onPressed: _authenticate,
-                  child: const Text("Auth"),
-                ),
-              ],
+                  SizedBox(height: context.height * 0.04),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DoctorForgetPasswordScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'نسيت كلمة المرور؟',
+                          style: TextStyles.styleblackBold15,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: context.height * 0.04),
+                  isloading
+                      ? loading()
+                      : Center(
+                          child: Container(
+                            width: context.width * 0.5,
+                            // height: context.height * .25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.PharmaColor,
+                            ),
+                            child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isloading = true;
+                                  });
+                                  if (formKey.currentState!.validate()) {
+                                    AppCubit.get(context).userlogin(
+                                        username: emailController.text,
+                                        password: passwordController.text);
+                                    // HomeLayoutDoctor()));
+                                  }
+                                },
+                                child: const AutoSizeText(
+                                  'تسجيل الدخول',
+                                  style: TextStyles.styleWhiteBold15,
+                                )),
+                          ),
+                        ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () async {
+                        if (doctorLicense == '') {
+                          flutterToast(msg: "Please Sign First");
+                        } else {
+                          if (await _authenticate() == true) {
+                            BlocProvider.of<AppCubit>(context)
+                                .getDoctorPharmacy(licenceId: doctorLicense);
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const HomeLayoutDoctor()));
+                          } else {
+                            flutterToast(msg: "Not Recognized");
+                          }
+                        }
+                      },
+                      child: Image.asset("assets/images/fingerprint_image.jpg",
+                          height: size.height * 0.2, width: size.width * 0.2),
+                    ),
+                  ),
+                  if (_supportState)
+                    const Text("This device is supported")
+                  else
+                    const Text("This device is not supported"),
+                  ElevatedButton(
+                    onPressed: _getAvailbleBiometrice,
+                    child: const Text("Get available biometrics"),
+                  ),
+                  ElevatedButton(
+                    onPressed: _authenticate,
+                    child: const Text("Auth"),
+                  ),
+                ],
+              ),
             ),
           ),
         );

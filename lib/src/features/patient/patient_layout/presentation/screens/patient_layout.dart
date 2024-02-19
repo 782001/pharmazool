@@ -1,5 +1,6 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PatientLayout extends StatefulWidget {
   const PatientLayout({super.key});
@@ -50,7 +51,9 @@ class _PatientLayoutState extends State<PatientLayout> {
                 ],
               ),
             ),
-            floatingActionButton: Showcase(
+            floatingActionButton: Showcase(descriptionTextDirection: TextDirection.rtl,
+                                          descTextStyle:
+                                              TextStyles.styleblackDefault,
                 key: floatingKey,
                 description:
                     "من هنا يمكنك البحث عن علاجك بنسخ اسم الدواء ( روشتة / ملف / علبة دواء)",

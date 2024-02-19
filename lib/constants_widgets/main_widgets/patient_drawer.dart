@@ -2,6 +2,8 @@ import 'package:pharmazool/app/patient/drawer_screens/motabra_screen.dart';
 import 'package:pharmazool/app/patient/drawer_screens/shared_for_spoken.dart';
 import 'package:pharmazool/app/patient/drawer_screens/who_are_screen.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
+
 
 import '../../src/core/config/routes/app_imports.dart';
 
@@ -22,38 +24,42 @@ class _PatientDrawerState extends State<PatientDrawer> {
           DrawerHeader(
             child: Stack(
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset(
-                    patient,
-                    height: context.height * 0.2,
-                    width: context.height * 0.2,
+                Positioned(
+                  right: 4.0,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: Image.asset(
+                      patient,
+                      height: context.height * 0.2,
+                      width: context.height * 0.2,
+                    ),
                   ),
                 ),
                 Positioned(
                   bottom: 8.0,
-                  left: 4.0,
+                  right: 15.0,
                   child: Text(
                     userName ?? '',
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                    style: TextStyles.styleblack20,
                   ),
                 ),
               ],
             ),
           ),
           ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+            // trailing: const Icon(Icons.arrow_forward_ios, size: 20),
             leading: const Icon(Icons.person_pin),
-            title: const Text(
-              'من نحن ؟',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Schyler',
-              ),
+            //  horizontalTitleGap: 40,
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'من نحن ؟',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -66,17 +72,16 @@ class _PatientDrawerState extends State<PatientDrawer> {
           ),
           const SizedBox(),
           ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+            // trailing: const Icon(Icons.arrow_forward_ios, size: 20),
             leading: const Icon(Icons.favorite),
-            title: const Text(
-              'التبرع بالأدوية',
-              style: TextStyle(
-                color: Colors.black,
-                // fontSize: context.height * 0.017,
-                fontSize: 20,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Schyler',
-              ),
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'التبرع بالأدوية',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -89,16 +94,16 @@ class _PatientDrawerState extends State<PatientDrawer> {
           ),
           const SizedBox(),
           ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+            // trailing: const Icon(Icons.arrow_forward_ios, size: 20),
             leading: const Icon(Icons.message),
-            title: const Text(
-              'شاركنا باقتراحك',
-              style: TextStyle(
-                  color: Colors.black,
-                  // fontSize: context.height * 0.017,
-                  fontSize: 20,
-                  fontStyle: FontStyle.normal,
-                  fontFamily: 'Schyler'),
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'شاركنا باقتراحك',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -111,19 +116,19 @@ class _PatientDrawerState extends State<PatientDrawer> {
           ),
           const SizedBox(),
           ListTile(
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-            ),
+            // trailing: const Icon(
+            //   Icons.arrow_forward_ios,
+            //   size: 20,
+            // ),
             leading: const Icon(Icons.logout),
-            title: const Text(
-              'تسجيل خروج',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Schyler',
-              ),
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'تسجيل خروج',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               showCheckSignOut();
@@ -140,15 +145,17 @@ class _PatientDrawerState extends State<PatientDrawer> {
         builder: (context) {
           return SignOutWidget(
             onPress: () async {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return const OnBoardingScreen();
-                }),
-              );
-
-              userName = '';
-              token = '';
+              setState(() {
+                userName = '';
+                token = '';
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return const OnBoardingScreen();
+                  }),
+                );
+                print("tokenLog Out:$token");
+              });
             },
           );
         });

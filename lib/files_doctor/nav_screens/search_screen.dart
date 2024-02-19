@@ -9,6 +9,8 @@ import 'package:pharmazool/constants_widgets/utils/assets_images_path.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/constants_widgets/main_widgets/loadingwidget.dart';
 import 'package:pharmazool/mymodels/medicine_model.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class SearchScreenDoctor extends StatefulWidget {
   const SearchScreenDoctor({super.key});
@@ -41,12 +43,12 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
                       AppCubit.get(context).getsearchmedicine(value);
                     },
                     controller: searchcontroller,
-                    style: TextStyle(
+                    style: TextStyle( fontFamily: cairoFont,
                       fontSize: context.height * 0.015,
                     ),
                     decoration: InputDecoration(
                       hintText: 'بحث',
-                      hintStyle: TextStyle(
+                      hintStyle: TextStyle( fontFamily: cairoFont,
                         color: const Color(0xFF949098),
                         fontSize: context.height * 0.018,
                       ),
@@ -145,10 +147,7 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
                       )),
           ),
           title: Text(model.name.toString(),
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15)),
+              style:  TextStyles.styleblackBold15,),
           trailing: Switch(
             value: model.status!,
             onChanged: (value) {

@@ -1,5 +1,6 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HomeLayoutDoctor extends StatefulWidget {
   const HomeLayoutDoctor({Key? key}) : super(key: key);
@@ -40,10 +41,7 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
               elevation: 0,
               title: const AutoSizeText(
                 "الرئيسية",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 19,
-                ),
+                    style: TextStyles.styleblack19,
               ),
               leading: Container(),
               backgroundColor: Colors.white,

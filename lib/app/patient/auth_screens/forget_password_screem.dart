@@ -6,6 +6,7 @@ import 'package:pharmazool/app/patient/auth_screens/tap_patient_auth_screen.dart
 import 'package:pharmazool/app_cubit/cubit.dart';
 import 'package:pharmazool/app_cubit/states.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class ConfirmPasswordPatientScreen extends StatelessWidget {
   const ConfirmPasswordPatientScreen({Key? key}) : super(key: key);
@@ -31,10 +32,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
           elevation: 0,
           title: const AutoSizeText(
             "تأكيد رقم الهاتف ",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 19,
-            ),
+            style: TextStyles.styleblack19
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -51,10 +49,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                   const Text(
                     ': تأكيد ثم ادخال رقم الهاتف الجديد ',
                     textAlign: TextAlign.right,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyles.styleblackBold18,
                   ),
                   const SizedBox(height: 20),
                   const SizedBox(height: 30),
@@ -69,7 +64,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                           color: Colors.black,
                         ),
                         labelText:"أدخل رقم الهاتف",
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: TextStyles.styleblackDefault,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               width: 3, color: AppColors.PharmaColor),
@@ -103,7 +98,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                           color: Colors.black,
                         ),
                         labelText:"أدخل رقم الهاتف الجديد",
-                        labelStyle: const TextStyle(color: Colors.black),
+                        labelStyle:  TextStyles.styleblackDefault,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               width: 3, color: AppColors.PharmaColor),
@@ -143,7 +138,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                           child: const Text(
                             'تأكيد',
                             style:
-                                TextStyle(color: Colors.white, fontSize: 18.0),
+                                TextStyles.styleWhite18,
                           ),
                         ),
                       ),

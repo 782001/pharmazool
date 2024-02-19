@@ -1,4 +1,4 @@
-package com.example.pharmazool
+package com.company.pharmazool
 
 import io.flutter.embedding.android.FlutterFragmentActivity;
 

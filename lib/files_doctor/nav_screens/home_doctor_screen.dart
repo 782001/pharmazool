@@ -2,6 +2,7 @@ import 'package:pharmazool/constants_widgets/main_widgets/constants.dart';
 import 'package:pharmazool/files_doctor/medicine_screen_doctor.dart';
 import 'package:pharmazool/files_doctor/nav_screens/search_screen.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HomeScreenDoctor1 extends StatelessWidget {
   const HomeScreenDoctor1({Key? key}) : super(key: key);
@@ -117,13 +118,7 @@ homeGridViewDoctor(HomeIconsModel homeIconModel, BuildContext context) {
             ),
             AutoSizeText(
               homeIconModel.title.toString(),
-              style: const TextStyle(
-                  color: Colors.black,
-                  // fontSize: context.height * 0.017,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.normal,
-                  fontFamily: 'Schyler'),
+              style: TextStyles.styleblackBold18,
             ),
             SizedBox(
               height: context.height * 0.02,

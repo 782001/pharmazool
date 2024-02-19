@@ -6,6 +6,7 @@ import 'package:pharmazool/constants_widgets/main_constants.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/mymodels/pharmacy_model.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants_widgets/utils/app_theme_colors.dart';
@@ -37,14 +38,16 @@ class _MapScreenState extends State<MapScreen> {
       markers[name!] = marker;
     });
   }
+
   GlobalKey mapKey = GlobalKey();
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-            (_) => ShowCaseWidget.of(context).startShowCase([mapKey]));
+        (_) => ShowCaseWidget.of(context).startShowCase([mapKey]));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +102,6 @@ class _MapScreenState extends State<MapScreen> {
                                   Container(
                                       child: Column(
                                     children: [
-
                                       PharmacyItem(model: widget.model),
                                       SizedBox(
                                         height: context.height * 0.05,
@@ -112,11 +114,15 @@ class _MapScreenState extends State<MapScreen> {
                                               BorderRadius.circular(50),
                                         ),
                                         child: Showcase(
-                                          key:mapKey ,
-                                          description: "لتحديد مسار من موقعك الحالي للصيدلية اضغط هنا",
+                                          key: mapKey,descriptionTextDirection: TextDirection.rtl,
+                                          descTextStyle:
+                                              TextStyles.styleblackDefault,
+                                          description:
+                                              "لتحديد مسار من موقعك الحالي للصيدلية اضغط هنا",
                                           child: GoogleMap(
                                             onMapCreated: _onMapCreated,
-                                            initialCameraPosition: CameraPosition(
+                                            initialCameraPosition:
+                                                CameraPosition(
                                               target: LatLng(lat!, long!),
                                               zoom: 14.8,
                                             ),
@@ -195,23 +201,18 @@ class CardWidget extends StatelessWidget {
                       children: [
                         AutoSizeText(
                           model.name ?? '..',
-                          style: const TextStyle(
-                              fontSize: 29, fontWeight: FontWeight.bold),
+                          style: TextStyles.stylebold29,
                         ),
                         AutoSizeText(
                           model.area ?? '..',
-                          style: const TextStyle(
-                              fontSize: 29, fontWeight: FontWeight.bold),
+                          style: TextStyles.stylebold29,
                         ),
                         Directionality(
                           textDirection: TextDirection.rtl,
                           child: AutoSizeText(
                             model.address ?? '',
                             maxLines: 3,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                                overflow: TextOverflow.ellipsis),
+                            style: TextStyles.styleellipsisbold13,
                           ),
                         )
                       ],

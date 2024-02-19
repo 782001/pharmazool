@@ -1,6 +1,7 @@
 import 'package:pharmazool/files_doctor/drawer_screens/edite_profile.dart';
 import 'package:pharmazool/files_doctor/drawer_screens/who_are_screen.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 import '../../src/core/config/routes/app_imports.dart';
 import '../../src/features/doctor/share_spoken/persentation/shared_for_spoken.dart';
@@ -22,39 +23,41 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
           DrawerHeader(
             child: Stack(
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset(
-                    doctor,
-                    height: context.height * 0.2,
-                    width: context.height * 0.2,
+                Positioned(
+                  right: 4.0,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: Image.asset(
+                      doctor,
+                      height: context.height * 0.2,
+                      width: context.height * 0.2,
+                    ),
                   ),
                 ),
                 Positioned(
                   bottom: 8.0,
-                  left: 4.0,
+                  right: 15.0,
                   child: Text(
-                    userName ??'',
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                    userName ?? '',
+                    style: TextStyles.styleblack20,
                   ),
                 )
               ],
             ),
           ),
           ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+            // trailing: const Icon(Icons.arrow_forward_ios, size: 20),
             leading: const Icon(Icons.person_pin),
-            title: const Text(
-              'من نحن ؟',
-              style: TextStyle(
-                color: Colors.black,
-                // fontSize: context.height * 0.017,
-                fontSize: 20,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Schyler',
-              ),
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'من نحن ؟',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -67,16 +70,16 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
           ),
           const SizedBox(),
           ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+            // trailing: const Icon(Icons.arrow_forward_ios, size: 20),
             leading: const Icon(Icons.message),
-            title: const Text(
-              'شاركنا باقتراحك',
-              style: TextStyle(
-                  color: Colors.black,
-                  // fontSize: context.height * 0.017,
-                  fontSize: 20,
-                  fontStyle: FontStyle.normal,
-                  fontFamily: 'Schyler'),
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'شاركنا باقتراحك',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -89,16 +92,16 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
           ),
           const SizedBox(),
           ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios, size: 20),
+            // trailing: const Icon(Icons.arrow_forward_ios, size: 20),
             leading: const Icon(Icons.location_on),
-            title: const Text(
-              'تعديل الملف الشخصي',
-              style: TextStyle(
-                  color: Colors.black,
-                  // fontSize: context.height * 0.017,
-                  fontSize: 20,
-                  fontStyle: FontStyle.normal,
-                  fontFamily: 'Schyler'),
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'تعديل الملف الشخصي',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               Navigator.push(
@@ -111,19 +114,21 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
           ),
           const SizedBox(),
           ListTile(
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-            ),
+            // trailing: const Icon(
+            //   Icons.arrow_forward_ios,
+            //   size: 20,
+            // ),
+
             leading: const Icon(Icons.logout),
-            title: const Text(
-              'تسجيل خروج',
-              style: TextStyle(
-                  color: Colors.black,
-                  // fontSize: context.height * 0.017,
-                  fontSize: 20,
-                  fontStyle: FontStyle.normal,
-                  fontFamily: 'Schyler'),
+            horizontalTitleGap: 10,
+            title: const Row(
+              children: [
+                Spacer(),
+                Text(
+                  'تسجيل خروج',
+                  style: TextStyles.styleblack20,
+                ),
+              ],
             ),
             onTap: () {
               showCheckSignOut();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MotabraScreen extends StatelessWidget {
@@ -13,11 +14,7 @@ class MotabraScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         title: const Text(
           "المتبرع",
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+            style:  TextStyles.styleblackbold20,
         ),
         centerTitle: true,
         leading: IconButton(
@@ -44,20 +41,20 @@ class MotabraScreen extends StatelessWidget {
                   children: [
                     Text(
                       'فارمازول',
-                      style: TextStyle(color: Colors.white, fontSize: 40),
+                      style: TextStyles.styleWhite40,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'ما تعتبره علاجًا مكررًا غير مهمًا هو الامل الوحيد لغيرك  للشفاء والتعافي. فكر مرتين قبل رمي الأدوية وكن سببًا في إنقاذ حياة شخص آخر.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                     style: TextStyles.stylewhite20,
                     ),
                     SizedBox(height: 10),
                     Text(
                       'ساهم من خلال فارمازول في ايصال او طلب المساعده عن طريق الاسفل:',
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 22),
+                      style: TextStyles.stylewhite22,
                     ),
                   ],
                 ),
@@ -77,11 +74,7 @@ class MotabraScreen extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.7),
                       child: const Text(
                         'متبرع',
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyles.stylewhitebold25
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -99,11 +92,7 @@ class MotabraScreen extends StatelessWidget {
                       color: Colors.blue.withOpacity(0.7),
                       child: const Text(
                         'ذوي الحاجة',
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyles.stylewhitebold25
                       ),
                     ),
                   ],

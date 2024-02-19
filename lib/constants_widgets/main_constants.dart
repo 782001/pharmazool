@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/strings.dart';
 
 HomeIconsModel? mycategorymodel;
 
@@ -68,8 +69,8 @@ showLocalityPicker({
         return Text(listLocality[index].name ?? 'Loading');
       },
       textAlign: TextAlign.left,
-      textStyle: const TextStyle(color: Colors.blue),
-      selectedTextStyle: const TextStyle(color: Colors.red),
+      textStyle: const TextStyle(color: Colors.blue,fontFamily: cairoFont,),
+      selectedTextStyle: const TextStyle(color: Colors.red,fontFamily: cairoFont,),
       columnPadding: const EdgeInsets.all(8.0),
       onSelect: (picker, index, selected) {
         List<LocalityModelData> selectedList =
@@ -115,8 +116,8 @@ showStatePicker({
       onBuilderItem: (context, text, child, selected, col, index) =>
           Text(stateList[index].name ?? 'Loading'),
       textAlign: TextAlign.left,
-      textStyle: const TextStyle(color: Colors.blue),
-      selectedTextStyle: const TextStyle(color: Colors.red),
+      textStyle: const TextStyle(fontFamily: cairoFont,color: Colors.blue),
+      selectedTextStyle: const TextStyle(fontFamily: cairoFont,color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
       onSelect: (picker, index, selected) {
         List<StateData> selectedList =
@@ -162,8 +163,8 @@ showAreaPicker({
         return Text(areaList[index].name ?? 'Loading');
       },
       textAlign: TextAlign.left,
-      textStyle: const TextStyle(color: Colors.blue),
-      selectedTextStyle: const TextStyle(color: Colors.red),
+      textStyle: const TextStyle(fontFamily: cairoFont,color: Colors.blue),
+      selectedTextStyle: const TextStyle(fontFamily: cairoFont,color: Colors.red),
       columnPadding: const EdgeInsets.all(8.0),
       onSelect: (picker, index, selected) {
         selected.forEach((element) {

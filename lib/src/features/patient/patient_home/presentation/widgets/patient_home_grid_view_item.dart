@@ -1,5 +1,5 @@
- 
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PatientHomeGridViewItem extends StatelessWidget {
   const PatientHomeGridViewItem({super.key, required this.homeIconsModel});
@@ -42,13 +42,7 @@ class PatientHomeGridViewItem extends StatelessWidget {
               ),
               AutoSizeText(
                 homeIconsModel.title.toString(),
-                style: const TextStyle(
-                    color: Colors.black,
-                    // fontSize: context.height * 0.017,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.normal,
-                    fontFamily: 'Schyler'),
+                style: TextStyles.styleblackBold18,
               ),
               SizedBox(
                 height: context.height * 0.02,

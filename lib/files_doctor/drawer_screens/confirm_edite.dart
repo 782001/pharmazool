@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pharmazool/api_dio/services_paths.dart';
 import 'package:pharmazool/app_cubit/cubit.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class ConfirmEdit extends StatelessWidget {
   final String loc;
@@ -46,16 +47,14 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 link,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyles.styleellipsisbold18,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                             ),
                             const Text(
                               ':موقع الصيدلية',
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            style: TextStyles.styleblackbold25,
                             ),
                           ],
                         ),
@@ -64,14 +63,12 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 loc,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                               style: TextStyles.styleblackBold18,
                               ),
                             ),
                             const Text(
                               ':رابط الخدمات',
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            style: TextStyles.styleblackbold25,
                             ),
                           ],
                         ),
@@ -80,15 +77,11 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 phone,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
+                                style: TextStyles.styleblackBold18, ),
                             ),
                             const Text(
                               ':رقم التليفون',
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
-                            ),
+                          style: TextStyles.styleblackbold25,  ),
                           ],
                         ),
                         // Row(
@@ -112,15 +105,11 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 licence,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
+                                  style: TextStyles.styleblackBold18,),
                             ),
                             const Text(
                               ':رقم الرخصة',
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold),
-                            ),
+                         style: TextStyles.stylewhitebold25, ),
                           ],
                         ),
                       ],
@@ -148,10 +137,7 @@ class ConfirmEdit extends StatelessWidget {
                     ),
                     child: const Text(
                       "تعديل",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700),
+                style: TextStyles.stylewhitebold20,
                     ),
                   ),
                 ),
@@ -175,10 +161,7 @@ class ConfirmEdit extends StatelessWidget {
                     ),
                     child: const Text(
                       "حفظ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700),
+                                 style: TextStyles.stylewhitebold20,
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SharedForSpokenPatient extends StatelessWidget {
@@ -35,14 +36,11 @@ class SharedForSpokenPatient extends StatelessWidget {
                   children: [
                     Text(
                       'في فارمازول',
-                      style: TextStyle(
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                      style: TextStyles.stylewhitebold35,
                     ),
                     Text(
                         "نقوم بتطوير خدماتنا وتحسينها بناءً على مقترحاتكم شاركنا رايك واقتراحك واجعل صوتك مسموعاً",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                           style: TextStyles.stylewhite20,
                         textAlign: TextAlign.end)
                   ],
                 ),

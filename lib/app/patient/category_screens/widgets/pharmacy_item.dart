@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PharmacyItem extends StatelessWidget {
   const PharmacyItem({super.key, required this.model});
@@ -50,32 +51,22 @@ class PharmacyItem extends StatelessWidget {
                 children: [
                   AutoSizeText(
                     model.name ?? '',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    style:  TextStyles.styleblackbold20,
                   ),
                   AutoSizeText(
                     model.locality ?? '',
                     maxLines: 3,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        overflow: TextOverflow.ellipsis),
+                style:  TextStyles.styleellipsisbold15,
                   ),
                   AutoSizeText(
                     model.area ?? '',
                     maxLines: 3,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        overflow: TextOverflow.ellipsis),
+                     style:  TextStyles.styleellipsisbold15,
                   ),
                   AutoSizeText(
                     model.address ?? '',
                     maxLines: 3,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        overflow: TextOverflow.ellipsis),
+                   style:  TextStyles.styleellipsisbold15,
                   ),
                 ],
               ),

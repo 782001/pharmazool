@@ -6,6 +6,7 @@ import 'package:pharmazool/app_cubit/cubit.dart';
 import 'package:pharmazool/app_cubit/states.dart';
 
 import 'package:pharmazool/files_doctor/nav_screens/text_screen.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class BarCodeDoctor extends StatelessWidget {
   const BarCodeDoctor({Key? key}) : super(key: key);
@@ -50,15 +51,12 @@ class BarCodeDoctor extends StatelessWidget {
                                       builder: (context) =>
                                           const ScannedTextDoctor()));
                                 },
-                                child: Row(
-                                  children: const [
+                                child:const Row(
+                                  children:  [
                                     Icon(Icons.file_download),
                                     AutoSizeText(
                                       'Scan File',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyles.styleblackBold15,
                                     ),
                                   ],
                                 )),
@@ -73,15 +71,12 @@ class BarCodeDoctor extends StatelessWidget {
                                       builder: (context) =>
                                           const ScannedTextDoctor()));
                                 },
-                                child: Row(
-                                  children: const [
+                                child:const Row(
+                                  children:  [
                                     Icon(Icons.file_download),
                                     AutoSizeText(
                                       'Choose File',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                          style: TextStyles.styleblackBold15,
                                     ),
                                   ],
                                 )),
@@ -99,16 +94,13 @@ class BarCodeDoctor extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const ScannedTextDoctor()));
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children:  [
                           Icon(Icons.file_download),
                           AutoSizeText(
                             'import PdF',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
+                         style: TextStyles.styleblackBold15,
                           ),
                         ],
                       )),
@@ -118,7 +110,7 @@ class BarCodeDoctor extends StatelessWidget {
                 ),
                 const Text(
                   'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
-                  style: TextStyle(color: Colors.black, fontSize: 25),
+                   style: TextStyles.styleblack15,
                   textAlign: TextAlign.center,
                 ),
               ],

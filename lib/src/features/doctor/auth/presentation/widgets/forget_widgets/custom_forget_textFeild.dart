@@ -1,4 +1,5 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class CustomForgetTextField extends StatelessWidget {
   const CustomForgetTextField(
@@ -28,7 +29,8 @@ class CustomForgetTextField extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.numbers, color: Colors.black),
           labelText: labelText,
-          labelStyle: const TextStyle(color: Colors.black),
+          labelStyle:        TextStyles.styleblackDefault,
+                   
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 2, color: AppColors.PharmaColor),
             borderRadius: BorderRadius.circular(20.0),
