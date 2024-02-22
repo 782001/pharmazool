@@ -15,7 +15,7 @@ class SharedForSpokenPatient extends StatelessWidget {
 
   GlobalKey<FormState> reportKey = GlobalKey<FormState>();
 
-  SharedForSpokenPatient({Key? key}) : super(key: key);
+  SharedForSpokenPatient({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +38,16 @@ class SharedForSpokenPatient extends StatelessWidget {
                       'في فارمازول',
                       style: TextStyles.stylewhitebold35,
                     ),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Text(
                         "نقوم بتطوير خدماتنا وتحسينها بناءً على مقترحاتكم شاركنا رايك واقتراحك واجعل صوتك مسموعاً",
-                           style: TextStyles.stylewhite20,
-                        textAlign: TextAlign.end)
+                        style: TextStyles.stylewhite20,
+                        textAlign: TextAlign.end),
+                    SizedBox(
+                      height: 30,
+                    )
                   ],
                 ),
               ),

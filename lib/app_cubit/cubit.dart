@@ -10,8 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
-
-
 import 'package:pharmazool/repo/services.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:read_pdf_text/read_pdf_text.dart';
@@ -26,7 +24,7 @@ class AppCubit extends Cubit<AppStates> {
 
   int currentIndex = 0;
   List<Widget> screens = [
-    PatientHome(),
+    const PatientHome(),
     const HistoryScreen(),
     const BarCode(),
   ];
@@ -147,7 +145,7 @@ class AppCubit extends Cubit<AppStates> {
       print("doctor login ******");
       userName = value.data['userName'];
       token = value.data['token'];
-      emit(AppLoginSuccesState(token: token!));
+      emit(AppLoginSuccesState(uId: token!));
     }).catchError((error) {
       print(error.toString());
       emit(AppLoginErrorState());
@@ -194,7 +192,11 @@ class AppCubit extends Cubit<AppStates> {
     });
     return isverified;
   }
+  bool naveValidArabic = false;
+  bool doesNotHaveArabic(String input) {
 
+    return naveValidArabic = !RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]').hasMatch(input);
+  }
   void patientRegister({
     required String username,
     required String phone,
@@ -219,7 +221,7 @@ class AppCubit extends Cubit<AppStates> {
       token = value.data['token'];
       emit(AppRegisterSuccesState());
     }).catchError((error) {
-      print(error.toString());
+      print("register error ============================ :${error.toString()}");
       emit(AppRegisterErrorState());
     });
   }
@@ -509,9 +511,9 @@ class AppCubit extends Cubit<AppStates> {
 
       if (croppedFile != null) {
         List<TextBlock> rectext = await recogniseText(croppedFile);
-        rectext.forEach((element) {
+        for (var element in rectext) {
           search = search + element.text;
-        });
+        }
 
         emit(PickImageSuccesState());
       } else {
@@ -529,7 +531,7 @@ class AppCubit extends Cubit<AppStates> {
       sourcePath: originalImage.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       compressQuality: 100,
-      androidUiSettings: AndroidUiSettings(
+      androidUiSettings: const AndroidUiSettings(
         toolbarTitle: 'قص الصوره ',
         toolbarColor: Color(0xff1F252F),
         toolbarWidgetColor: ui.Color.fromARGB(255, 230, 167, 128),
@@ -558,10 +560,10 @@ class AppCubit extends Cubit<AppStates> {
       print('Cropped Image Path: ${croppedFile?.path}');
       if (croppedFile != null) {
         List<TextBlock> rectext = await recogniseText(croppedFile);
-        rectext.forEach((element) {
+        for (var element in rectext) {
           searcher = searcher + element.text;
           doctorSearcher.add(element.text);
-        });
+        }
         var splitter = searcher.split('\n');
         doctorSearcher = splitter;
         doctorSearcher = doctorSearcher.toSet().toList();
@@ -609,10 +611,10 @@ class AppCubit extends Cubit<AppStates> {
       print('Cropped Image Path: ${croppedFile?.path}');
       if (croppedFile != null) {
         List<TextBlock> rectext = await recogniseText(croppedFile);
-        rectext.forEach((element) {
+        for (var element in rectext) {
           searcher = searcher + element.text;
-          doctorSearcher.add("${element.text}");
-        });
+          doctorSearcher.add(element.text);
+        }
         var splitter = searcher.split('\n');
         doctorSearcher = splitter;
         doctorSearcher = doctorSearcher.toSet().toList();
@@ -644,9 +646,9 @@ class AppCubit extends Cubit<AppStates> {
 
       if (croppedFile != null) {
         List<TextBlock> rectext = await recogniseText(croppedFile);
-        rectext.forEach((element) {
+        for (var element in rectext) {
           search = search + element.text;
-        });
+        }
 
         emit(PickImageSuccesState());
       } else {
@@ -690,7 +692,7 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(
+          title: const Text(
             'تم تغيير حالة العلاج',
             style: TextStyles.styleblackDefault,
           ),
@@ -700,7 +702,7 @@ class AppCubit extends Cubit<AppStates> {
                   getsearchmedicine(search);
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'تم',
                   style: TextStyles.styleblackDefault,
                 ))
@@ -729,7 +731,7 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(
+          title: const Text(
             'تم تغيير حالة العلاج',
             style: TextStyles.styleblackDefault,
           ),
@@ -739,7 +741,7 @@ class AppCubit extends Cubit<AppStates> {
                   getsearchmedicine(search);
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'تم',
                   style: TextStyles.styleblackDefault,
                 ))
@@ -771,7 +773,7 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(
+          title: const Text(
             'تم تغيير حالة العلاج',
             style: TextStyles.styleblackDefault,
           ),
@@ -780,7 +782,7 @@ class AppCubit extends Cubit<AppStates> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'تم',
                   style: TextStyles.styleblackDefault,
                 ))
@@ -808,7 +810,7 @@ class AppCubit extends Cubit<AppStates> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(
+          title: const Text(
             'تم تغيير حالة العلاج',
             style: TextStyles.styleblackDefault,
           ),
@@ -817,7 +819,7 @@ class AppCubit extends Cubit<AppStates> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   'تم',
                   style: TextStyles.styleblackDefault,
                 ))
@@ -1038,16 +1040,16 @@ class AppCubit extends Cubit<AppStates> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('تم'))
+                child: const Text('تم'))
           ],
         ),
       );
     }
   }
 
-  void changeBottomNAv(int index, PageController? _pageController) {
+  void changeBottomNAv(int index, PageController? pageController) {
     currentIndex = index;
-    _pageController!.animateToPage(currentIndex,
+    pageController!.animateToPage(currentIndex,
         duration: const Duration(milliseconds: 400), curve: Curves.easeOutQuad);
     emit(changeBottomNAvState());
   }
@@ -1062,7 +1064,7 @@ class AppCubit extends Cubit<AppStates> {
 
   String? result;
   void changeBarCodeResult(String ScanMethodResult) {
-    this.result = ScanMethodResult;
+    result = ScanMethodResult;
     emit(changeBarCodeResultState());
   }
 }

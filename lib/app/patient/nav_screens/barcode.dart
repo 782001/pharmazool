@@ -7,10 +7,8 @@ import 'package:pharmazool/app/patient/search_screen/search_screen_patient.dart'
 
 import 'package:pharmazool/src/core/utils/styles.dart';
 
-
-
 class BarCode extends StatefulWidget {
-  const BarCode({Key? key}) : super(key: key);
+  const BarCode({super.key});
 
   @override
   _BarCodeState createState() => _BarCodeState();
@@ -97,12 +95,12 @@ class _BarCodeState extends State<BarCode> {
                                   );
                                 }
                               },
-                              child:const Row(
-                                children:  [
+                              child: const Row(
+                                children: [
                                   Icon(Icons.file_download),
                                   AutoSizeText(
                                     'Choose File',
-                                 style: TextStyles.styleblackBold15,
+                                    style: TextStyles.styleblackBold15,
                                   ),
                                 ],
                               )),
@@ -115,11 +113,17 @@ class _BarCodeState extends State<BarCode> {
               const Expanded(
                 child: Image(image: AssetImage('assets/images/scan.jpg')),
               ),
-              const Text(
-                'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
-                   style: TextStyles.styleblack25,
-                textAlign: TextAlign.center,
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
+                  style: TextStyles.styleblack15,
+                  textAlign: TextAlign.center,
+                ),
               ),
+              const SizedBox(
+                height: 10,
+              )
             ],
           ),
         ));

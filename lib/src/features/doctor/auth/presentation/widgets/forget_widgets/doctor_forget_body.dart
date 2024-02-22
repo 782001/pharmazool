@@ -19,11 +19,11 @@ class DoctorForgetBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Text(
-                ': تأكيد ثم ادخال كلمة مرور جديده',
-                textAlign: TextAlign.right,
-                style: TextStyles.styleblackBold18,
-              ),
+              // const Text(
+              //   ': تأكيد ثم ادخال كلمة مرور جديده',
+              //   textAlign: TextAlign.right,
+              //   style: TextStyles.styleblackBold18,
+              // ),
               const SizedBox(height: 50),
               CustomForgetTextField(
                 controller: phoneController,
@@ -35,7 +35,7 @@ class DoctorForgetBody extends StatelessWidget {
                   return null;
                 },
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               CustomForgetTextField(
                 controller: licenseController,
                 labelText: "رقم الرخصة",
@@ -46,7 +46,7 @@ class DoctorForgetBody extends StatelessWidget {
                   return null;
                 },
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               CustomForgetTextField(
                 controller: newPasswordController,
                 labelText: "كلمة المرور الجديدة",

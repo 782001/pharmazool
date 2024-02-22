@@ -2,7 +2,7 @@ import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HeadSharedSpokenScreen extends StatelessWidget {
-  const HeadSharedSpokenScreen({Key? key}) : super(key: key);
+  const HeadSharedSpokenScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,10 @@ class HeadSharedSpokenScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
+                textAlign: TextAlign.center,
                 'نحن نهتم بكلماتك و نعمل علي تحسين خدماتنا بناء عليها, شاركنا رأيك و اجعل صوتك مسموعا',
-                          style: TextStyles.stylewhite20,  ),
+                style: TextStyles.stylewhite20,
+              ),
             )
           ],
         ),

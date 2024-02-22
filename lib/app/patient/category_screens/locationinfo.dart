@@ -45,160 +45,167 @@ class _LocationInfoState extends State<LocationInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(elevation: 0),
-        body: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: Colors.teal,
-            ),
-            Column(
-              children: [
-                const SizedBox(
-                  child: Text(
-                    'حددالولايةاوالمحليةاوالمنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دواءك في الصيدليات المتوفرة بها',
-                    textAlign: TextAlign.center,
-                    style: TextStyles.stylewhitebold20,
-                  ),
+        // appBar: AppBar(elevation: 0),
+        body: SafeArea(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.teal,
+          ),
+          Column(
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                height: context.height * 15 / 100,
+                child: const Text(
+                  'حددالولايةاوالمحليةاوالمنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دواءك في الصيدليات المتوفرة بها',
+                  textAlign: TextAlign.center,
+                  style: TextStyles.stylewhitebold20,
                 ),
-                Expanded(
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.only(topLeft: Radius.circular(70)),
-                    ),
-                    width: double.infinity,
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: BlocBuilder<AppCubit, AppStates>(
-                          builder: (context, state) {
-                            var cubit = AppCubit.get(context);
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                //الولاية
+              ),
+              Expanded(
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(70)),
+                  ),
+                  width: double.infinity,
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BlocBuilder<AppCubit, AppStates>(
+                        builder: (context, state) {
+                          var cubit = AppCubit.get(context);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              //الولاية
 
-                                CustomSelectAreaAndLocalityTextField(
-                                  controller: stateController,
-                                  labelText: "الولاية",
-                                  onPressCancel: () => stateController.clear(),
-                                  onPress: () {
-                                    setState(() {
-                                      showStatePicker(
-                                        context: context,
-                                        stateList:
-                                            appCubit?.stateModel?.data ?? [],
-                                        result: stateController,
-                                      );
-                                    });
-                                  },
-                                ),
+                              CustomSelectAreaAndLocalityTextField(
+                                controller: stateController,
+                                labelText: "الولاية",
+                                onPressCancel: () => stateController.clear(),
+                                onPress: () {
+                                  setState(() {
+                                    showStatePicker(
+                                      context: context,
+                                      stateList:
+                                          appCubit?.stateModel?.data ?? [],
+                                      result: stateController,
+                                    );
+                                  });
+                                },
+                              ),
 
-                                //المحلية
-                                CustomSelectAreaAndLocalityTextField(
-                                  controller: locality,
-                                  onPressCancel: () => locality.clear(),
-                                  labelText: 'المحلية',
-                                  onPress: () {
-                                    setState(() {
-                                      showLocalityPicker(
-                                        context: context,
-                                        listLocality: profileCubit
-                                                ?.listLocalityByStateId ??
-                                            [],
-                                        result: locality,
-                                      );
-                                    });
-                                  },
-                                ),
-                                //المنطقة
-                                CustomSelectAreaAndLocalityTextField(
-                                  controller: area,
-                                  onPressCancel: () => area.clear(),
-                                  labelText: 'المنطقة',
-                                  onPress: () {
-                                    setState(() {
-                                      showAreaPicker(
-                                        context: context,
-                                        areaList: profileCubit
-                                                ?.listAreaByLocalityId ??
-                                            [],
-                                        result: area,
-                                      );
-                                    });
-                                  },
-                                ),
+                              //المحلية
+                              CustomSelectAreaAndLocalityTextField(
+                                controller: locality,
+                                onPressCancel: () => locality.clear(),
+                                labelText: 'المحلية',
+                                onPress: () {
+                                  setState(() {
+                                    showLocalityPicker(
+                                      context: context,
+                                      listLocality:
+                                          profileCubit?.listLocalityByStateId ??
+                                              [],
+                                      result: locality,
+                                    );
+                                  });
+                                },
+                              ),
+                              //المنطقة
+                              CustomSelectAreaAndLocalityTextField(
+                                controller: area,
+                                onPressCancel: () => area.clear(),
+                                labelText: 'المنطقة',
+                                onPress: () {
+                                  setState(() {
+                                    showAreaPicker(
+                                      context: context,
+                                      areaList:
+                                          profileCubit?.listAreaByLocalityId ??
+                                              [],
+                                      result: area,
+                                    );
+                                  });
+                                },
+                              ),
 
-                                SearchButtonAreaAndLocalityAndState(
-                                  area: area,
-                                  locality: locality,
-                                  stateController: stateController,
-                                ),
-                                const SizedBox(height: 50),
-                                const Text(
-                                  'او قم بالبحث عن طريق موقعك',
-                                  style: TextStyles.stylebold22,
-                                ),
-                                const SizedBox(height: 50),
-                                Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                      color: Colors.teal,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: TextButton(
-                                      child: const Text(
-                                        'البحث عن طريق موقعي',
-                                        style: TextStyles.stylewhiteboldDefault,
-                                      ),
-                                      onPressed: () {
-                                        AppCubit.get(context).getpharmacies(
-                                            id: int.parse(widget.id.toString()),
-                                            area: area.text,
-                                            locality: locality.text,
-                                            street: stateController.text);
-                                        print(
-                                            "${area.text + locality.text + stateController.text}");
-
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const NearbyPharmacies()));
-                                      },
+                              SearchButtonAreaAndLocalityAndState(
+                                area: area,
+                                locality: locality,
+                                stateController: stateController,
+                              ),
+                              const SizedBox(height: 50),
+                              const Text(
+                                'او قم بالبحث عن طريق موقعك',
+                                style: TextStyles.stylebold22,
+                              ),
+                              const SizedBox(height: 50),
+                              Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                    color: Colors.teal,
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: TextButton(
+                                    child: const Text(
+                                      'البحث عن طريق موقعي',
+                                      style: TextStyles.stylewhiteboldDefault,
                                     ),
+                                    onPressed: () {
+                                      AppCubit.get(context).getpharmacies(
+                                          id: int.parse(widget.id.toString()),
+                                          area: area.text,
+                                          locality: locality.text,
+                                          street: stateController.text);
+                                      print(area.text +
+                                          locality.text +
+                                          stateController.text);
+
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const NearbyPharmacies()));
+                                    },
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        )),
-                  ),
+                              ),
+                            ],
+                          );
+                        },
+                      )),
                 ),
-              ],
-            )
-          ],
-        ));
+              ),
+            ],
+          )
+        ],
+      ),
+    ));
   }
 }
 
 class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
   const CustomSelectAreaAndLocalityTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onPress,
     required this.labelText,
     required this.onPressCancel,
     this.readOnly,
     this.validator,
-  }) : super(key: key);
+  });
   final TextEditingController controller;
   final VoidCallback onPress;
   final VoidCallback onPressCancel;
@@ -223,7 +230,8 @@ class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
                   labelText: labelText,
                   labelStyle: TextStyle(
                     color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,fontFamily: cairoFont,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: cairoFont,
                   ),
                   border: InputBorder.none,
                 ),
@@ -244,11 +252,11 @@ class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
 
 class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
   const SearchButtonAreaAndLocalityAndState({
-    Key? key,
+    super.key,
     required this.locality,
     required this.area,
     required this.stateController,
-  }) : super(key: key);
+  });
   final TextEditingController locality;
   final TextEditingController area;
   final TextEditingController stateController;
@@ -267,12 +275,13 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
             child: TextButton(
               child: const Text(
                 'بحث',
-                style:
-                    TextStyles.stylewhiteboldDefault,
+                style: TextStyles.stylewhiteboldDefault,
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PharmasyScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PharmasyScreen()));
 
                 profileCubit.filterPharmacyByLocalityAndStateAndArea(
                     locality: locality.text,

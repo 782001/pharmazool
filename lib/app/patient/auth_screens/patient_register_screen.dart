@@ -57,6 +57,9 @@ class _PatientRegisterState extends State<PatientRegister> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return ' الاسم غير مسجل';
+                    } else if (!AppCubit.get(context)
+                        .doesNotHaveArabic(namEController.text)) {
+                      return "من فضلك ادخل احرف انجليزيه فقط";
                     } else {
                       return null;
                     }
@@ -122,9 +125,12 @@ class _PatientRegisterState extends State<PatientRegister> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'الموقع غير صحيح';
-                      } else {
-                        return null;
-                      }
+                      }  else if (!AppCubit.get(context)
+                        .doesNotHaveArabic(namEController.text)) {
+                      return "من فضلك ادخل احرف انجليزيه فقط";
+                    } else {
+                      return null;
+                    }
                     },
                     decoration: InputDecoration(
                         prefixIcon: Icon(

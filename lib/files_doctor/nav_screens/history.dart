@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:pharmazool/app/doctor/model/itemWidget.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
 import 'package:pharmazool/src/features/patient/patient_home/presentation/screens/patient_home.dart';
- 
+
 import 'package:pharmazool/constants_widgets/main_widgets/catalog-model.dart';
 
 class History extends StatefulWidget {
-  const History({Key? key}) : super(key: key);
+  const History({super.key});
 
   @override
   _HistoryState createState() => _HistoryState();
@@ -16,19 +16,28 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   goToIndexPage(int index) {
     if (index == 0) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) =>   PatientHome()),
+        MaterialPageRoute(builder: (context) {
+          return const PatientHome();
+        }),
+        (Route<dynamic> route) => false,
       );
     } else if (index == 1) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const History()),
+        MaterialPageRoute(builder: (context) {
+          return const History();
+        }),
+        (Route<dynamic> route) => false,
       );
     } else if (index == 2) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const BarCode()),
+        MaterialPageRoute(builder: (context) {
+          return const BarCode();
+        }),
+        (Route<dynamic> route) => false,
       );
     }
   }

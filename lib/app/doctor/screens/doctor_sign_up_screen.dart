@@ -10,7 +10,6 @@ import 'package:pharmazool/src/core/utils/styles.dart';
 
 import '../../../constants_widgets/utils/app_theme_colors.dart';
 
-
 class DoctorSignUp extends StatefulWidget {
   const DoctorSignUp({super.key});
 
@@ -123,7 +122,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                       // )
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2,
                   ),
                   SizedBox(
@@ -162,9 +161,11 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                       validator: (String? value) {
                         if (value!.isEmpty) {
                           return 'الرجاء ادخال رقم التليفون';
-                        } else {
-                          return null;
                         }
+                        if (value.length < 10 || value.length > 10) {
+                          return 'برجاء ادخال 10 ارقام فقط';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         prefixIcon: Icon(
@@ -176,7 +177,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2,
                   ),
 

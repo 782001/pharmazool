@@ -58,17 +58,20 @@ class _PatientSigninState extends State<PatientSignin> {
             isloading = false;
           });
           CashHelper.SaveData(
-            key: 'token',
-            value: state.token,
+            key: 'uId',
+            value: state.uId,
           ).then((value) {
-            print("token Saved succses");
-            Navigator.pushReplacement(
+            print("uId Saved succses");
+            Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                builder: (context) => const ShowWidget(
-                  child: PatientLayout(),
-                ),
-              ),
+              MaterialPageRoute(builder: (context) {
+                return const ShowWidget(
+                  child: PatientLayout(
+                    fromOnBoard: false,
+                  ),
+                );
+              }),
+              (Route<dynamic> route) => false,
             );
           });
         }
@@ -206,11 +209,18 @@ class _PatientSigninState extends State<PatientSignin> {
                           flutterToast(msg: "Please Sign First");
                         } else {
                           if (await _authenticate() == true) {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ShowWidget(
-                                        child: PatientLayout())));
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return const ShowWidget(
+                                  child: PatientLayout(
+                                    fromOnBoard: false,
+                                  ),
+                                );
+                              }),
+                              (Route<dynamic> route) => false,
+                            );
                           } else {
                             flutterToast(msg: "Not Recognized");
                           }
@@ -234,7 +244,7 @@ class _PatientSigninState extends State<PatientSignin> {
       bool authenticated = await auth.authenticate(
         localizedReason:
             'Subcribe or you will never find any stack overflow answer',
-        options: AuthenticationOptions(
+        options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,
         ),

@@ -1,8 +1,7 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 
-
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +35,13 @@ class SplashScreen extends StatelessWidget {
                 barRadius: const Radius.circular(50),
                 progressColor: AppColors.PharmaColor,
                 onAnimationEnd: () async {
-                
                   setmypost();
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const OnBoardingScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) {
+                      return const OnBoardingScreen();
+                    }),
+                    (Route<dynamic> route) => false,
                   );
                 },
               ),

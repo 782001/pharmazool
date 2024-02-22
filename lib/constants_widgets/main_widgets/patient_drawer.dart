@@ -1,9 +1,11 @@
 import 'package:pharmazool/app/patient/drawer_screens/motabra_screen.dart';
 import 'package:pharmazool/app/patient/drawer_screens/shared_for_spoken.dart';
 import 'package:pharmazool/app/patient/drawer_screens/who_are_screen.dart';
+import 'package:pharmazool/constants_widgets/utils/log_out_methode.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/network/local/cashhelper.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
-
 
 import '../../src/core/config/routes/app_imports.dart';
 
@@ -148,13 +150,27 @@ class _PatientDrawerState extends State<PatientDrawer> {
               setState(() {
                 userName = '';
                 token = '';
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return const OnBoardingScreen();
-                  }),
-                );
-                print("tokenLog Out:$token");
+                //    Navigator.pushAndRemoveUntil(
+                //   context,
+                //   MaterialPageRoute(builder: (context) {
+                //     return const OnBoardingScreen();
+                //   }),
+                //   (Route<dynamic> route) => false,
+                // );
+                CashHelper.RemoveData(key: 'uId').then((value) {
+                  print(token);
+                  if (value) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return const OnBoardingScreen();
+                      }),
+                      (Route<dynamic> route) => false,
+                    );
+                  }
+                });
+                // LogOut(context);
+                print("uId Log Out:$uId");
               });
             },
           );

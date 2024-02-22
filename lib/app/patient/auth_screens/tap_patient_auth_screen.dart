@@ -6,9 +6,10 @@ import 'package:pharmazool/app/patient/auth_screens/sign_in_screen.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
+import 'package:pharmazool/src/features/on_boarding/patient_doctor_screen.dart';
 
 class TabBarScreen_patient extends StatefulWidget {
-  const TabBarScreen_patient({Key? key}) : super(key: key);
+  const TabBarScreen_patient({super.key});
 
   @override
   _TabBarScreen_patientState createState() => _TabBarScreen_patientState();
@@ -27,7 +28,13 @@ class _TabBarScreen_patientState extends State<TabBarScreen_patient> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return const PatientDoctorScreen();
+              }),
+              (Route<dynamic> route) => false,
+            );
           },
         ),
       ),
@@ -55,11 +62,12 @@ class _TabBarScreen_patientState extends State<TabBarScreen_patient> {
                         indicatorWeight: 6,
                         // indicatorPadding: const EdgeInsetsDirectional.only(
                         //     start: 100, end: 100),
-                                             labelStyle: TextStyles.styleblackDefault,
-                        unselectedLabelStyle: TextStyles.styleblackDefault,   indicatorColor: AppColors.PharmaColor,
+                        labelStyle: TextStyles.styleblackDefault,
+                        unselectedLabelStyle: TextStyles.styleblackDefault,
+                        indicatorColor: AppColors.PharmaColor,
                         indicatorSize: TabBarIndicatorSize.tab,
                         tabs: const [
-                            Tab(
+                          Tab(
                             text: 'تسجيل الدخول',
                           ),
                           Tab(

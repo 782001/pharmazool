@@ -1,10 +1,12 @@
+import 'package:pharmazool/constants_widgets/utils/log_out_methode.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/network/local/cashhelper.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PatientLayout extends StatefulWidget {
-  const PatientLayout({super.key});
-
+  const PatientLayout({super.key, required this.fromOnBoard});
+  final bool fromOnBoard;
   @override
   State<PatientLayout> createState() => _PatientLayoutState();
 }
@@ -51,13 +53,15 @@ class _PatientLayoutState extends State<PatientLayout> {
                 ],
               ),
             ),
-            floatingActionButton: Showcase(descriptionTextDirection: TextDirection.rtl,
-                                          descTextStyle:
-                                              TextStyles.styleblackDefault,
-                key: floatingKey,
-                description:
-                    "من هنا يمكنك البحث عن علاجك بنسخ اسم الدواء ( روشتة / ملف / علبة دواء)",
-                child: const FloatingBottonPatient()),
+            floatingActionButton: widget.fromOnBoard
+                ? const SizedBox.shrink()
+                : Showcase(
+                    descriptionTextDirection: TextDirection.rtl,
+                    descTextStyle: TextStyles.styleblackDefault,
+                    key: floatingKey,
+                    description:
+                        "من هنا يمكنك البحث عن علاجك بنسخ اسم الدواء ( روشتة / ملف / علبة دواء)",
+                    child: const FloatingBottonPatient()),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             extendBody: true,
@@ -74,12 +78,26 @@ class _PatientLayoutState extends State<PatientLayout> {
         builder: (context) {
           return SignOutWidget(
             onPress: () async {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return const OnBoardingScreen();
-                }),
-              );
+              // Navigator.pushAndRemoveUntil(
+              //   context,
+              //   MaterialPageRoute(builder: (context) {
+              //     return const OnBoardingScreen();
+              //   }),
+              //   (Route<dynamic> route) => false,
+              // );
+              CashHelper.RemoveData(key: 'uId').then((value) {
+                print(token);
+                if (value) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return const OnBoardingScreen();
+                    }),
+                    (Route<dynamic> route) => false,
+                  );
+                }
+              });
+              // LogOut(context);
               setState(() {
                 userName = '';
                 token = '';

@@ -1,3 +1,4 @@
+import 'package:pharmazool/constants_widgets/utils/log_out_methode.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
@@ -41,7 +42,7 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
               elevation: 0,
               title: const AutoSizeText(
                 "الرئيسية",
-                    style: TextStyles.styleblack19,
+                style: TextStyles.styleblack19,
               ),
               leading: Container(),
               backgroundColor: Colors.white,
@@ -79,12 +80,14 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
         builder: (context) {
           return SignOutWidget(
             onPress: () async {
-              Navigator.pushReplacement(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) {
                   return const OnBoardingScreen();
                 }),
+                (Route<dynamic> route) => false,
               );
+              LogOut(context);
               setState(() {
                 userName = '';
                 token = '';

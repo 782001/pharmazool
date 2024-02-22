@@ -145,12 +145,16 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
         builder: (context) {
           return SignOutWidget(
             onPress: () async {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return const OnBoardingScreen();
-                }),
-              );
+               Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return const OnBoardingScreen();
+              
+              }),
+              (Route<dynamic> route) => false,
+            );
+             
+             
               setState(() {
                 userName = '';
                 token = '';

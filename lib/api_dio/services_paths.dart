@@ -5,7 +5,7 @@ import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 String? userName;
-String? token = "";
+String? token ;
 PharmacyModelData? pharmacyModelData;
 PharmacyModel? pharmamodel;
 List<PharmacyModel> pharmacyhistory = [];

@@ -9,7 +9,7 @@ import 'package:pharmazool/files_doctor/nav_screens/text_screen.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class BarCodeDoctor extends StatelessWidget {
-  const BarCodeDoctor({Key? key}) : super(key: key);
+  const BarCodeDoctor({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +51,8 @@ class BarCodeDoctor extends StatelessWidget {
                                       builder: (context) =>
                                           const ScannedTextDoctor()));
                                 },
-                                child:const Row(
-                                  children:  [
+                                child: const Row(
+                                  children: [
                                     Icon(Icons.file_download),
                                     AutoSizeText(
                                       'Scan File',
@@ -71,12 +71,12 @@ class BarCodeDoctor extends StatelessWidget {
                                       builder: (context) =>
                                           const ScannedTextDoctor()));
                                 },
-                                child:const Row(
-                                  children:  [
+                                child: const Row(
+                                  children: [
                                     Icon(Icons.file_download),
                                     AutoSizeText(
                                       'Choose File',
-                                          style: TextStyles.styleblackBold15,
+                                      style: TextStyles.styleblackBold15,
                                     ),
                                   ],
                                 )),
@@ -96,11 +96,11 @@ class BarCodeDoctor extends StatelessWidget {
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children:  [
+                        children: [
                           Icon(Icons.file_download),
                           AutoSizeText(
                             'import PdF',
-                         style: TextStyles.styleblackBold15,
+                            style: TextStyles.styleblackBold15,
                           ),
                         ],
                       )),
@@ -108,11 +108,17 @@ class BarCodeDoctor extends StatelessWidget {
                 const Expanded(
                   child: Image(image: AssetImage('assets/images/scan.jpg')),
                 ),
-                const Text(
-                  'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
-                   style: TextStyles.styleblack15,
-                  textAlign: TextAlign.center,
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
+                    style: TextStyles.styleblack15,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
+                const SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ));

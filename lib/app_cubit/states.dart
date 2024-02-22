@@ -13,9 +13,9 @@ class changeBarCodeResultState extends AppStates {}
 class AppLoginLoadingState extends AppStates {}
 
 class AppLoginSuccesState extends AppStates {
-    final String token;
+    final String uId;
 
-  AppLoginSuccesState({required this.token});
+  AppLoginSuccesState({required this.uId});
 
 }
 

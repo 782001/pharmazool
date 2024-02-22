@@ -45,7 +45,7 @@ class DoctorForgetButton extends StatelessWidget {
             decoration: BoxDecoration(
                 color: AppColors.PharmaColor,
                 borderRadius: BorderRadius.circular(12.0)),
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 65),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 90),
             child: const Text(
               'تأكيد',
               style: TextStyles.styleWhite18,

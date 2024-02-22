@@ -9,7 +9,7 @@ import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class ConfirmPasswordPatientScreen extends StatelessWidget {
-  const ConfirmPasswordPatientScreen({Key? key}) : super(key: key);
+  const ConfirmPasswordPatientScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,8 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const AutoSizeText(
-            "تأكيد رقم الهاتف ",
-            style: TextStyles.styleblack19
-          ),
+          title: const AutoSizeText("تأكيد رقم الهاتف ",
+              style: TextStyles.styleblack19),
           backgroundColor: Colors.white,
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.black),
@@ -46,13 +44,13 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    ': تأكيد ثم ادخال رقم الهاتف الجديد ',
-                    textAlign: TextAlign.right,
-                    style: TextStyles.styleblackBold18,
-                  ),
-                  const SizedBox(height: 20),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 50),
+                  // const Text(
+                  //   ': تأكيد ثم ادخال رقم الهاتف الجديد ',
+                  //   textAlign: TextAlign.right,
+                  //   style: TextStyles.styleblackBold18,
+                  // ),
+                  // const SizedBox(height: 150),
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: TextField(
@@ -63,7 +61,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                           Icons.numbers,
                           color: Colors.black,
                         ),
-                        labelText:"أدخل رقم الهاتف",
+                        labelText: "أدخل رقم الهاتف",
                         labelStyle: TextStyles.styleblackDefault,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -78,8 +76,8 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 30),
+                  // const SizedBox(height: 50),
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: TextFormField(
@@ -97,8 +95,8 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                           Icons.password_sharp,
                           color: Colors.black,
                         ),
-                        labelText:"أدخل رقم الهاتف الجديد",
-                        labelStyle:  TextStyles.styleblackDefault,
+                        labelText: "أدخل رقم الهاتف الجديد",
+                        labelStyle: TextStyles.styleblackDefault,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                               width: 3, color: AppColors.PharmaColor),
@@ -112,7 +110,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -128,17 +126,15 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                          color: AppColors.PharmaColor,
-                            borderRadius: BorderRadius.circular(12)
-                          ),
+                              color: AppColors.PharmaColor,
+                              borderRadius: BorderRadius.circular(12)),
                           padding: const EdgeInsets.symmetric(
-                            vertical: 6,
-                            horizontal: 65,
+                            vertical: 15,
+                            horizontal: 90,
                           ),
                           child: const Text(
                             'تأكيد',
-                            style:
-                                TextStyles.styleWhite18,
+                            style: TextStyles.styleWhite18,
                           ),
                         ),
                       ),

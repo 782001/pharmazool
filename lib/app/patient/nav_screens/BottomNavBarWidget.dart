@@ -5,34 +5,59 @@ import '../../../src/features/patient/patient_layout/presentation/screens/patien
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 class BottomNavWidget extends StatelessWidget {
-  const BottomNavWidget({
-    super.key,
-    required this.cubit
-  });
+  const BottomNavWidget({super.key, required this.cubit});
   final cubit;
 
   @override
   Widget build(BuildContext context) {
     goToIndexPage(int index) {
       if (index == 0) {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => ShowWidget(child: const PatientLayout())),
+          MaterialPageRoute(builder: (context) {
+            return const ShowWidget(
+                child: ShowWidget(
+                    child: PatientLayout(
+              fromOnBoard: false,
+            )));
+          }),
+          (Route<dynamic> route) => false,
         );
       } else if (index == 1) {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => ShowWidget(child: const PatientLayout())),
+          MaterialPageRoute(builder: (context) {
+            return const ShowWidget(
+                child: ShowWidget(
+                    child: PatientLayout(
+              fromOnBoard: false,
+            )));
+          }),
+          (Route<dynamic> route) => false,
         );
       } else if (index == 2) {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => ShowWidget(child: const PatientLayout())),
+          MaterialPageRoute(builder: (context) {
+            return const ShowWidget(
+                child: ShowWidget(
+                    child: PatientLayout(
+              fromOnBoard: false,
+            )));
+          }),
+          (Route<dynamic> route) => false,
         );
       } else if (index == 3) {
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => ShowWidget(child: const PatientLayout())),
+          MaterialPageRoute(builder: (context) {
+            return const ShowWidget(
+                child: ShowWidget(
+                    child: PatientLayout(
+              fromOnBoard: false,
+            )));
+          }),
+          (Route<dynamic> route) => false,
         );
       }
     }

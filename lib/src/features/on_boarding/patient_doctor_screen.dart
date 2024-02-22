@@ -6,6 +6,7 @@ import 'package:pharmazool/app/patient/auth_screens/tap_patient_auth_screen.dart
 import 'package:pharmazool/constants_widgets/utils/assets_images_path.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'package:pharmazool/src/core/network/local/cashhelper.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/patient/patient_layout/presentation/screens/patient_layout.dart';
@@ -14,7 +15,7 @@ import '../../../constants_widgets/utils/app_theme_colors.dart';
 import '../patient/patient_home/presentation/widgets/show_widget.dart';
 
 class PatientDoctorScreen extends StatelessWidget {
-  const PatientDoctorScreen({Key? key}) : super(key: key);
+  const PatientDoctorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,23 +53,29 @@ class PatientDoctorScreen extends StatelessWidget {
                       Row(
                         children: [
                           InkWell(
-                            onTap: () {
-                              print("Token on Sign:$token");
-                              if (token!.isNotEmpty) {
-                                Navigator.pushReplacement(
+                            onTap: () async {
+                              if (uId != null) {
+                                print("uId on Sign:$uId");
+                                Navigator.pushAndRemoveUntil(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShowWidget(
-                                      child: PatientLayout(),
-                                    ),
-                                  ),
+                                  MaterialPageRoute(builder: (context) {
+                                    return const ShowWidget(
+                                      child: PatientLayout(
+                                        fromOnBoard: true,
+                                      ),
+                                    );
+                                  }),
+                                  (Route<dynamic> route) => false,
                                 );
-                              } else {
+                              }
+                              if (uId == "" || uId == null) {
+                                print("uId on Sign:$uId");
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TabBarScreen_patient()));
+                                  context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return const TabBarScreen_patient();
+                                  }),
+                                );
                               }
                             },
                             child: Column(
@@ -87,7 +94,7 @@ class PatientDoctorScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           InkWell(
                             onTap: () {
                               Navigator.push(

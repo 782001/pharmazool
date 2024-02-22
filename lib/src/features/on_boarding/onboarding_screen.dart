@@ -60,14 +60,14 @@ class OnBoardingScreen extends StatelessWidget {
                       ),
                       child: TextButton(
                           onPressed: ()  {
-                           
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PatientDoctorScreen(),
-                              ),
-                            );
+                            Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return const PatientDoctorScreen();
+        }),
+        (Route<dynamic> route) => false,
+      );
+                         
                           },
                           child: const AutoSizeText(
                             'البدء',

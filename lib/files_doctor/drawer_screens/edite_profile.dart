@@ -6,7 +6,7 @@ import 'package:pharmazool/src/core/constant/pop_up.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class EditeProfile extends StatefulWidget {
-  EditeProfile({super.key});
+  const EditeProfile({super.key});
 
   @override
   State<EditeProfile> createState() => _EditeProfileState();
@@ -58,11 +58,21 @@ class _EditeProfileState extends State<EditeProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              ' ,مرحبا بك' '\n' '${pharmamodel?.name ?? ''}',
+              '  مرحبا بك' '\n' '${pharmamodel?.name ?? ''}',
               textAlign: TextAlign.end,
               style: TextStyles.stylewhitebold25,
             ),
@@ -74,6 +84,7 @@ class _EditeProfileState extends State<EditeProfile> {
       backgroundColor: Colors.teal,
       body: Container(
         height: double.infinity,
+        padding: const EdgeInsets.only(top: 50),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(50))),
@@ -117,6 +128,7 @@ class _EditeProfileState extends State<EditeProfile> {
                     if (value == null || value.isEmpty) {
                       return 'برجاء ادخال بيانات';
                     }
+                    return null;
                   },
                 ),
                 CustomSelectAreaAndLocalityTextField(
@@ -135,6 +147,7 @@ class _EditeProfileState extends State<EditeProfile> {
                     if (value == null || value.isEmpty) {
                       return 'برجاء ادخال بيانات';
                     }
+                    return null;
                   },
                 ),
                 BlocBuilder<ProfilePharmacyCubit, ProfilePharmacyState>(
@@ -152,9 +165,9 @@ class _EditeProfileState extends State<EditeProfile> {
                       hintText: "رابط خدمات الموقع",
                       maxLines: 1,
                       prefixIcon: Showcase(
-                        key: locationKey,descriptionTextDirection: TextDirection.rtl,
-                                          descTextStyle:
-                                              TextStyles.styleblackDefault,
+                        key: locationKey,
+                        descriptionTextDirection: TextDirection.rtl,
+                        descTextStyle: TextStyles.styleblackDefault,
                         description:
                             "تاكد من تشغيل خدمات الموقع وقم بالضغط هنا لتحديد موقع الصيدلية عن طريق الاقمار الصناعية",
                         child: IconButton(
