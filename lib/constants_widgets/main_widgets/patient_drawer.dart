@@ -6,6 +6,7 @@ import 'package:pharmazool/src/core/custom/signout_widget.dart';
 import 'package:pharmazool/src/core/network/local/cashhelper.dart';
 import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
+import 'package:pharmazool/src/features/patient/share_spoken/persentation/shared_for_spoken.dart';
 
 import '../../src/core/config/routes/app_imports.dart';
 

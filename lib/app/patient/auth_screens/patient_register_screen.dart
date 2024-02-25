@@ -163,7 +163,7 @@ class _PatientRegisterState extends State<PatientRegister> {
                                     username: namEController.text.toString(),
                                     password: 'no password',
                                     phone: phonEController.text,
-                                    type: 1);
+                                    type: 1, context: context);
                               }
                             },
                             child: const AutoSizeText(

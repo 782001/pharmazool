@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:file_picker/file_picker.dart';
@@ -145,6 +146,7 @@ class AppCubit extends Cubit<AppStates> {
       print("doctor login ******");
       userName = value.data['userName'];
       token = value.data['token'];
+      print("sucsess${value.data['title']}");
       emit(AppLoginSuccesState(uId: token!));
     }).catchError((error) {
       print(error.toString());
@@ -192,16 +194,20 @@ class AppCubit extends Cubit<AppStates> {
     });
     return isverified;
   }
+
   bool naveValidArabic = false;
   bool doesNotHaveArabic(String input) {
-
-    return naveValidArabic = !RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]').hasMatch(input);
+    return naveValidArabic = !RegExp(
+            r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]')
+        .hasMatch(input);
   }
+
   void patientRegister({
     required String username,
     required String phone,
     required String password,
     required int type,
+    required context,
   }) {
     emit(AppRegisterLoadingState());
     DioHelper.postData(url: registerEndPoint, data: {
@@ -216,13 +222,16 @@ class AppCubit extends Cubit<AppStates> {
     }).then((value) {
       print("Patient Register ******");
       print(value.data);
+      print(value.data['title']);
       print("Patient Register ******");
       userName = value.data['userName'];
       token = value.data['token'];
       emit(AppRegisterSuccesState());
     }).catchError((error) {
       print("register error ============================ :${error.toString()}");
-      emit(AppRegisterErrorState());
+      showmydialog(context, ' الحساب موجود بالفعل ',
+          Icons.assignment_turned_in_outlined);
+      emit(AppRegisterErrorState(errorMessage: error.toString()));
     });
   }
 

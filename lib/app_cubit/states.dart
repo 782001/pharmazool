@@ -27,7 +27,11 @@ class AppRegisterLoadingState extends AppStates {}
 
 class AppRegisterSuccesState extends AppStates {}
 
-class AppRegisterErrorState extends AppStates {}
+class AppRegisterErrorState extends AppStates {
+  final String  errorMessage;
+
+  AppRegisterErrorState({required this.errorMessage});
+}
 
 //doctor register states
 

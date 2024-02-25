@@ -4,7 +4,7 @@ import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SharedForSpokenPatient extends StatelessWidget {
+class SharedForSpokenPatientOldScreen extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController phoneController = TextEditingController();
@@ -15,7 +15,7 @@ class SharedForSpokenPatient extends StatelessWidget {
 
   GlobalKey<FormState> reportKey = GlobalKey<FormState>();
 
-  SharedForSpokenPatient({super.key});
+  SharedForSpokenPatientOldScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

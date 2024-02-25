@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:pharmazool/api_dio/services_paths.dart';
-import 'package:pharmazool/src/core/network/local/cashhelper.dart';
-import 'package:pharmazool/src/core/utils/strings.dart';
+
 import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/on_boarding/patient_doctor_screen.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
