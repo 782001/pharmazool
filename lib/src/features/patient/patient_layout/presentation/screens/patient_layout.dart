@@ -85,7 +85,7 @@ class _PatientLayoutState extends State<PatientLayout> {
               //   }),
               //   (Route<dynamic> route) => false,
               // );
-              CashHelper.RemoveData(key: 'uId').then((value) {
+        await      CashHelper.RemoveData(key: 'uId').then((value) {
                 print(token);
                 if (value) {
                   Navigator.pushAndRemoveUntil(

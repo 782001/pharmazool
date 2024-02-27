@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pharmazool/api_dio/services_paths.dart';
 import 'package:pharmazool/app_cubit/cubit.dart';
 import 'package:pharmazool/app_cubit/states.dart';
@@ -18,7 +23,26 @@ class PatientRegister extends StatefulWidget {
 
 class _PatientRegisterState extends State<PatientRegister> {
   bool isloading = false;
-
+   late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
+  @override
+  void initState() {
+    super.initState();
+  getConnectivity();
+  }
+ getConnectivity() =>
+      subscription = Connectivity().onConnectivityChanged.listen(
+        (ConnectivityResult result) async {
+          isDeviceConnected = await InternetConnectionChecker().hasConnection;
+          if (!isDeviceConnected && isAlertSet == false) {
+            showDialogBox();
+            setState(() {
+              isAlertSet = true;
+            });
+          }
+        },
+      );
   @override
   Widget build(BuildContext context) {
     var namEController = TextEditingController();
@@ -179,5 +203,40 @@ class _PatientRegisterState extends State<PatientRegister> {
         ),
       );
     });
-  }
+  } void showDialogBox() => showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text(
+            'لا يوجد اتصال بالإنترنت',
+            style: TextStyles.styleblack20,
+          ),
+          content: const Text(
+            'من فضلك تحقق من الاتصال بالإنترنت',
+            style: TextStyles.styleblack20,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, "الغاء");
+                setState(() {
+                  isAlertSet = false;
+                });
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() {
+                    isAlertSet = true;
+                  });
+                }
+              },
+              child: const Text(
+                'تأكيد',
+                style: TextStyles.styleblack20,
+              ),
+            )
+          ],
+        ),
+      );
+
 }

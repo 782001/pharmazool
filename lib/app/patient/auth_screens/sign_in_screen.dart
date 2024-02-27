@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +19,8 @@ import 'package:pharmazool/src/core/network/local/cashhelper.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/patient/patient_home/presentation/widgets/show_widget.dart';
 import 'package:pharmazool/src/features/patient/patient_layout/presentation/screens/patient_layout.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class PatientSignin extends StatefulWidget {
   const PatientSignin({super.key});
@@ -31,15 +36,30 @@ class _PatientSigninState extends State<PatientSignin> {
   String patientName = '';
   String patientPhone = '';
   late final LocalAuthentication auth;
-
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     auth = LocalAuthentication();
+    getConnectivity();
     loadPatientData();
   }
 
+  getConnectivity() =>
+      subscription = Connectivity().onConnectivityChanged.listen(
+        (ConnectivityResult result) async {
+          isDeviceConnected = await InternetConnectionChecker().hasConnection;
+          if (!isDeviceConnected && isAlertSet == false) {
+            showDialogBox();
+            setState(() {
+              isAlertSet = true;
+            });
+          }
+        },
+      );
   void loadPatientData() async {
     patientName =
         await secureStorage.read(key: SecureStorageKey.patientName) ?? '';
@@ -256,4 +276,40 @@ class _PatientSigninState extends State<PatientSignin> {
       return false;
     }
   }
+
+  void showDialogBox() => showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text(
+            'لا يوجد اتصال بالإنترنت',
+            style: TextStyles.styleblack20,
+          ),
+          content: const Text(
+            'من فضلك تحقق من الاتصال بالإنترنت',
+            style: TextStyles.styleblack20,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, "الغاء");
+                setState(() {
+                  isAlertSet = false;
+                });
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() {
+                    isAlertSet = true;
+                  });
+                }
+              },
+              child: const Text(
+                'تأكيد',
+                style: TextStyles.styleblack20,
+              ),
+            )
+          ],
+        ),
+      );
 }

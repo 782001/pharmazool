@@ -1,5 +1,6 @@
   
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PharmacyFilterList extends StatelessWidget {
   const PharmacyFilterList({super.key});
@@ -13,7 +14,7 @@ class PharmacyFilterList extends StatelessWidget {
         return list == null
             ? const Center(child: CircularProgressIndicator())
             : list.isEmpty
-                ? const Center(child: Text("No Pharmacy"))
+                ? const Center(child: Text("نتأسف الدواء المطلوب غير متوفر في صيدليات فارمازول في الوقت الحالي",style: TextStyles.styleblackDefault ,))
                 : ListView.separated(
                   itemCount: list.length
                   ,separatorBuilder: (context, index) => SizedBox(height: 10),

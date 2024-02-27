@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
@@ -19,7 +24,9 @@ class _DoctorSigninState extends State<DoctorSignin> {
   var formKey = GlobalKey<FormState>();
   late final LocalAuthentication auth;
   bool _supportState = false;
-
+  late StreamSubscription subscription;
+  var isDeviceConnected = false;
+  bool isAlertSet = false;
   @override
   void initState() {
     super.initState();
@@ -27,9 +34,20 @@ class _DoctorSigninState extends State<DoctorSignin> {
     auth.isDeviceSupported().then((bool isSupported) => setState(() {
           _supportState = isSupported;
         }));
-    loadKeys();
+    loadKeys();getConnectivity();
   }
-
+ getConnectivity() =>
+      subscription = Connectivity().onConnectivityChanged.listen(
+        (ConnectivityResult result) async {
+          isDeviceConnected = await InternetConnectionChecker().hasConnection;
+          if (!isDeviceConnected && isAlertSet == false) {
+            showDialogBox();
+            setState(() {
+              isAlertSet = true;
+            });
+          }
+        },
+      );
   String doctorLicense = '';
 
   void loadKeys() async {
@@ -230,5 +248,40 @@ class _DoctorSigninState extends State<DoctorSignin> {
       print(e);
       return false;
     }
-  }
+  }  void showDialogBox() => showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text(
+            'لا يوجد اتصال بالإنترنت',
+            style: TextStyles.styleblack20,
+          ),
+          content: const Text(
+            'من فضلك تحقق من الاتصال بالإنترنت',
+            style: TextStyles.styleblack20,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, "الغاء");
+                setState(() {
+                  isAlertSet = false;
+                });
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() {
+                    isAlertSet = true;
+                  });
+                }
+              },
+              child: const Text(
+                'تأكيد',
+                style: TextStyles.styleblack20,
+              ),
+            )
+          ],
+        ),
+      );
+
 }

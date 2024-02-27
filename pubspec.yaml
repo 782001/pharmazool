@@ -62,8 +62,8 @@ dependencies:
   mailer: ^6.0.1
 
   cupertino_icons: ^1.0.2
-
-
+  connectivity_plus: ^5.0.1
+  internet_connection_checker: ^1.0.0+1
   animated_bottom_navigation_bar: ^1.1.0+1
   auto_size_text: ^3.0.0
   flutter_svg:
