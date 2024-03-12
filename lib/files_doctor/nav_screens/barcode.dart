@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmazool/app_cubit/cubit.dart';
 import 'package:pharmazool/app_cubit/states.dart';
 
+import 'package:pharmazool/files_doctor/nav_screens/text_from_screen.dart';
 import 'package:pharmazool/files_doctor/nav_screens/text_screen.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
@@ -87,23 +88,59 @@ class BarCodeDoctor extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        await AppCubit.get(context).getPdfText();
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ScannedTextDoctor()));
-                      },
-                      child: const Row(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(13),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.file_download),
-                          AutoSizeText(
-                            'import PdF',
-                            style: TextStyles.styleblackBold15,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  AppCubit.get(context).doctorSearcher = [];
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddTextDoctor()));
+                                },
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.file_download),
+                                    AutoSizeText(
+                                      'Add Text ',
+                                      style: TextStyles.styleblackBold15,
+                                    ),
+                                  ],
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  await AppCubit.get(context).getPdfText();
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ScannedTextDoctor()));
+                                },
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.file_download),
+                                    AutoSizeText(
+                                      'import PdF',
+                                      style: TextStyles.styleblackBold15,
+                                    ),
+                                  ],
+                                )),
                           ),
                         ],
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
                 const Expanded(
                   child: Image(image: AssetImage('assets/images/scan.jpg')),

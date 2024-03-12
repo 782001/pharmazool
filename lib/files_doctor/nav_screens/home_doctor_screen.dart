@@ -5,7 +5,7 @@ import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HomeScreenDoctor1 extends StatelessWidget {
-  const HomeScreenDoctor1({Key? key}) : super(key: key);
+  const HomeScreenDoctor1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +22,22 @@ class HomeScreenDoctor1 extends StatelessWidget {
           builder: (context) {
             return Scaffold(
               body: Padding(
-
-                padding:   EdgeInsets.only(bottom:size.height*  0.12 ),
+                padding: EdgeInsets.only(bottom: size.height * 0.12),
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   // shrinkWrap: true,
                   children: [
                     Container(
                       height: 140,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultPadding),
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10)),
                           image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/logo_11zon_low.png'),
+                              image: AssetImage(
+                                  'assets/images/logo_11zon_low.png'),
                               fit: BoxFit.cover)),
                     ),
                     const SizedBox(height: 10),
@@ -93,7 +92,7 @@ homeGridViewDoctor(HomeIconsModel homeIconModel, BuildContext context) {
       AppCubit.get(context).getMedicinesByID(id: homeIconModel.genericid!);
     },
     child: SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(0),
@@ -118,7 +117,7 @@ homeGridViewDoctor(HomeIconsModel homeIconModel, BuildContext context) {
             ),
             AutoSizeText(
               homeIconModel.title.toString(),
-              style: TextStyles.styleblackBold18,
+              style: TextStyles.styleblackBold16,
             ),
             SizedBox(
               height: context.height * 0.02,

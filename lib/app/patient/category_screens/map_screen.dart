@@ -14,7 +14,7 @@ import '../../../constants_widgets/utils/app_theme_colors.dart';
 class MapScreen extends StatefulWidget {
   PharmacyModel model;
 
-  MapScreen(this.model);
+  MapScreen(this.model, {super.key});
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -114,11 +114,13 @@ class _MapScreenState extends State<MapScreen> {
                                               BorderRadius.circular(50),
                                         ),
                                         child: Showcase(
-                                          key: mapKey,descriptionTextDirection: TextDirection.rtl,
+                                          key: mapKey,
+                                          descriptionTextDirection:
+                                              TextDirection.rtl,
                                           descTextStyle:
                                               TextStyles.styleblackDefault,
                                           description:
-                                              "لتحديد مسار من موقعك الحالي للصيدلية اضغط هنا",
+                                              "لتحديد مسار من موقعك الحالي الى موقع الصيدلية قم بالضغط على رمز الموقع اعلاه",
                                           child: GoogleMap(
                                             onMapCreated: _onMapCreated,
                                             initialCameraPosition:
@@ -154,7 +156,7 @@ class _MapScreenState extends State<MapScreen> {
 class CardWidget extends StatelessWidget {
   PharmacyModel model;
 
-  CardWidget(this.model);
+  CardWidget(this.model, {super.key});
 
   // bool ExpanasionTouche = false;
   @override

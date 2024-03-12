@@ -4,7 +4,7 @@ import 'package:pharmazool/src/core/custom/signout_widget.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HomeLayoutDoctor extends StatefulWidget {
-  const HomeLayoutDoctor({Key? key}) : super(key: key);
+  const HomeLayoutDoctor({super.key});
 
   @override
   State<HomeLayoutDoctor> createState() => _HomeLayoutDoctorState();
@@ -90,7 +90,7 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
               LogOut(context);
               setState(() {
                 userName = '';
-                token = '';
+                token = null;
               });
             },
           );

@@ -8,16 +8,17 @@ import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/files_doctor/nav_screens/receipt_screen.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
-class AddTextDoctor extends StatelessWidget {
-  const AddTextDoctor({super.key});
+class ScannedTextDoctor extends StatelessWidget {
+  const ScannedTextDoctor({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var doctorsearchcontroller = TextEditingController();
+    var doctorsearchcontroller = TextEditingController(
+        text: AppCubit.get(context).doctorSearcher.toString());
     print(AppCubit.get(context).doctorSearcher);
 
-    // List<String> doctorNewValueSearcher = [''];
-
+    List<String> doctorNewValueSearcher = [''];
+    bool changed = false;
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
         return SafeArea(
@@ -67,11 +68,11 @@ class AddTextDoctor extends StatelessWidget {
                             controller: doctorsearchcontroller,
                             onChanged: (newValue) {
                               // Update the value of AppCubit.get(context).doctorSearcher here
-                              AppCubit.get(context).doctorSearcher = [newValue];
-
-                              // doctorNewValueSearcher = [newValue];
+                              // AppCubit.get(context).doctorSearcher = [newValue];
+                              doctorNewValueSearcher = [newValue];
                               print(AppCubit.get(context).doctorSearcher);
                               print(newValue);
+                              changed = true;
                             },
                           ),
                         ),
@@ -111,6 +112,34 @@ class AddTextDoctor extends StatelessWidget {
                           ),
                           child: TextButton(
                               onPressed: () async {
+                                List<String> doctorSearcherValue = changed
+                                    ? doctorNewValueSearcher
+                                    : AppCubit.get(context).doctorSearcher;
+
+                                // Check if the value contains "[" or "]"
+                                if (changed == true) {
+                                  for (int i = 0;
+                                      i < doctorSearcherValue.length;
+                                      i++) {
+                                    if (doctorSearcherValue[i].contains("[") ||
+                                        doctorSearcherValue[i].contains("]")) {
+                                      // Remove "[" and "]" from the value
+                                      doctorSearcherValue[i] =
+                                          doctorSearcherValue[i]
+                                              .replaceAll("[", "")
+                                              .replaceAll("]", "");
+                                    }
+                                  }
+
+                                  // Update AppCubit.get(context).doctorSearcher with the modified value
+                                  changed
+                                      ? AppCubit.get(context).doctorSearcher =
+                                          doctorSearcherValue
+                                              .toString()
+                                              .split(', ')
+                                      : AppCubit.get(context).doctorSearcher;
+                                }
+
                                 // Rest of your logic
                                 Map<String, dynamic> data;
                                 data = await AppCubit.get(context)
@@ -140,6 +169,34 @@ class AddTextDoctor extends StatelessWidget {
                           ),
                           child: TextButton(
                               onPressed: () async {
+                                List<String> doctorSearcherValue = changed
+                                    ? doctorNewValueSearcher
+                                    : AppCubit.get(context).doctorSearcher;
+
+                                // Check if the value contains "[" or "]"
+                                if (changed == true) {
+                                  for (int i = 0;
+                                      i < doctorSearcherValue.length;
+                                      i++) {
+                                    if (doctorSearcherValue[i].contains("[") ||
+                                        doctorSearcherValue[i].contains("]")) {
+                                      // Remove "[" and "]" from the value
+                                      doctorSearcherValue[i] =
+                                          doctorSearcherValue[i]
+                                              .replaceAll("[", "")
+                                              .replaceAll("]", "");
+                                    }
+                                  }
+
+                                  // Update AppCubit.get(context).doctorSearcher with the modified value
+                                  changed
+                                      ? AppCubit.get(context).doctorSearcher =
+                                          doctorSearcherValue
+                                              .toString()
+                                              .split(', ')
+                                      : AppCubit.get(context).doctorSearcher;
+                                }
+
                                 Map<String, dynamic> data;
                                 data = await AppCubit.get(context)
                                     .updatepharmacymedicinelist(

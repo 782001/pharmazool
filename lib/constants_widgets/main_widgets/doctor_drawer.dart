@@ -157,7 +157,7 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
              
               setState(() {
                 userName = '';
-                token = '';
+                token = null;
               });
             },
           );

@@ -42,7 +42,7 @@ class PatientHomeGridViewItem extends StatelessWidget {
               ),
               AutoSizeText(
                 homeIconsModel.title.toString(),
-                style: TextStyles.styleblackBold18,
+                style: TextStyles.styleblackBold16,
               ),
               SizedBox(
                 height: context.height * 0.02,

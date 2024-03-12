@@ -3,7 +3,7 @@ import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MotabraScreen extends StatelessWidget {
-  const MotabraScreen({Key? key}) : super(key: key);
+  const MotabraScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class MotabraScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         title: const Text(
           "المتبرع",
-            style:  TextStyles.styleblackbold20,
+          style: TextStyles.styleblackbold20,
         ),
         centerTitle: true,
         leading: IconButton(
@@ -47,7 +47,7 @@ class MotabraScreen extends StatelessWidget {
                     Text(
                       'ما تعتبره علاجًا مكررًا غير مهمًا هو الامل الوحيد لغيرك  للشفاء والتعافي. فكر مرتين قبل رمي الأدوية وكن سببًا في إنقاذ حياة شخص آخر.',
                       textAlign: TextAlign.center,
-                     style: TextStyles.stylewhite20,
+                      style: TextStyles.stylewhite20,
                     ),
                     SizedBox(height: 10),
                     Text(
@@ -63,7 +63,7 @@ class MotabraScreen extends StatelessWidget {
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        launch('https://wa.me/message/SZRZTEI2JDTKO1');
+                        launch('https://wa.me/201553550086');
                       },
                       shape: const RoundedRectangleBorder(
                           borderRadius:
@@ -72,15 +72,13 @@ class MotabraScreen extends StatelessWidget {
                       minWidth: 200.0,
                       height: 80,
                       color: Colors.blue.withOpacity(0.7),
-                      child: const Text(
-                        'متبرع',
-                        style: TextStyles.stylewhitebold25
-                      ),
+                      child: const Text('متبرع',
+                          style: TextStyles.stylewhitebold25),
                     ),
                     const SizedBox(height: 30),
                     MaterialButton(
                       onPressed: () {
-                        launch('https://wa.me/message/44A3HSYVGXONI1');
+                        launch('https://wa.me/201553550086');
                       },
                       shape: const RoundedRectangleBorder(
                           borderRadius:
@@ -90,10 +88,8 @@ class MotabraScreen extends StatelessWidget {
                       height: 80,
                       // color: Colors.grey[200]!.withOpacity(0.6),
                       color: Colors.blue.withOpacity(0.7),
-                      child: const Text(
-                        'ذوي الحاجة',
-                        style: TextStyles.stylewhitebold25
-                      ),
+                      child: const Text('ذوي الحاجة',
+                          style: TextStyles.stylewhitebold25),
                     ),
                   ],
                 ),

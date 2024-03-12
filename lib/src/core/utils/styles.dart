@@ -92,6 +92,12 @@ abstract class TextStyles {
     fontFamily: cairoFont,
     // fontWeight: FontWeight.bold,
   );
+  static const TextStyle styleblackBold16 = TextStyle(
+    color: Colors.black,
+    fontSize: 16,
+    fontFamily: cairoFont,
+    // fontWeight: FontWeight.bold,
+  );
   static const TextStyle stylewhiteBold18 = TextStyle(
     color: Colors.white,
     fontSize: 18,
