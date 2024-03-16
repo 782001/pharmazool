@@ -39,7 +39,11 @@ class DoctorRegisterLoadingState extends AppStates {}
 
 class DoctorRegisterSuccesState extends AppStates {}
 
-class DoctorRegisterErrorState extends AppStates {}
+class DoctorRegisterErrorState extends AppStates {
+  final String error;
+
+  DoctorRegisterErrorState({required this.error});
+}
 class DoctorCheckRegisterSuccesState extends AppStates {}
 
 class DoctorCheckRegisterErrorState extends AppStates {}

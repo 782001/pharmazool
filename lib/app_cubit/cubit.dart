@@ -178,13 +178,10 @@ class AppCubit extends Cubit<AppStates> {
       value.data['data'].forEach((element) {
         if (element['licenceId'] == licId && element['name'] == name) {
           isverified = true;
-          print(
-              "${element['licenceId']} gggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+          print("${element['licenceId']}licenceIdlicenceId");
         } else {
-          print(
-              "${element['licenceId']} gggggggggggggggggggggggggggggggggggggggggggggggggggggg");
-          print(
-              "${element['name']} gggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+          print("${element['licenceId']}licenceId");
+          print("${element['name']}name");
         }
       });
       emit(DoctorCheckRegisterSuccesState());
@@ -210,19 +207,20 @@ class AppCubit extends Cubit<AppStates> {
     required context,
   }) {
     emit(AppRegisterLoadingState());
-    DioHelper.postData(url: registerEndPoint, data: {
-      'firstName': 'osamaa22',
-      'lastName': 'osama22',
+    DioHelper.postData(url: registerByPatientEndPoint, data: {
+      'firstName': 'hossam12',
+      'lastName': 'string',
       'phone': phone,
-      'email': 'asdsad@gmail.com',
+      'email': 'hossam2@gmail.com',
       'userName': username,
       'password': password,
-      'licenseId': 'sdas5445',
+      // 'licenseId': 'sdas5445',
       'type': '$type'
     }).then((value) {
       print("Patient Register ******");
       print(value.data);
       print(value.data['title']);
+      print(value.data['userName']);
       print("Patient Register ******");
       userName = value.data['userName'];
       token = value.data['token'];
@@ -244,38 +242,32 @@ class AppCubit extends Cubit<AppStates> {
       required String pharmacyName,
       context}) async {
     emit(DoctorRegisterLoadingState());
-    if (await checkpharmacy(licenceId, pharmacyName)) {
-      print('success');
-      DioHelper.postData(url: registerEndPoint, data: {
-        'firstName': 'osamaa22',
-        'lastName': 'osama22',
-        'phone': phone,
-        'email': 'asdsad@gmail.com',
-        'userName': username,
-        'password': password,
-        'licenseId': licenceId,
-        'type': '$type'
-      }).then((value) {
-        print("Doctor Register ******");
-        print(value.data);
-        print("Doctor Register ******");
+    DioHelper.postData(url: registerByPharmcistEndPoint, data: {
+      'firstName': 'hossam13',
+      'lastName': 'string',
+      'phone': phone,
+      'email': 'hossam4@gmail.com',
+      'userName': username,
+      'password': password,
+      'licenseId': licenceId,
+      'pharmacyName': pharmacyName,
+      
+    }).then((value) {
+      print("Doctor Register ******");
+      print(value.data);
+      print("Doctor Register ******");
 
-        userName = value.data['userName'];
-        token = value.data['token'];
-        getDoctorPharmacy(licenceId: licenceId);
-        showmydialog(
-            context, 'تم انشاء الحساب', Icons.assignment_turned_in_outlined);
-        emit(DoctorRegisterSuccesState());
-      }).catchError((error) {
-        print(error);
-        showmydialog(context, "الحساب موجود بالفعل", Icons.warning);
-        emit(DoctorRegisterErrorState());
-      });
-    } else {
-      emit(DoctorRegisterErrorState());
+      userName = value.data['userName'];
+      token = value.data['token'];
+      getDoctorPharmacy(licenceId: licenceId);
       showmydialog(
-          context, 'رقم الرخصه واسم الصيدليه\n غير متوافقان', Icons.warning);
-    }
+          context, 'تم انشاء الحساب', Icons.assignment_turned_in_outlined);
+      emit(DoctorRegisterSuccesState());
+    }).catchError((error) {
+      print(error);
+      showmydialog(context, error.toString(), Icons.warning);
+      emit(DoctorRegisterErrorState(error: error.toString()));
+    });
   }
 
   bool checkarea = false;
