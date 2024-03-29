@@ -3,12 +3,14 @@ import 'dart:io';
 
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
+import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 import 'package:pharmazool/repo/services.dart';
@@ -135,33 +137,109 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  void userlogin({required String username, required String password}) {
-    emit(AppLoginLoadingState());
-    DioHelper.postData(
-        url: loginEndPoint,
-        data: {'userName': username, 'password': password}).then((value) {
-      print("doctor login ******");
+  void Patientlogin({
+    required String username,
+    required String password,
+    required context,
+  }) async {
+    emit(PatientLoginLoadingState());
+    try {
+      final response = await DioHelper.postData(
+          url: loginByPatientEndPoint,
+          data: {'userName': username, 'password': password});
 
-      print(value.data);
-      print("doctor login ******");
-      userName = value.data['userName'];
-      token = value.data['token'];
-      print("sucsess${value.data['title']}");
-      emit(AppLoginSuccesState(uId: token!));
-    }).catchError((error) {
-      print(error.toString());
-      emit(AppLoginErrorState());
-    });
+      print("Patient login ******");
+
+      print(response.data);
+      print("Patient login ******");
+      PatientuserName = response.data['userName'];
+      Patienttoken = response.data['token'];
+      print("sucsess${response.data['title']}");
+      emit(PatientLoginSuccesState(uId: Patienttoken!));
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          showmydialog(context, errorMessage, Icons.warning);
+          emit(PatientLoginErrorState());
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+          emit(PatientLoginErrorState());
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+        emit(PatientLoginErrorState());
+      }
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
+      emit(PatientLoginErrorState());
+    }
+  }
+
+  void Doctorlogin({
+    required String username,
+    required String password,
+    required String licenseId,
+    required String pharmacyName,
+    required context,
+  }) async {
+    emit(DoctorLoginLoadingState());
+    try {
+      final response =
+          await DioHelper.postData(url: loginByPharmacistEndPoint, data: {
+        'userName': username,
+        'password': password,
+        "licenseId": licenseId,
+        "pharmacyName": pharmacyName
+      });
+
+      print("Doctor login ******");
+
+      print(response.data);
+      print("Doctor login ******");
+      DoctoruserName = response.data['userName'];
+      Doctortoken = response.data['token'];
+      print("sucsess${response.data['title']}");
+      emit(DoctorLoginSuccesState());
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          showmydialog(context, errorMessage, Icons.warning);
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+      }
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
+      emit(DoctorLoginErrorState());
+    }
   }
 
   void resetPassword(
       {required String phonenumber,
       required String password,
       required String licenceId,
+      required String pharmacyName,
       required int type}) {
     DioHelper.postData(url: resetPasswordEndPoint, data: {
       "phoneNumber": phonenumber,
       "licenseId": licenceId,
+      "pharmacyName": pharmacyName,
       "type": type,
       "newPassword": password
     }).then((value) {
@@ -205,76 +283,111 @@ class AppCubit extends Cubit<AppStates> {
     required String password,
     required int type,
     required context,
-  }) {
+  }) async {
     emit(AppRegisterLoadingState());
-    DioHelper.postData(url: registerByPatientEndPoint, data: {
-      'firstName': 'hossam12',
-      'lastName': 'string',
-      'phone': phone,
-      'email': 'hossam2@gmail.com',
-      'userName': username,
-      'password': password,
-      // 'licenseId': 'sdas5445',
-      'type': '$type'
-    }).then((value) {
-      print("Patient Register ******");
-      print(value.data);
-      print(value.data['title']);
-      print(value.data['userName']);
-      print("Patient Register ******");
-      userName = value.data['userName'];
-      token = value.data['token'];
-      emit(AppRegisterSuccesState());
-    }).catchError((error) {
-      print("register error ============================ :${error.toString()}");
-      showmydialog(context, ' الحساب موجود بالفعل ',
-          Icons.assignment_turned_in_outlined);
-      emit(AppRegisterErrorState(errorMessage: error.toString()));
-    });
-  }
-
-  void doctorRegister(
-      {required String username,
-      required String phone,
-      required String password,
-      required int type,
-      required String licenceId,
-      required String pharmacyName,
-      context}) async {
-    emit(DoctorRegisterLoadingState());
-    DioHelper.postData(url: registerByPharmcistEndPoint, data: {
-      'firstName': 'hossam13',
-      'lastName': 'string',
-      'phone': phone,
-      'email': 'hossam4@gmail.com',
-      'userName': username,
-      'password': password,
-      'licenseId': licenceId,
-      'pharmacyName': pharmacyName,
-      
-    }).then((value) {
-      print("Doctor Register ******");
-      print(value.data);
-      print("Doctor Register ******");
-
-      userName = value.data['userName'];
-      token = value.data['token'];
-      getDoctorPharmacy(licenceId: licenceId);
+    try {
+      final response =
+          await DioHelper.postData(url: registerByPatientEndPoint, data: {
+        'firstName': 'hossam12',
+        'lastName': 'string',
+        'phone': phone,
+        'email': 'hossam2@gmail.com',
+        'userName': username,
+        'password': password,
+        // 'licenseId': 'sdas5445',
+        // 'type': '$type'
+      });
       showmydialog(
           context, 'تم انشاء الحساب', Icons.assignment_turned_in_outlined);
       emit(DoctorRegisterSuccesState());
-    }).catchError((error) {
-      print(error);
-      showmydialog(context, error.toString(), Icons.warning);
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          print(errorMessage);
+          showmydialog(context, errorMessage, Icons.warning);
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+      }
+      emit(AppRegisterErrorState(errorMessage: error.toString()));
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
+      emit(AppRegisterErrorState(errorMessage: error.toString()));
+    }
+  }
+
+  void doctorRegister({
+    required String username,
+    required String phone,
+    required String password,
+    required int type,
+    required String licenceId,
+    required String pharmacyName,
+    context,
+  }) async {
+    emit(DoctorRegisterLoadingState());
+
+    try {
+      final response =
+          await DioHelper.postData(url: registerByPharmcistEndPoint, data: {
+        'firstName': 'hossam13',
+        'lastName': 'string',
+        'phone': phone,
+        'email': 'hossam4@gmail.com',
+        'userName': username,
+        'password': password,
+        'licenseId': licenceId,
+        'pharmacyName': pharmacyName,
+      });
+
+      print("Doctor Register ******");
+      print(response.data);
+      print("Doctor Register ******");
+
+      PatientuserName = response.data['userName'];
+      Patienttoken = response.data['token'];
+      showmydialog(
+          context, 'تم انشاء الحساب', Icons.assignment_turned_in_outlined);
+      emit(DoctorRegisterSuccesState());
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          showmydialog(context, errorMessage, Icons.warning);
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+      }
       emit(DoctorRegisterErrorState(error: error.toString()));
-    });
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
+      emit(DoctorRegisterErrorState(error: error.toString()));
+    }
   }
 
   bool checkarea = false;
   // List<PharmacyModel>? filteredpharmacyList;
   List<PharmacyModel> pharmacyList = [];
+  List<GetPharmaciesByMedicineModel> PharmaciesByMedicineIdList = [];
   List<Marker> pharmaciesmarkers = [];
-  List<PharmacyModel> nearestpharmacies = [];
+  List<GetPharmaciesByMedicineModel> nearestpharmacies = [];
   void resetmarker() {
     pharmaciesmarkers = [];
     pharmaciesmarkers.add(
@@ -309,7 +422,7 @@ class AppCubit extends Cubit<AppStates> {
 
   List<String> streetAllPharmacy = [];
   void getpharmacies(
-      {int id = 0, String? area, String? locality, String? street}) {
+      {int? id, String? area, String? locality, String? street}) {
     getCurrentLocation();
     nearestpharmacies = [];
     emit(GetPharmaciesLoadingState());
@@ -336,22 +449,22 @@ class AppCubit extends Cubit<AppStates> {
       // }
 
       // to get nearby List pharmacy by location
-      for (PharmacyModel pharmacyItem in pharmacyModelData?.data ?? []) {
-        if (pharmacyItem.lat != '' || pharmacyItem.long != '') {
-          var distance = Geolocator.distanceBetween(
-            double.parse(pharmacyItem.lat ?? '0.0'),
-            double.parse(pharmacyItem.long ?? '0.0'),
-            position?.latitude ?? 0.0,
-            position?.longitude ?? 0.0,
-          );
+      // for (GetPharmaciesByMedicineModel pharmacyItem in pharmacyModelData?.data ?? []) {
+      //   if (pharmacyItem.latitude!= '' || pharmacyItem.longitude != '') {
+      //     var distance = Geolocator.distanceBetween(
+      //       double.parse(pharmacyItem.latitude ?? '0.0'),
+      //       double.parse(pharmacyItem.longitude ?? '0.0'),
+      //       position?.latitude ?? 0.0,
+      //       position?.longitude ?? 0.0,
+      //     );
 
-          if (distance <= 199909) {
-            nearestpharmacies.add(
-              pharmacyItem,
-            );
-          }
-        }
-      }
+      //     if (distance <= 199909) {
+      //       nearestpharmacies.add(
+      //         pharmacyItem,
+      //       );
+      //     }
+      //   }
+      // }
 
       // pharmacyModelData?.data?.forEach(
       //   (element) {
@@ -427,6 +540,90 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((error) {
       print(error);
       emit(GetPharmaciesErrorState());
+    });
+  }
+
+  void getPharmaciesByMedicineIdmodel({required String? MedicineId}) async {
+    PharmaciesByMedicineIdList = [];
+    getCurrentLocation();
+    emit(GetPharmaciesByMedicineLoadingState());
+
+    await DioHelper.getData(
+            url: "PharmacyMedicine/GetPharmaciesByMedicineId/$MedicineId")
+        .then((value) {
+      List<dynamic> data = value.data;
+      List<GetPharmaciesByMedicineModel> pharmacies = data
+          .map((item) => GetPharmaciesByMedicineModel.fromJson(item))
+          .toList();
+      PharmaciesByMedicineIdList.addAll(pharmacies);
+      emit(GetPharmaciesByMedicineSuccesState());
+    }).catchError((error) {
+      print(error);
+      emit(GetPharmaciesByMedicineErrorState());
+    });
+  }
+
+// Define a method to filter pharmacies by nearest place within the specified distance
+  List<GetPharmaciesByMedicineModel> filteredPharmacies = [];
+
+  Future<List<GetPharmaciesByMedicineModel>> filterPharmaciesByDistance(
+    List<GetPharmaciesByMedicineModel> pharmacies,
+    double maxDistance,
+  ) async {
+    // Get current device location
+    // Position position = await Geolocator.getCurrentPosition(
+    //   desiredAccuracy: LocationAccuracy.high,
+    // );
+
+    // Filter pharmacies by distance
+
+    for (var pharmacy in pharmacies) {
+      double distanceInMeters = Geolocator.distanceBetween(
+        position!.latitude,
+        position!.longitude,
+        double.parse(pharmacy.latitude!), // Assuming lat is a String
+        double.parse(pharmacy.longitude!), // Assuming long is a String
+      );
+
+      print(pharmacy.latitude!);
+      print(pharmacy.longitude!);
+      print(position!.latitude);
+      print(position!.longitude);
+      print("distanceInMeters$distanceInMeters");
+      if (distanceInMeters <= maxDistance) {
+        filteredPharmacies.add(pharmacy);
+      }
+    }
+
+    return filteredPharmacies;
+  }
+
+// Call this method in your getFilteredPharmaciesByMedicineIdmodel function
+  void getFilteredPharmaciesByMedicineIdmodel(
+      {required String? MedicineId}) async {
+    nearestpharmacies = [];
+    filteredPharmacies = [];
+    getCurrentLocation();
+    emit(GetFilteredPharmaciesByMedicineLoadingState());
+
+    await DioHelper.getData(
+            url: "PharmacyMedicine/GetPharmaciesByMedicineId/$MedicineId")
+        .then((value) async {
+      List<dynamic> data = value.data;
+      List<GetPharmaciesByMedicineModel> pharmacies = data
+          .map((item) => GetPharmaciesByMedicineModel.fromJson(item))
+          .toList();
+
+      // Filter pharmacies by distance
+      nearestpharmacies = await filterPharmaciesByDistance(
+        pharmacies,
+        199909, // Max distance in meters
+      );
+
+      emit(GetFilteredPharmaciesByMedicineSuccesState());
+    }).catchError((error) {
+      print(error);
+      emit(GetFilteredPharmaciesByMedicineErrorState());
     });
   }
 

@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pharmazool/app/patient/category_screens/widgets/pharmacy_item.dart';
 import 'package:pharmazool/constants_widgets/main_constants.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
+import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
 import 'package:pharmazool/mymodels/pharmacy_model.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
@@ -12,7 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../constants_widgets/utils/app_theme_colors.dart';
 
 class MapScreen extends StatefulWidget {
-  PharmacyModel model;
+  GetPharmaciesByMedicineModel model;
 
   MapScreen(this.model, {super.key});
 
@@ -28,7 +29,8 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       final marker = Marker(
         markerId: MarkerId(name!),
-        position: LatLng(lat!, long!),
+        position: LatLng(double.parse(widget.model.latitude!),
+            double.parse(widget.model.longitude!)),
         infoWindow: InfoWindow(title: name, snippet: address, onTap: () {}),
         onTap: () {
           print("Clicked on marker");
@@ -125,7 +127,11 @@ class _MapScreenState extends State<MapScreen> {
                                             onMapCreated: _onMapCreated,
                                             initialCameraPosition:
                                                 CameraPosition(
-                                              target: LatLng(lat!, long!),
+                                              target: LatLng(
+                                                  double.parse(
+                                                      widget.model.latitude!),
+                                                  double.parse(
+                                                      widget.model.longitude!)),
                                               zoom: 14.8,
                                             ),
                                             markers: markers.values.toSet(),

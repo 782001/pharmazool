@@ -1,6 +1,7 @@
 import 'package:pharmazool/files_doctor/drawer_screens/edite_profile.dart';
 import 'package:pharmazool/files_doctor/drawer_screens/who_are_screen.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 import '../../src/core/config/routes/app_imports.dart';
@@ -40,7 +41,7 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
                   bottom: 8.0,
                   right: 15.0,
                   child: Text(
-                    userName ?? '',
+                    DoctoruserName ?? '',
                     style: TextStyles.styleblack20,
                   ),
                 )
@@ -156,8 +157,9 @@ class _DoctorDrawerState extends State<DoctorDrawer> {
              
              
               setState(() {
-                userName = '';
-                token = null;
+                DoctoruserName = '';
+                Doctortoken = null;
+                uId = null;
               });
             },
           );

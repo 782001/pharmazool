@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -34,9 +36,11 @@ class _DoctorSigninState extends State<DoctorSignin> {
     auth.isDeviceSupported().then((bool isSupported) => setState(() {
           _supportState = isSupported;
         }));
-    loadKeys();getConnectivity();
+    loadKeys();
+    getConnectivity();
   }
- getConnectivity() =>
+
+  getConnectivity() =>
       subscription = Connectivity().onConnectivityChanged.listen(
         (ConnectivityResult result) async {
           isDeviceConnected = await InternetConnectionChecker().hasConnection;
@@ -61,18 +65,18 @@ class _DoctorSigninState extends State<DoctorSignin> {
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if (state is AppLoginSuccesState) {
+        if (state is DoctorLoginSuccesState) {
           setState(() {
             isloading = false;
           });
           showmycheckdialog(context);
         }
-        if (state is AppLoginErrorState) {
-          setState(() {
-            isloading = false;
-          });
-          showmydialog(context, 'الحساب غير صحيح', Icons.warning);
-        }
+        // if (state is DoctorLoginErrorState) {
+        //   setState(() {
+        //     isloading = false;
+        //   });
+        //   showmydialog(context, 'الحساب غير صحيح', Icons.warning);
+        // }
       },
       builder: ((context, state) {
         return Directionality(
@@ -148,34 +152,38 @@ class _DoctorSigninState extends State<DoctorSignin> {
                     ],
                   ),
                   SizedBox(height: context.height * 0.04),
-                  isloading
-                      ? loading()
-                      : Center(
-                          child: Container(
-                            width: context.width * 0.5,
-                            // height: context.height * .25,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.PharmaColor,
-                            ),
-                            child: TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isloading = true;
-                                  });
-                                  if (formKey.currentState!.validate()) {
-                                    AppCubit.get(context).userlogin(
-                                        username: emailController.text,
-                                        password: passwordController.text);
-                                    // HomeLayoutDoctor()));
-                                  }
-                                },
-                                child: const AutoSizeText(
-                                  'تسجيل الدخول',
-                                  style: TextStyles.styleWhiteBold15,
-                                )),
-                          ),
-                        ),
+                  Center(
+                    child: Container(
+                      width: context.width * 0.5,
+                      // height: context.height * .25,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.PharmaColor,
+                      ),
+                      child: TextButton(
+                          onPressed: () {
+                            // setState(() {
+                            //   isloading = true;
+                            // });
+                            if (formKey.currentState!.validate()) {
+                              // AppCubit.get(context).Doctorlogin(
+                              //     username: emailController.text,
+                              //     password: passwordController.text);
+                              // HomeLayoutDoctor()));
+
+                              DoctorLoginCheckdialog(
+                                  context,
+                                  emailController.text,
+                                  passwordController.text,
+                                  isloading);
+                            }
+                          },
+                          child: const AutoSizeText(
+                            'تسجيل الدخول',
+                            style: TextStyles.styleWhiteBold15,
+                          )),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.center,
                     child: InkWell(
@@ -248,7 +256,9 @@ class _DoctorSigninState extends State<DoctorSignin> {
       print(e);
       return false;
     }
-  }  void showDialogBox() => showCupertinoDialog(
+  }
+
+  void showDialogBox() => showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: const Text(
@@ -283,5 +293,151 @@ class _DoctorSigninState extends State<DoctorSignin> {
           ],
         ),
       );
+}
 
+DoctorLoginCheckdialog(
+    context, emailController, passwordController, isloading) {
+  var cubit = AppCubit.get(context);
+  TextEditingController namecontroller = TextEditingController();
+  TextEditingController licenceidcontroller = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            content: SizedBox(
+              width: 400,
+              height: 400,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            controller: namecontroller,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (namecontoller) {
+                              if (namecontoller!.isEmpty) {
+                                return 'برجاء ادخال اسم الصيدلية';
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'اسم الصيدلية',
+                              labelText: 'أسم الصيدلية',
+                              labelStyle: TextStyles.styleblackDefault,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            controller: licenceidcontroller,
+                            keyboardType: TextInputType.number,
+                            validator: (licenceController) {
+                              if (licenceController!.isEmpty) {
+                                return 'برجاء ادخال رقم الرخصة';
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {
+                              BlocProvider.of<ProfilePharmacyCubit>(context)
+                                  .licenceID = value;
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'رقم الرخصة',
+                              labelText: 'رقم الرخصة',
+                              labelStyle: TextStyles.styleblackDefault,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        isloading
+                            ? loading()
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const AutoSizeText(
+                                          'رجوع',
+                                          style: TextStyles.styleblackBold15,
+                                        )),
+                                  ),
+                                  const SizedBox(width: 30),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () async {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            AppCubit.get(context).Doctorlogin(
+                                              username: emailController,
+                                              password: passwordController,
+                                              licenseId:
+                                                  licenceidcontroller.text,
+                                              pharmacyName: namecontroller.text,
+                                              context: context,
+                                            );
+                                            if (DoctorLoginSuccesState ==
+                                                true) {
+                                              cubit.getDoctorPharmacy(
+                                                  licenceId:
+                                                      licenceidcontroller.text);
+                                              secureStorage.write(
+                                                  key: SecureStorageKey
+                                                      .doctorLicense,
+                                                  value:
+                                                      licenceidcontroller.text);
+                                              Navigator.of(context).pushReplacement(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HomeLayoutDoctor()));
+                                            }
+
+                                            // if (await cubit.checkpharmacy(
+                                            //     licenceidcontroller.text,
+                                            //     namecontroller.text)) {
+                                            //   cubit.getDoctorPharmacy(
+                                            //       licenceId:
+                                            //           licenceidcontroller.text);
+                                            //   // ignore: use_build_context_synchronously
+                                            //   secureStorage.write(
+                                            //       key: SecureStorageKey.doctorLicense,
+                                            //       value: licenceidcontroller.text);
+                                            //   Navigator.of(context).pushReplacement(
+                                            //       MaterialPageRoute(
+                                            //           builder: (context) =>
+                                            //               const HomeLayoutDoctor()));
+                                            // } else {
+                                            //   // ignore: use_build_context_synchronously
+                                            //   showmydialog(
+                                            //       context,
+                                            //       'البيانات غير صحيحة',
+                                            //       Icons.warning);
+                                            // }
+                                          }
+                                        },
+                                        child: const AutoSizeText(
+                                          'تأكيد ',
+                                          style: TextStyles.styleblackBold15,
+                                        )),
+                                  ),
+                                ],
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ));
 }

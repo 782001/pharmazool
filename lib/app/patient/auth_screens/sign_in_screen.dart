@@ -73,7 +73,7 @@ class _PatientSigninState extends State<PatientSignin> {
     var formKey = GlobalKey<FormState>();
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if (state is AppLoginSuccesState) {
+        if (state is PatientLoginSuccesState) {
           setState(() {
             isloading = false;
           });
@@ -95,12 +95,11 @@ class _PatientSigninState extends State<PatientSignin> {
             );
           });
         }
-        if (state is AppLoginErrorState) {
-          setState(() {
-            isloading = false;
-          });
-          showmydialog(context, 'الحساب غير صحيح', Icons.warning);
-        }
+        // if (state is PatientLoginErrorState) {
+        //   setState(() {
+        //     isloading = false;
+        //   });
+        // }
       },
       builder: (context, state) {
         return Directionality(
@@ -200,9 +199,20 @@ class _PatientSigninState extends State<PatientSignin> {
                                   setState(() {
                                     isloading = true;
                                   });
-                                  AppCubit.get(context).userlogin(
-                                      username: namEController.text,
-                                      password: phonEController.text);
+                                  Future.delayed(
+                                          const Duration(milliseconds: 2000))
+                                      .then((value) {
+                                    AppCubit.get(context).Patientlogin(
+                                        context: context,
+                                        username: namEController.text,
+                                        password: phonEController.text);
+                                    setState(
+                                      () {
+                                        isloading = false;
+                                      },
+                                    );
+                                  });
+
                                   if (patientName.isEmpty &&
                                       patientPhone.isEmpty) {
                                     await secureStorage.write(

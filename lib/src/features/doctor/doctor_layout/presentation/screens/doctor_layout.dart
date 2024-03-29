@@ -1,6 +1,7 @@
 import 'package:pharmazool/constants_widgets/utils/log_out_methode.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HomeLayoutDoctor extends StatefulWidget {
@@ -89,8 +90,8 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
               );
               LogOut(context);
               setState(() {
-                userName = '';
-                token = null;
+                DoctoruserName = '';
+                Doctortoken = null;       uId = null;
               });
             },
           );

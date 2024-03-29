@@ -5,6 +5,7 @@ class DoctorForgetBody extends StatelessWidget {
   DoctorForgetBody({super.key});
 
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController pharmacyNameController = TextEditingController();
   final TextEditingController licenseController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -48,6 +49,17 @@ class DoctorForgetBody extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               CustomForgetTextField(
+                controller: pharmacyNameController,
+                labelText: "اسم الصيدلية",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "ادخل اسم الصيدلية";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 30),
+              CustomForgetTextField(
                 controller: newPasswordController,
                 labelText: "كلمة المرور الجديدة",
                 validator: (value) {
@@ -60,6 +72,7 @@ class DoctorForgetBody extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               DoctorForgetButton(
+                pharmacyNameController: pharmacyNameController,
                 forgetKey: formKey,
                 licenseController: licenseController,
                 newPasswordController: newPasswordController,

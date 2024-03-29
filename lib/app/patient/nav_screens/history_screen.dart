@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmazool/api_dio/services_paths.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
+import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/patient/patient_layout/presentation/screens/patient_layout.dart';
 
@@ -47,7 +48,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 }
 
-Widget history(BuildContext context, PharmacyModel model) {
+Widget history(BuildContext context, GetPharmaciesByMedicineModel model) {
   return Padding(
     padding: const EdgeInsetsDirectional.only(start: 30, end: 30),
     child: Column(

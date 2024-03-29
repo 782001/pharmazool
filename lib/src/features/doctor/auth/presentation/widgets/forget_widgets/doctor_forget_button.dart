@@ -6,6 +6,7 @@ class DoctorForgetButton extends StatelessWidget {
   final TextEditingController phoneController;
   final TextEditingController newPasswordController;
   final TextEditingController licenseController;
+  final TextEditingController pharmacyNameController;
 
   const DoctorForgetButton({
     super.key,
@@ -13,6 +14,7 @@ class DoctorForgetButton extends StatelessWidget {
     required this.licenseController,
     required this.newPasswordController,
     required this.phoneController,
+    required this.pharmacyNameController,
   });
 
   @override
@@ -37,6 +39,7 @@ class DoctorForgetButton extends StatelessWidget {
                 phonenumber: phoneController.text,
                 password: newPasswordController.text,
                 licenceId: licenseController.text,
+                pharmacyName: pharmacyNameController.text,
                 type: 0,
               );
             }

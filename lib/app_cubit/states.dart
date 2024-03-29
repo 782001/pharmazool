@@ -10,16 +10,24 @@ class changeBarCodeResultState extends AppStates {}
 
 //login states
 
-class AppLoginLoadingState extends AppStates {}
+class DoctorLoginLoadingState extends AppStates {}
 
-class AppLoginSuccesState extends AppStates {
-    final String uId;
+class DoctorLoginSuccesState extends AppStates {
 
-  AppLoginSuccesState({required this.uId});
 
+  DoctorLoginSuccesState();
 }
 
-class AppLoginErrorState extends AppStates {}
+class DoctorLoginErrorState extends AppStates {}
+class PatientLoginLoadingState extends AppStates {}
+
+class PatientLoginSuccesState extends AppStates {
+  final String uId;
+
+  PatientLoginSuccesState({required this.uId});
+}
+
+class PatientLoginErrorState extends AppStates {}
 
 //register states
 
@@ -28,7 +36,7 @@ class AppRegisterLoadingState extends AppStates {}
 class AppRegisterSuccesState extends AppStates {}
 
 class AppRegisterErrorState extends AppStates {
-  final String  errorMessage;
+  final String errorMessage;
 
   AppRegisterErrorState({required this.errorMessage});
 }
@@ -44,6 +52,7 @@ class DoctorRegisterErrorState extends AppStates {
 
   DoctorRegisterErrorState({required this.error});
 }
+
 class DoctorCheckRegisterSuccesState extends AppStates {}
 
 class DoctorCheckRegisterErrorState extends AppStates {}
@@ -69,6 +78,20 @@ class GetPharmaciesLoadingState extends AppStates {}
 class GetPharmaciesSuccesState extends AppStates {}
 
 class GetPharmaciesErrorState extends AppStates {}
+//get PharmaciesByMedicine
+
+class GetPharmaciesByMedicineLoadingState extends AppStates {}
+
+class GetPharmaciesByMedicineSuccesState extends AppStates {}
+
+class GetPharmaciesByMedicineErrorState extends AppStates {}
+//get FilteredPharmaciesByMedicine
+
+class GetFilteredPharmaciesByMedicineLoadingState extends AppStates {}
+
+class GetFilteredPharmaciesByMedicineSuccesState extends AppStates {}
+
+class GetFilteredPharmaciesByMedicineErrorState extends AppStates {}
 
 //scan image
 class PickImageSuccessState extends AppStates {}
@@ -154,19 +177,27 @@ class IncreamentOfMedicineListLoadingState extends AppStates {}
 class IncreamentOfMedicineListSuccesState extends AppStates {}
 
 class IncreamentOfMedicineListErrorState extends AppStates {}
+
 class GetPressPositionLoading extends AppStates {}
+
 class GetPressPositionSuccess extends AppStates {}
+
 class GetPressPositionError extends AppStates {}
 
 class GetAreaListSuccess extends AppStates {}
+
 class GetAreaListLoading extends AppStates {}
+
 class GetAreaListError extends AppStates {}
 
 class GetLocalityError extends AppStates {}
+
 class GetLocalityLoading extends AppStates {}
+
 class GetLocalitySuccess extends AppStates {}
+
 class GetStateSuccess extends AppStates {}
+
 class GetStateLoading extends AppStates {}
+
 class GetStateError extends AppStates {}
-
-

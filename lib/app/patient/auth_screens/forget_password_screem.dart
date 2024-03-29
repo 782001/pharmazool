@@ -121,6 +121,7 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                                 phonenumber: phonecontroller.text,
                                 password: newpasswordcontroller.text,
                                 licenceId: '',
+                                pharmacyName: '',
                                 type: 1);
                           }
                         },

@@ -18,8 +18,7 @@ class NearbyPharmacies extends StatefulWidget {
 }
 
 class _NearbyPharmaciesState extends State<NearbyPharmacies> {
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -77,44 +76,38 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                   ),
-                                  child:    ConditionalBuilder(
-                                            condition: state
-                                                    is! GetPharmaciesLoadingState &&
-                                                state
-                                                    is! GetFilteredPharmaciesLoadingState,
-                                            fallback: (context) => Container(
-                                                  color: Colors.white,
-                                                  child: loading(),
-                                                ),
-                                            builder: (context) {
-                                              return SizedBox(
-                                                width: double.infinity,
-                                                height: context.height * .7,
-                                                child: ListView.separated(
-                                                  physics:
-                                                      const BouncingScrollPhysics(),
-                                                  itemBuilder: (BuildContext
-                                                              context,
-                                                          int index) =>
-                                                      // pharmacyItem(
-                                                      //     cubit.nearestpharmacies[
-                                                      //         index],
-                                                      //     context),
-                                                          PharmacyItem(model:    cubit.nearestpharmacies[
-                                                              index],),
-                                                  itemCount: cubit
-                                                      .nearestpharmacies.length,
-                                                  separatorBuilder:
-                                                      (BuildContext context,
-                                                              int index) =>
-                                                          SizedBox(
-                                                    height:
-                                                        context.height * 0.05,
-                                                  ),
-                                                ),
-                                              );
-                                            }),
-                                      
+                                  child: ConditionalBuilder(
+                                      condition:
+                                          cubit.nearestpharmacies.isNotEmpty,
+                                      fallback: (context) => loading(),
+                                      builder: (context) {
+                                        return SizedBox(
+                                          width: double.infinity,
+                                          height: context.height * .7,
+                                          child: ListView.separated(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            itemBuilder: (BuildContext context,
+                                                    int index) =>
+                                                // pharmacyItem(
+                                                //     cubit.nearestpharmacies[
+                                                //         index],
+                                                //     context),
+                                                PharmacyItem(
+                                              model: cubit
+                                                  .nearestpharmacies[index],
+                                            ),
+                                            itemCount:
+                                                cubit.nearestpharmacies.length,
+                                            separatorBuilder:
+                                                (BuildContext context,
+                                                        int index) =>
+                                                    SizedBox(
+                                              height: context.height * 0.05,
+                                            ),
+                                          ),
+                                        );
+                                      }),
                                 ),
                               ),
                             ],
@@ -126,7 +119,7 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
                 ),
               ],
             ),
-            floatingActionButton: FloatingBotton(),
+            floatingActionButton: const FloatingBotton(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: BottomNavWidget(

@@ -1,4 +1,3 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ import '../nav_screens/BottomNavBarWidget.dart';
 class MedicineScreen extends StatefulWidget {
   int? id;
 
-  MedicineScreen(this.id);
+  MedicineScreen(this.id, {super.key});
 
   @override
   State<MedicineScreen> createState() => _MedicineScreenState();
@@ -148,7 +147,8 @@ class _MedicineScreenState extends State<MedicineScreen> {
                                           ),
                                           child: TextField(
                                             controller: searchcontrolled,
-                                            style: TextStyle( fontFamily: cairoFont,
+                                            style: TextStyle(
+                                              fontFamily: cairoFont,
                                               fontSize: context.height * 0.015,
                                             ),
                                             onSubmitted: (value) {
@@ -159,7 +159,8 @@ class _MedicineScreenState extends State<MedicineScreen> {
                                             },
                                             decoration: InputDecoration(
                                               hintText: 'بحث',
-                                              hintStyle: const TextStyle( fontFamily: cairoFont,
+                                              hintStyle: const TextStyle(
+                                                fontFamily: cairoFont,
                                                 color: Color(0xFF949098),
                                               ),
                                               border: OutlineInputBorder(
@@ -175,7 +176,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
                                               prefixIcon: Icon(
                                                 Icons.search,
                                                 size: context.height * 0.03,
-                                                color: Color(0xFF949098),
+                                                color: const Color(0xFF949098),
                                               ),
                                               suffixIcon: InkWell(
                                                 onTap: () async {
@@ -342,6 +343,7 @@ Widget medicineItem(MedicineModel medicineModel, context) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             LocationInfo(medicineModel.id.toString())));
+                    print(medicineModel.id.toString());
                   },
                   child: const AutoSizeText(
                     'بحث',

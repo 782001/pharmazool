@@ -44,7 +44,7 @@ class _PatientDrawerState extends State<PatientDrawer> {
                   bottom: 8.0,
                   right: 15.0,
                   child: Text(
-                    userName ?? '',
+                    PatientuserName ?? '',
                     style: TextStyles.styleblack20,
                   ),
                 ),
@@ -149,8 +149,8 @@ class _PatientDrawerState extends State<PatientDrawer> {
           return SignOutWidget(
             onPress: () async {
               setState(() async {
-                userName = '';
-                token = '';
+                PatientuserName = '';
+                Patienttoken = '';       uId = null;
                 //    Navigator.pushAndRemoveUntil(
                 //   context,
                 //   MaterialPageRoute(builder: (context) {
@@ -159,7 +159,7 @@ class _PatientDrawerState extends State<PatientDrawer> {
                 //   (Route<dynamic> route) => false,
                 // );
                 await CashHelper.RemoveData(key: 'uId').then((value) {
-                  print(token);
+                  print(Patienttoken);
                   if (value) {
                     Navigator.pushAndRemoveUntil(
                       context,

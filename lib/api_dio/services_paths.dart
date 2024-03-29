@@ -1,15 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
-String? userName;
-String? token;
+String? DoctoruserName;
+String? PatientuserName;
+String? Doctortoken;
+String? Patienttoken;
 PharmacyModelData? pharmacyModelData;
 PharmacyModel? pharmamodel;
-List<PharmacyModel> pharmacyhistory = [];
+PharmacyModel? PharmaciesByMedicineIdmodel;
+List<GetPharmaciesByMedicineModel> pharmacyhistory = [];
 dynamic lat1 = 31.265504445873205;
 double long1 = 32.3016561;
 double lat2 = 31.2640004386519;
@@ -218,6 +222,8 @@ String baseurl = 'http://amc007-001-site8.etempurl.com/api/';
 
 // 1- login endpoints:
 String loginEndPoint = 'Authentication/Login';
+String loginByPatientEndPoint = 'Authentication/LoginByPatient';
+String loginByPharmacistEndPoint = 'Authentication/LoginByPharmacist';
 String registerByPatientEndPoint = 'Authentication/RegisterByPatient';
 String registerByPharmcistEndPoint = 'Authentication/RegisterByPharmacist';
 String resetPasswordEndPoint = 'Authentication/ResetPassword';
@@ -299,6 +305,9 @@ String postPharmacyEndPoint = 'Pharmacy';
 String getPharmacyByIdEndPoint = 'Pharmacy/:id';
 String putPharmacyByIdEndPoint = 'Pharmacy/:id';
 String deletePharmacyByIDEndPoint = 'Pharmacy/:id';
+
+//PharmaciesByMedicine
+String getPharmaciesByMedicineIDEndPoint = 'PharmacyMedicine/GetPharmaciesByMedicineId/:id';
 
 // 11- pharmacymedicine endpoints:
 String getPharmacyMedicineEndPoint =

@@ -1,3 +1,4 @@
+import 'package:pharmazool/app/patient/category_screens/widgets/loading_data_screen.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
@@ -143,6 +144,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                 area: area,
                                 locality: locality,
                                 stateController: stateController,
+                                id: widget.id,
                               ),
                               const SizedBox(height: 50),
                               const Text(
@@ -164,11 +166,15 @@ class _LocationInfoState extends State<LocationInfo> {
                                       style: TextStyles.stylewhiteboldDefault,
                                     ),
                                     onPressed: () {
-                                      AppCubit.get(context).getpharmacies(
-                                          id: int.parse(widget.id.toString()),
-                                          area: area.text,
-                                          locality: locality.text,
-                                          street: stateController.text);
+                                      // AppCubit.get(context).getpharmacies(
+                                      //     id: int.parse(widget.id.toString()),
+                                      //     area: area.text,
+                                      //     locality: locality.text,
+                                      //     street: stateController.text);
+                                      AppCubit.get(context)
+                                          .getFilteredPharmaciesByMedicineIdmodel(
+                                              MedicineId: widget.id);
+
                                       print(area.text +
                                           locality.text +
                                           stateController.text);
@@ -256,10 +262,12 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
     required this.locality,
     required this.area,
     required this.stateController,
+    required this.id,
   });
   final TextEditingController locality;
   final TextEditingController area;
   final TextEditingController stateController;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -281,12 +289,15 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PharmasyScreen()));
+                        builder: (context) => const loadingData()));
 
-                profileCubit.filterPharmacyByLocalityAndStateAndArea(
-                    locality: locality.text,
-                    area: area.text,
-                    state: stateController.text);
+                AppCubit.get(context)
+                    .getPharmaciesByMedicineIdmodel(MedicineId: id);
+
+                // profileCubit.filterPharmacyByLocalityAndStateAndArea(
+                //     locality: locality.text,
+                //     area: area.text,
+                //     state: stateController.text);
               },
             ),
           ),

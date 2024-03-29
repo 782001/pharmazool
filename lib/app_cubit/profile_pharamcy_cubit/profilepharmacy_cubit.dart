@@ -15,8 +15,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
     emit(GetPressPositionProfileLoading());
     await Geolocator.getCurrentPosition().then((currentP) {
       pressPosition = currentP;
-      print(
-          "pressPosition: $pressPosition");
+      print("pressPosition: $pressPosition");
       linkLocationController =
           TextEditingController(text: "تم تحديد موقع الصيدلية بنحاح");
       emit(GetPressPositionProfileSuccess());
@@ -100,18 +99,22 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
     emit(FilterPharmacyByLocalityAndStateAndAreaLoading());
     try {
       pharmacyModelData?.data?.forEach((element) {
+        print(filteredList?.length);
+        print("in locality");
         if (locality.isEmpty && area.isEmpty && state.isEmpty) {
-          filteredList?.add(element);
+          print(filteredList?.length);
+          filteredList?.add(element); //
         } else {
           if (element.state?.name?.contains(state) ?? false) {
+          //
             print("in state the state is $state");
             if (element.locality?.contains(locality) ?? false) {
               print("in locality the input is $locality");
               print("locality ${element.area} and $area");
-
+              print(filteredList?.length); //
               if (element.area?.contains(area) ?? false) {
                 print("in locality");
-
+  //
                 filteredList?.add(element);
               }
             }

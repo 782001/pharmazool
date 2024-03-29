@@ -2,6 +2,7 @@ import 'package:pharmazool/constants_widgets/utils/log_out_methode.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/custom/signout_widget.dart';
 import 'package:pharmazool/src/core/network/local/cashhelper.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PatientLayout extends StatefulWidget {
@@ -86,7 +87,7 @@ class _PatientLayoutState extends State<PatientLayout> {
               //   (Route<dynamic> route) => false,
               // );
         await      CashHelper.RemoveData(key: 'uId').then((value) {
-                print(token);
+                print(Patienttoken);
                 if (value) {
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -99,8 +100,8 @@ class _PatientLayoutState extends State<PatientLayout> {
               });
               // LogOut(context);
               setState(() {
-                userName = '';
-                token = '';
+                PatientuserName = '';
+                Patienttoken = '';       uId = null;
               });
             },
           );
