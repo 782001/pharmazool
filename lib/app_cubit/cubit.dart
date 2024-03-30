@@ -11,6 +11,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
 import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
+import 'package:pharmazool/src/core/constant/app_constant.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 import 'package:pharmazool/repo/services.dart';
@@ -206,6 +207,10 @@ class AppCubit extends Cubit<AppStates> {
       DoctoruserName = response.data['userName'];
       Doctortoken = response.data['token'];
       print("sucsess${response.data['title']}");
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeLayoutDoctor()));
+      secureStorage.write(
+          key: SecureStorageKey.doctorLicense, value: licenseId);
       emit(DoctorLoginSuccesState());
     } on DioException catch (error) {
       if (error.response != null) {
@@ -232,22 +237,46 @@ class AppCubit extends Cubit<AppStates> {
 
   void resetPassword(
       {required String phonenumber,
-      required String password,
+      required String newPassword,
       required String licenceId,
       required String pharmacyName,
-      required int type}) {
-    DioHelper.postData(url: resetPasswordEndPoint, data: {
-      "phoneNumber": phonenumber,
-      "licenseId": licenceId,
-      "pharmacyName": pharmacyName,
-      "type": type,
-      "newPassword": password
-    }).then((value) {
+      required context,
+      required int type}) async {
+    try {
+      final response =
+          await DioHelper.postData(url: resetPasswordEndPoint, data: {
+        "phoneNumber": phonenumber,
+        "licenseId": licenceId,
+        "pharmacyName": pharmacyName,
+        "type": type,
+        "newPassword": newPassword
+      });
+
+      ResetResponseText = response.data;
+      print("sucsess$ResetResponseText");
+      showmydialog(context, ResetResponseText!, Icons.lock_open);
       emit(AppResetPasswordSuccesState());
-    }).catchError((error) {
-      print(error.toString());
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          showmydialog(context, errorMessage, Icons.warning);
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+      }
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
       emit(AppResetPasswordErrorState());
-    });
+    }
   }
 
   Future<bool> checkpharmacy(String licId, String name) async {
@@ -280,8 +309,8 @@ class AppCubit extends Cubit<AppStates> {
   void patientRegister({
     required String username,
     required String phone,
-    required String password,
-    required int type,
+    // required String password,
+    // required int type,
     required context,
   }) async {
     emit(AppRegisterLoadingState());
@@ -293,7 +322,7 @@ class AppCubit extends Cubit<AppStates> {
         'phone': phone,
         'email': 'hossam2@gmail.com',
         'userName': username,
-        'password': password,
+        // 'password': password,
         // 'licenseId': 'sdas5445',
         // 'type': '$type'
       });
@@ -549,7 +578,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetPharmaciesByMedicineLoadingState());
 
     await DioHelper.getData(
-            url: "PharmacyMedicine/GetPharmaciesByMedicineId/$MedicineId")
+            url: "$getPharmaciesByMedicineIDEndPoint$MedicineId")
         .then((value) {
       List<dynamic> data = value.data;
       List<GetPharmaciesByMedicineModel> pharmacies = data
@@ -607,7 +636,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetFilteredPharmaciesByMedicineLoadingState());
 
     await DioHelper.getData(
-            url: "PharmacyMedicine/GetPharmaciesByMedicineId/$MedicineId")
+            url: "$getPharmaciesByMedicineIDEndPoint$MedicineId")
         .then((value) async {
       List<dynamic> data = value.data;
       List<GetPharmaciesByMedicineModel> pharmacies = data

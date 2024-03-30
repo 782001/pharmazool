@@ -42,11 +42,7 @@ class HomeScreenDoctor1 extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     ShowWidget(
-                      child: SearchBar1(() {
-                        cubit.getsearchmedicine('');
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SearchScreenDoctor()));
-                      }),
+                      child: SearchBar1(id:2),
                     ),
                     Expanded(
                       child: Container(

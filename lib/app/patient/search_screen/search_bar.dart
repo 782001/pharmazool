@@ -1,10 +1,11 @@
 // ignore: must_be_immutable
+import 'package:pharmazool/files_doctor/nav_screens/search_screen.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/strings.dart';
 
 class SearchBar1 extends StatefulWidget {
-  void Function() function;
-  SearchBar1(this.function, {super.key});
+  final int id;
+  const SearchBar1({required this.id, super.key});
 
   @override
   State<SearchBar1> createState() => _SearchBar1State();
@@ -12,7 +13,6 @@ class SearchBar1 extends StatefulWidget {
 
 class _SearchBar1State extends State<SearchBar1> {
   TextEditingController searchController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +29,32 @@ class _SearchBar1State extends State<SearchBar1> {
                     height: context.height * 0.09,
                     child: TextField(
                       controller: searchController,
-                      readOnly: true,
-                      onTap: () => widget.function(),
-                      style: TextStyle(fontFamily: cairoFont,
+                      readOnly: false,
+                      onTap: () {
+                        // widget.id == 1
+                        //     ? Navigator.of(context).push(
+                        //         MaterialPageRoute(
+                        //           builder: (context) => SearchScreenPatient(
+                        //             search: searchController.text,
+                        //           ),
+                        //         ),
+                        //       )
+                        //     : Navigator.of(context).push(
+                        //         MaterialPageRoute(
+                        //           builder: (context) => SearchScreenDoctor(
+                        //             search: searchController.text,
+                        //           ),
+                        //         ),
+                        //       );
+                      },
+                      style: TextStyle(
+                        fontFamily: cairoFont,
                         fontSize: context.height * 0.015,
                       ),
                       decoration: InputDecoration(
                         hintText: 'بحث',
-                        hintStyle: TextStyle(fontFamily: cairoFont,
+                        hintStyle: TextStyle(
+                          fontFamily: cairoFont,
                           color: const Color(0xFF949098),
                           fontSize: context.height * 0.018,
                         ),
@@ -57,9 +75,8 @@ class _SearchBar1State extends State<SearchBar1> {
                         ),
                         suffixIcon: InkWell(
                           onTap: () async {
-                            searchController.text =
-                                await AppCubit.get(context)
-                                    .getGalleryImageForPatientSearch();
+                            searchController.text = await AppCubit.get(context)
+                                .getGalleryImageForPatientSearch();
                           },
                           child: Image.asset(
                             scan,

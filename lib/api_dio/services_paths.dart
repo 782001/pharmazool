@@ -10,6 +10,7 @@ String? DoctoruserName;
 String? PatientuserName;
 String? Doctortoken;
 String? Patienttoken;
+String? ResetResponseText;
 PharmacyModelData? pharmacyModelData;
 PharmacyModel? pharmamodel;
 PharmacyModel? PharmaciesByMedicineIdmodel;
@@ -307,7 +308,7 @@ String putPharmacyByIdEndPoint = 'Pharmacy/:id';
 String deletePharmacyByIDEndPoint = 'Pharmacy/:id';
 
 //PharmaciesByMedicine
-String getPharmaciesByMedicineIDEndPoint = 'PharmacyMedicine/GetPharmaciesByMedicineId/:id';
+String getPharmaciesByMedicineIDEndPoint = 'PharmacyMedicine/GetPharmaciesByMedicineId/';
 
 // 11- pharmacymedicine endpoints:
 String getPharmacyMedicineEndPoint =

@@ -185,9 +185,10 @@ class _PatientRegisterState extends State<PatientRegister> {
                                 });
                                 AppCubit.get(context).patientRegister(
                                     username: namEController.text.toString(),
-                                    password: 'no password',
+                                    // password: 'no password',
                                     phone: phonEController.text,
-                                    type: 1, context: context);
+                                    // type: 1, 
+                                    context: context);
                               }
                             },
                             child: const AutoSizeText(

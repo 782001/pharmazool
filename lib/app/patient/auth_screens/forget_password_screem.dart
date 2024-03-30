@@ -18,14 +18,14 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
     var newpasswordcontroller = TextEditingController();
     var formkey = GlobalKey<FormState>();
     return BlocConsumer<AppCubit, AppStates>(listener: (context, state) {
-      if (state is AppResetPasswordSuccesState) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const TabBarScreen_patient()));
-        showmydialog(context, 'تم تغيير كلمة المرور', Icons.lock_open);
-      }
-      if (state is AppResetPasswordErrorState) {
-        showmydialog(context, 'رقم الهاتف غير صحيح', Icons.warning);
-      }
+      // if (state is AppResetPasswordSuccesState) {
+      //   Navigator.of(context).push(MaterialPageRoute(
+      //       builder: (context) => const TabBarScreen_patient()));
+      //   showmydialog(context, 'تم تغيير كلمة المرور', Icons.lock_open);
+      // }
+      // if (state is AppResetPasswordErrorState) {
+      //   showmydialog(context, 'رقم الهاتف غير صحيح', Icons.warning);
+      // }
     }, builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
@@ -118,8 +118,9 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                         onPressed: () {
                           if (formkey.currentState!.validate()) {
                             AppCubit.get(context).resetPassword(
+                                context: context,
                                 phonenumber: phonecontroller.text,
-                                password: newpasswordcontroller.text,
+                                newPassword: newpasswordcontroller.text,
                                 licenceId: '',
                                 pharmacyName: '',
                                 type: 1);

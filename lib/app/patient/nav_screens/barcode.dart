@@ -116,7 +116,7 @@ class _BarCodeState extends State<BarCode> {
               const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
-                  'لتقليل نسبة الخطأ و حفظ الوقت و الجهد يمكنك البحث عن طريق الماسح الضوئي باستخدام صورة من الوسائط او الكاميرا',
+                  "لتقليل نسبة الخطأ وحفظ الوقت والجهد يمكنك اضافة الادوية عن طريق الماسح الضوئي اعلاه",
                   style: TextStyles.styleblack15,
                   textAlign: TextAlign.center,
                 ),

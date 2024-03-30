@@ -68,8 +68,9 @@ class _DoctorSigninState extends State<DoctorSignin> {
         if (state is DoctorLoginSuccesState) {
           setState(() {
             isloading = false;
+          
           });
-          showmycheckdialog(context);
+          print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv$state");
         }
         // if (state is DoctorLoginErrorState) {
         //   setState(() {
@@ -171,11 +172,15 @@ class _DoctorSigninState extends State<DoctorSignin> {
                               //     password: passwordController.text);
                               // HomeLayoutDoctor()));
 
-                              DoctorLoginCheckdialog(
-                                  context,
-                                  emailController.text,
-                                  passwordController.text,
-                                  isloading);
+                              showDialog(
+                                context: context,
+                                builder: (context) => DoctorLoginCheckDialog(
+                                  emailController: emailController,
+                                  passwordController: passwordController,
+                                  isloading: isloading,
+                                
+                                ),
+                              );
                             }
                           },
                           child: const AutoSizeText(
@@ -295,149 +300,323 @@ class _DoctorSigninState extends State<DoctorSignin> {
       );
 }
 
-DoctorLoginCheckdialog(
-    context, emailController, passwordController, isloading) {
-  var cubit = AppCubit.get(context);
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController licenceidcontroller = TextEditingController();
-  var formKey = GlobalKey<FormState>();
-  showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            content: SizedBox(
-              width: 400,
-              height: 400,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Form(
-                  key: formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            controller: namecontroller,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (namecontoller) {
-                              if (namecontoller!.isEmpty) {
-                                return 'برجاء ادخال اسم الصيدلية';
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'اسم الصيدلية',
-                              labelText: 'أسم الصيدلية',
-                              labelStyle: TextStyles.styleblackDefault,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            controller: licenceidcontroller,
-                            keyboardType: TextInputType.number,
-                            validator: (licenceController) {
-                              if (licenceController!.isEmpty) {
-                                return 'برجاء ادخال رقم الرخصة';
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              BlocProvider.of<ProfilePharmacyCubit>(context)
-                                  .licenceID = value;
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'رقم الرخصة',
-                              labelText: 'رقم الرخصة',
-                              labelStyle: TextStyles.styleblackDefault,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        isloading
-                            ? loading()
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const AutoSizeText(
-                                          'رجوع',
-                                          style: TextStyles.styleblackBold15,
-                                        )),
-                                  ),
-                                  const SizedBox(width: 30),
-                                  Expanded(
-                                    child: ElevatedButton(
-                                        onPressed: () async {
-                                          if (formKey.currentState!
-                                              .validate()) {
-                                            AppCubit.get(context).Doctorlogin(
-                                              username: emailController,
-                                              password: passwordController,
-                                              licenseId:
-                                                  licenceidcontroller.text,
-                                              pharmacyName: namecontroller.text,
-                                              context: context,
-                                            );
-                                            if (DoctorLoginSuccesState ==
-                                                true) {
-                                              cubit.getDoctorPharmacy(
-                                                  licenceId:
-                                                      licenceidcontroller.text);
-                                              secureStorage.write(
-                                                  key: SecureStorageKey
-                                                      .doctorLicense,
-                                                  value:
-                                                      licenceidcontroller.text);
-                                              Navigator.of(context).pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const HomeLayoutDoctor()));
-                                            }
+// DoctorLoginCheckdialog(
+//     context, emailController, passwordController, isloading) {
+//   var cubit = AppCubit.get(context);
+//   TextEditingController namecontroller = TextEditingController();
+//   TextEditingController licenceidcontroller = TextEditingController();
+//   var formKey = GlobalKey<FormState>();
+//   showDialog(
+//       context: context,
+//       builder: (context) => AlertDialog(
+//             content: SizedBox(
+//               width: 400,
+//               height: 400,
+//               child: Directionality(
+//                 textDirection: TextDirection.rtl,
+//                 child: Form(
+//                   key: formKey,
+//                   child: SingleChildScrollView(
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Padding(
+//                           padding: const EdgeInsets.all(12.0),
+//                           child: TextFormField(
+//                             controller: namecontroller,
+//                             keyboardType: TextInputType.emailAddress,
+//                             validator: (namecontoller) {
+//                               if (namecontoller!.isEmpty) {
+//                                 return 'برجاء ادخال اسم الصيدلية';
+//                               } else {
+//                                 return null;
+//                               }
+//                             },
+//                             decoration: const InputDecoration(
+//                               hintText: 'اسم الصيدلية',
+//                               labelText: 'أسم الصيدلية',
+//                               labelStyle: TextStyles.styleblackDefault,
+//                             ),
+//                           ),
+//                         ),
+//                         Padding(
+//                           padding: const EdgeInsets.all(12.0),
+//                           child: TextFormField(
+//                             controller: licenceidcontroller,
+//                             keyboardType: TextInputType.number,
+//                             validator: (licenceController) {
+//                               if (licenceController!.isEmpty) {
+//                                 return 'برجاء ادخال رقم الرخصة';
+//                               } else {
+//                                 return null;
+//                               }
+//                             },
+//                             onChanged: (value) {
+//                               BlocProvider.of<ProfilePharmacyCubit>(context)
+//                                   .licenceID = value;
+//                             },
+//                             decoration: const InputDecoration(
+//                               hintText: 'رقم الرخصة',
+//                               labelText: 'رقم الرخصة',
+//                               labelStyle: TextStyles.styleblackDefault,
+//                             ),
+//                           ),
+//                         ),
+//                         const SizedBox(height: 30),
+//                         isloading
+//                             ? loading()
+//                             : Row(
+//                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                 children: [
+//                                   Expanded(
+//                                     child: ElevatedButton(
+//                                         onPressed: () {
+//                                           Navigator.pop(context);
+//                                         },
+//                                         child: const AutoSizeText(
+//                                           'رجوع',
+//                                           style: TextStyles.styleblackBold15,
+//                                         )),
+//                                   ),
+//                                   const SizedBox(width: 30),
+//                                   Expanded(
+//                                     child: ElevatedButton(
+//                                         onPressed: () async {
+//                                           if (formKey.currentState!
+//                                               .validate()) {
+//                                             AppCubit.get(context).Doctorlogin(
+//                                               username: emailController,
+//                                               password: passwordController,
+//                                               licenseId:
+//                                                   licenceidcontroller.text,
+//                                               pharmacyName: namecontroller.text,
+//                                               context: context,
+//                                             );
+//                                             if (DoctorLoginSuccesState ==
+//                                                 true) {
+//                                               cubit.getDoctorPharmacy(
+//                                                   licenceId:
+//                                                       licenceidcontroller.text);
+//                                               secureStorage.write(
+//                                                   key: SecureStorageKey
+//                                                       .doctorLicense,
+//                                                   value:
+//                                                       licenceidcontroller.text);
+//                                               Navigator.of(context).pushReplacement(
+//                                                   MaterialPageRoute(
+//                                                       builder: (context) =>
+//                                                           const HomeLayoutDoctor()));
+//                                             }
 
-                                            // if (await cubit.checkpharmacy(
-                                            //     licenceidcontroller.text,
-                                            //     namecontroller.text)) {
-                                            //   cubit.getDoctorPharmacy(
-                                            //       licenceId:
-                                            //           licenceidcontroller.text);
-                                            //   // ignore: use_build_context_synchronously
-                                            //   secureStorage.write(
-                                            //       key: SecureStorageKey.doctorLicense,
-                                            //       value: licenceidcontroller.text);
-                                            //   Navigator.of(context).pushReplacement(
-                                            //       MaterialPageRoute(
-                                            //           builder: (context) =>
-                                            //               const HomeLayoutDoctor()));
-                                            // } else {
-                                            //   // ignore: use_build_context_synchronously
-                                            //   showmydialog(
-                                            //       context,
-                                            //       'البيانات غير صحيحة',
-                                            //       Icons.warning);
-                                            // }
-                                          }
-                                        },
-                                        child: const AutoSizeText(
-                                          'تأكيد ',
-                                          style: TextStyles.styleblackBold15,
-                                        )),
-                                  ),
-                                ],
-                              ),
-                      ],
+//                                             // if (await cubit.checkpharmacy(
+//                                             //     licenceidcontroller.text,
+//                                             //     namecontroller.text)) {
+//                                             //   cubit.getDoctorPharmacy(
+//                                             //       licenceId:
+//                                             //           licenceidcontroller.text);
+//                                             //   // ignore: use_build_context_synchronously
+//                                             //   secureStorage.write(
+//                                             //       key: SecureStorageKey.doctorLicense,
+//                                             //       value: licenceidcontroller.text);
+//                                             //   Navigator.of(context).pushReplacement(
+//                                             //       MaterialPageRoute(
+//                                             //           builder: (context) =>
+//                                             //               const HomeLayoutDoctor()));
+//                                             // } else {
+//                                             //   // ignore: use_build_context_synchronously
+//                                             //   showmydialog(
+//                                             //       context,
+//                                             //       'البيانات غير صحيحة',
+//                                             //       Icons.warning);
+//                                             // }
+//                                           }
+//                                         },
+//                                         child: const AutoSizeText(
+//                                           'تأكيد ',
+//                                           style: TextStyles.styleblackBold15,
+//                                         )),
+//                                   ),
+//                                 ],
+//                               ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ));
+// }
+
+class DoctorLoginCheckDialog extends StatefulWidget {
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  bool isloading;
+
+
+  DoctorLoginCheckDialog({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+    required this.isloading,
+
+  });
+
+  @override
+  _DoctorLoginCheckDialogState createState() => _DoctorLoginCheckDialogState();
+}
+
+class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController licenceIdController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    var cubit = AppCubit.get(context);
+
+    return AlertDialog(
+      surfaceTintColor: Colors.white,
+      content: SizedBox(
+        width: 400,
+        height: 400,
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: TextFormField(
+                      controller: nameController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (namecontoller) {
+                        if (namecontoller!.isEmpty) {
+                          return 'برجاء ادخال اسم الصيدلية';
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'اسم الصيدلية',
+                        labelText: 'أسم الصيدلية',
+                        labelStyle: TextStyles.styleblackDefault,
+                      ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: TextFormField(
+                      controller: licenceIdController,
+                      keyboardType: TextInputType.number,
+                      validator: (licenceController) {
+                        if (licenceController!.isEmpty) {
+                          return 'برجاء ادخال رقم الرخصة';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (value) {
+                        BlocProvider.of<ProfilePharmacyCubit>(context)
+                            .licenceID = value;
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'رقم الرخصة',
+                        labelText: 'رقم الرخصة',
+                        labelStyle: TextStyles.styleblackDefault,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  widget.isloading
+                      ? loading()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const AutoSizeText(
+                                    'رجوع',
+                                    style: TextStyles.styleblackBold15,
+                                  )),
+                            ),
+                            const SizedBox(width: 30),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        widget.isloading = true;
+                                      });
+                                      Future.delayed(
+                                              const Duration(milliseconds: 1))
+                                          .then((value) {
+                                        AppCubit.get(context).Doctorlogin(
+                                          username: widget.emailController.text,
+                                          password:
+                                              widget.passwordController.text,
+                                          licenseId: licenceIdController.text,
+                                          pharmacyName: nameController.text,
+                                          context: context,
+                                        );
+                                      }).then((value) {
+                                        {
+                                          setState(
+                                            () {
+                                              widget.isloading = false;
+                                            },
+                                          );
+                                        
+                                        }
+                                      });
+                                      // if (DoctorLoginSuccesState == true) {
+                                      // cubit.getDoctorPharmacy(
+                                      //     licenceId:
+                                      //         licenceIdController.text);
+
+                                      // }
+
+                                      // if (await cubit.checkpharmacy(
+                                      //     licenceidcontroller.text,
+                                      //     namecontroller.text)) {
+                                      //   cubit.getDoctorPharmacy(
+                                      //       licenceId:
+                                      //           licenceidcontroller.text);
+                                      //   // ignore: use_build_context_synchronously
+                                      //   secureStorage.write(
+                                      //       key: SecureStorageKey.doctorLicense,
+                                      //       value: licenceidcontroller.text);
+                                      //   Navigator.of(context).pushReplacement(
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) =>
+                                      //               const HomeLayoutDoctor()));
+                                      // } else {
+                                      //   // ignore: use_build_context_synchronously
+                                      //   showmydialog(
+                                      //       context,
+                                      //       'البيانات غير صحيحة',
+                                      //       Icons.warning);
+                                      // }
+                                    }
+                                  },
+                                  child: const AutoSizeText(
+                                    'تأكيد ',
+                                    style: TextStyles.styleblackBold15,
+                                  )),
+                            ),
+                          ],
+                        ),
+                ],
               ),
             ),
-          ));
+          ),
+        ),
+      ),
+    );
+  }
 }

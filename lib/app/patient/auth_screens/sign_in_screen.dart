@@ -200,12 +200,13 @@ class _PatientSigninState extends State<PatientSignin> {
                                     isloading = true;
                                   });
                                   Future.delayed(
-                                          const Duration(milliseconds: 2000))
+                                          const Duration(milliseconds: 1))
                                       .then((value) {
                                     AppCubit.get(context).Patientlogin(
                                         context: context,
                                         username: namEController.text,
                                         password: phonEController.text);
+                                  }).then((value) {
                                     setState(
                                       () {
                                         isloading = false;

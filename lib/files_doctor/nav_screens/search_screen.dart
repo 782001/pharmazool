@@ -13,7 +13,8 @@ import 'package:pharmazool/src/core/utils/strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class SearchScreenDoctor extends StatefulWidget {
-  const SearchScreenDoctor({super.key});
+  String? search;
+  SearchScreenDoctor({super.key, this.search});
 
   @override
   State<SearchScreenDoctor> createState() => _SearchScreenDoctorState();
@@ -43,12 +44,14 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
                       AppCubit.get(context).getsearchmedicine(value);
                     },
                     controller: searchcontroller,
-                    style: TextStyle( fontFamily: cairoFont,
+                    style: TextStyle(
+                      fontFamily: cairoFont,
                       fontSize: context.height * 0.015,
                     ),
                     decoration: InputDecoration(
                       hintText: 'بحث',
-                      hintStyle: TextStyle( fontFamily: cairoFont,
+                      hintStyle: TextStyle(
+                        fontFamily: cairoFont,
                         color: const Color(0xFF949098),
                         fontSize: context.height * 0.018,
                       ),
@@ -141,13 +144,15 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
                         imageScale: 1,
                         image: model.image!,
                         imageErrorBuilder: (context, error, stackTrace) {
-                          return Text('error occured');
+                          return const Text('error occured');
                         },
                         fit: BoxFit.fill,
                       )),
           ),
-          title: Text(model.name.toString(),
-              style:  TextStyles.styleblackBold15,),
+          title: Text(
+            model.name.toString(),
+            style: TextStyles.styleblackBold15,
+          ),
           trailing: Switch(
             value: model.status!,
             onChanged: (value) {

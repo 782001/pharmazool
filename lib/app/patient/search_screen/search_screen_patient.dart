@@ -13,7 +13,7 @@ import 'package:pharmazool/src/core/utils/strings.dart';
 
 class SearchScreenPatient extends StatefulWidget {
   String? search;
-  SearchScreenPatient({super.key, this.search = ''});
+  SearchScreenPatient({super.key, this.search});
 
   @override
   State<SearchScreenPatient> createState() => _SearchScreenPatientState();
