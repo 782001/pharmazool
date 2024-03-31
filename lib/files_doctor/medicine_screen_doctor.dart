@@ -65,7 +65,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Scaffold(
+          return Scaffold(      resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.green.withOpacity(0.7),
               elevation: 0,

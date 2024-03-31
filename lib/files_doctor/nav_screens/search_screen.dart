@@ -13,91 +13,59 @@ import 'package:pharmazool/src/core/utils/strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class SearchScreenDoctor extends StatefulWidget {
-  String? search;
-  SearchScreenDoctor({super.key, this.search});
+  // String? search;
+  final TextEditingController searchController;
+  const SearchScreenDoctor({super.key, required this.searchController});
 
   @override
   State<SearchScreenDoctor> createState() => _SearchScreenDoctorState();
 }
 
 class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
-  var searchcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(),
-          body: ConditionalBuilder(
-            fallback: (context) => Container(
-              color: Colors.white,
-              child: loading(),
-            ),
-            condition: state is! GetMedicinesByIdLoadingState,
-            builder: (context) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(children: [
-                  TextField(
-                    onSubmitted: (value) {
-                      AppCubit.get(context).getsearchmedicine(value);
-                    },
-                    controller: searchcontroller,
-                    style: TextStyle(
-                      fontFamily: cairoFont,
-                      fontSize: context.height * 0.015,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'بحث',
-                      hintStyle: TextStyle(
-                        fontFamily: cairoFont,
-                        color: const Color(0xFF949098),
-                        fontSize: context.height * 0.018,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.kGreyColor,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 8,
-                      ),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        size: context.height * 0.03,
-                        color: const Color(0xFF949098),
-                      ),
-                      suffixIcon: InkWell(
-                        onTap: () async {
-                          searchcontroller.text = await AppCubit.get(context)
-                              .getImageForSeacrhPatient();
-                        },
-                        child: Image.asset(
-                          scan,
-                          color: Colors.black,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                      child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return pharmacymedicineitem(
-                          AppCubit.get(context).searchList[index]);
-                    },
-                    itemCount: AppCubit.get(context).searchList.length,
-                  ))
-                ]),
-              );
-            },
+        return ConditionalBuilder(
+          fallback: (context) => Container(
+            color: Colors.white,
+            child: loading(),
           ),
+          condition: state is! GetMedicinesByIdLoadingState,
+          builder: (context) {
+            return ConditionalBuilder(
+              condition: AppCubit.get(context).searchList.isNotEmpty,
+              builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: context.height * .53,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return pharmacymedicineitem(
+                              AppCubit.get(context).searchList[index]);
+                        },
+                        itemCount: AppCubit.get(context).searchList.length,
+                      ),
+                    )
+                  ]),
+                );
+              },
+              fallback: (context) => Container(
+                color: Colors.white,
+                child: const Text(
+                  "لا يوجد عناصر مطابقه",
+                  style: TextStyles.styleblack15,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -161,16 +129,17 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
                     int.parse(model.id!),
                     int.parse(pharmamodel!.id!),
                     context,
-                    searchcontroller.text);
+                    widget.searchController.text);
               } else {
                 AppCubit.get(context).addsearchpharmacymedicine(
                     int.parse(model.id!),
                     int.parse(pharmamodel!.id!),
                     context,
-                    searchcontroller.text);
+                    widget.searchController.text);
               }
               setState(() {
                 model.status = value;
+                print("vvvvvvvvvvvvvvvvvvvvvv$value");
               });
             },
             activeTrackColor: Colors.lightGreenAccent,

@@ -34,7 +34,7 @@ class AppCubit extends Cubit<AppStates> {
   ];
   int doctorindex = 0;
   List doctorscreens = [
-    const HomeScreenDoctor1(),
+      HomeScreenDoctor1(),
     const HistoryScreen(),
     const BarCode(),
   ];

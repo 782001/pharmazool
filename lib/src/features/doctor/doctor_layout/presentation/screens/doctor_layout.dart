@@ -38,6 +38,7 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
             return false;
           },
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             key: key,
             appBar: AppBar(
               elevation: 0,
@@ -63,9 +64,9 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
                 onPageChanged: (index) {
                   cubit.changeBottomNAv(index, _pageController);
                 },
-                children: const [
+                children: [
                   HomeScreenDoctor1(),
-                  HistoryScreen(),
+                  const HistoryScreen(),
                 ],
               ),
             ),
@@ -91,7 +92,8 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
               LogOut(context);
               setState(() {
                 DoctoruserName = '';
-                Doctortoken = null;       uId = null;
+                Doctortoken = null;
+                uId = null;
               });
             },
           );

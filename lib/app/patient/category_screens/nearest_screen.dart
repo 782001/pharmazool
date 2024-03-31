@@ -32,7 +32,7 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Scaffold(
+          return Scaffold(      resizeToAvoidBottomInset: false,
             backgroundColor: AppColors.kGreyColor,
             appBar: AppBar(
               backgroundColor: Colors.green.withOpacity(0.7),

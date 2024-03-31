@@ -42,6 +42,7 @@ class _PatientLayoutState extends State<PatientLayout> {
             return false;
           },
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: SizedBox.expand(
               child: PageView(
                 controller: _pageController,
@@ -86,7 +87,7 @@ class _PatientLayoutState extends State<PatientLayout> {
               //   }),
               //   (Route<dynamic> route) => false,
               // );
-        await      CashHelper.RemoveData(key: 'uId').then((value) {
+              await CashHelper.RemoveData(key: 'uId').then((value) {
                 print(Patienttoken);
                 if (value) {
                   Navigator.pushAndRemoveUntil(
@@ -101,7 +102,8 @@ class _PatientLayoutState extends State<PatientLayout> {
               // LogOut(context);
               setState(() {
                 PatientuserName = '';
-                Patienttoken = '';       uId = null;
+                Patienttoken = '';
+                uId = null;
               });
             },
           );
