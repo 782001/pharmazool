@@ -117,13 +117,12 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           if (formkey.currentState!.validate()) {
-                            AppCubit.get(context).resetPassword(
+                            AppCubit.get(context).resetPasswordByPatient(
                                 context: context,
                                 phonenumber: phonecontroller.text,
                                 newPassword: newpasswordcontroller.text,
-                                licenceId: '',
-                                pharmacyName: '',
-                                type: 1);
+                              
+                                );
                           }
                         },
                         child: Container(

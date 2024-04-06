@@ -67,9 +67,12 @@ class GetDoctorGroubListErrorState extends AppStates {}
 
 //reset password states
 
-class AppResetPasswordErrorState extends AppStates {}
+class AppResetPasswordByPatientErrorState extends AppStates {}
 
-class AppResetPasswordSuccesState extends AppStates {}
+class AppResetPasswordByPatientSuccesState extends AppStates {}
+class AppResetPasswordByDoctorErrorState extends AppStates {}
+
+class AppResetPasswordByDoctorSuccesState extends AppStates {}
 
 //get pharmacies
 

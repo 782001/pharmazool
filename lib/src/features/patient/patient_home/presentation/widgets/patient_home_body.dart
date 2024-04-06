@@ -1,5 +1,6 @@
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/strings.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class PatientHomeBody extends StatefulWidget {
   const PatientHomeBody({super.key});
@@ -119,24 +120,39 @@ class _PatientHomeBodyState extends State<PatientHomeBody> {
                                   ),
                               condition: state is! GetMedicinesByIdLoadingState,
                               builder: (context) {
-                                return SizedBox(
-                                    height: context.height * 0.53,
-                                    child: ListView.separated(
-                                      separatorBuilder: (context, _) {
-                                        return const SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                      itemBuilder: (context, index) {
-                                        return medicineItem(
-                                            AppCubit.get(context)
-                                                .searchList[index],
-                                            context);
-                                      },
-                                      itemCount: AppCubit.get(context)
-                                          .searchList
-                                          .length,
-                                    ));
+                                return ConditionalBuilder(
+                                  condition: AppCubit.get(context)
+                                      .searchList
+                                      .isNotEmpty,
+                                  builder: (context) {
+                                    return SizedBox(
+                                        height: context.height * 0.53,
+                                        child: ListView.separated(
+                                          separatorBuilder: (context, _) {
+                                            return const SizedBox(
+                                              height: 10,
+                                            );
+                                          },
+                                          itemBuilder: (context, index) {
+                                            return medicineItem(
+                                                AppCubit.get(context)
+                                                    .searchList[index],
+                                                context);
+                                          },
+                                          itemCount: AppCubit.get(context)
+                                              .searchList
+                                              .length,
+                                        ));
+                                  },
+                                  fallback: (context) => Container(
+                                    color: Colors.white,
+                                    child: const Text(
+                                      "لا يوجد عناصر مطابقه",
+                                      style: TextStyles.styleblack15,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                );
                               })
                     ]),
                   );

@@ -149,6 +149,7 @@ class AddTextDoctor extends StatelessWidget {
                                     .push(MaterialPageRoute(builder: (context) {
                                   return ReceiptScreen(data);
                                 }));
+                                print(data);
                               },
                               child: const AutoSizeText(
                                 'اضافة الادوية',

@@ -34,7 +34,7 @@ class AppCubit extends Cubit<AppStates> {
   ];
   int doctorindex = 0;
   List doctorscreens = [
-      HomeScreenDoctor1(),
+    HomeScreenDoctor1(),
     const HistoryScreen(),
     const BarCode(),
   ];
@@ -235,27 +235,27 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  void resetPassword(
-      {required String phonenumber,
-      required String newPassword,
-      required String licenceId,
-      required String pharmacyName,
-      required context,
-      required int type}) async {
+  void resetByDoctorPassword({
+    required String phonenumber,
+    required String newPassword,
+    required String licenceId,
+    required String pharmacyName,
+    required context,
+  }) async {
     try {
-      final response =
-          await DioHelper.postData(url: resetPasswordEndPoint, data: {
-        "phoneNumber": phonenumber,
-        "licenseId": licenceId,
-        "pharmacyName": pharmacyName,
-        "type": type,
-        "newPassword": newPassword
-      });
+      final response = await DioHelper.postData(
+          url: resetPasswordByPharmacistEndPoint,
+          data: {
+            "phoneNumber": phonenumber,
+            "licenseId": licenceId,
+            "pharmacyName": pharmacyName,
+            "newPassword": newPassword
+          });
 
       ResetResponseText = response.data;
       print("sucsess$ResetResponseText");
       showmydialog(context, ResetResponseText!, Icons.lock_open);
-      emit(AppResetPasswordSuccesState());
+      emit(AppResetPasswordByDoctorSuccesState());
     } on DioException catch (error) {
       if (error.response != null) {
         final statusCode = error.response!.statusCode;
@@ -275,28 +275,59 @@ class AppCubit extends Cubit<AppStates> {
     } catch (error) {
       // Handle other errors
       showmydialog(context, 'حدث خطأ ما', Icons.warning);
-      emit(AppResetPasswordErrorState());
+      emit(AppResetPasswordByDoctorErrorState());
+    }
+  }
+
+  void resetPasswordByPatient({
+    required String phonenumber,
+    required String newPassword,
+    required context,
+  }) async {
+    try {
+      final response = await DioHelper.postData(
+          url: resetPasswordByPatientEndPoint,
+          data: {"phoneNumber": phonenumber, "newPassword": newPassword});
+
+      ResetResponseText = response.data;
+      print("sucsess$ResetResponseText");
+      showmydialog(context, ResetResponseText!, Icons.lock_open);
+      emit(AppResetPasswordByPatientSuccesState());
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          showmydialog(context, errorMessage, Icons.warning);
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+      }
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
+      emit(AppResetPasswordByPatientErrorState());
     }
   }
 
   Future<bool> checkpharmacy(String licId, String name) async {
-    bool isverified = false;
-    await DioHelper.getData(url: getPharmacyEndPoint).then((value) {
-      value.data['data'].forEach((element) {
-        if (element['licenceId'] == licId && element['name'] == name) {
-          isverified = true;
-          print("${element['licenceId']}licenceIdlicenceId");
-        } else {
-          print("${element['licenceId']}licenceId");
-          print("${element['name']}name");
-        }
-      });
+    bool? isverified;
+    await DioHelper.getData(url: "$GetPharmacyCheckEndPoint$licId/$name")
+        .then((value) {
+      isverified = value.data;
+      print(isverified);
       emit(DoctorCheckRegisterSuccesState());
     }).catchError((error) {
       emit(DoctorCheckRegisterErrorState());
       print("$error ggggggggggggggggggggggggggggggggggggggggggg");
     });
-    return isverified;
+    return isverified!;
   }
 
   bool naveValidArabic = false;
@@ -1076,14 +1107,16 @@ class AppCubit extends Cubit<AppStates> {
         },
       );
 
-      print('Status Code: ${response.statusCode}');
+      // print('Status Code: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         // Successful response
         data = jsonDecode(response.body);
+        // print('Status Code: ${response.body}');
         emit(UpdatePharmacyMedicineSuccesState());
       } else {
         // Handle other status codes (e.g., 500 Internal Server Error)
+        print('Status Code: ${response.body}');
         print('Error: ${response.reasonPhrase}');
         emit(UpdatePharmacyMedicineErrorState());
       }

@@ -35,12 +35,12 @@ class DoctorForgetButton extends StatelessWidget {
         child: TextButton(
           onPressed: () {
             if (forgetKey.currentState!.validate()) {
-              AppCubit.get(context).resetPassword(context: context,
+              AppCubit.get(context).resetByDoctorPassword(context: context,
                 phonenumber: phoneController.text,
                 newPassword: newPasswordController.text,
                 licenceId: licenseController.text,
                 pharmacyName: pharmacyNameController.text,
-                type: 0,
+             
               );
             }
           },

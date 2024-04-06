@@ -104,12 +104,12 @@ class _EditeProfileState extends State<EditeProfile> {
                     );
                     setState(() {});
                   },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'برجاء ادخال بيانات';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return 'برجاء ادخال بيانات';
+                  //   }
+                  //   return null;
+                  // },
                   onPressCancel: () => selectedStateController.clear(),
                 ),
                 CustomSelectAreaAndLocalityTextField(
@@ -124,12 +124,12 @@ class _EditeProfileState extends State<EditeProfile> {
                     );
                     setState(() {});
                   },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'برجاء ادخال بيانات';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return 'برجاء ادخال بيانات';
+                  //   }
+                  //   return null;
+                  // },
                 ),
                 CustomSelectAreaAndLocalityTextField(
                   controller: selectedAreaController,
@@ -143,12 +143,12 @@ class _EditeProfileState extends State<EditeProfile> {
                     );
                     setState(() {});
                   },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'برجاء ادخال بيانات';
-                    }
-                    return null;
-                  },
+                  // validator: (value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return 'برجاء ادخال بيانات';
+                  //   }
+                  //   return null;
+                  // },
                 ),
                 BlocBuilder<ProfilePharmacyCubit, ProfilePharmacyState>(
                   builder: (context, state) {

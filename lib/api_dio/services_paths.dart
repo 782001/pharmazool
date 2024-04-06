@@ -227,7 +227,8 @@ String loginByPatientEndPoint = 'Authentication/LoginByPatient';
 String loginByPharmacistEndPoint = 'Authentication/LoginByPharmacist';
 String registerByPatientEndPoint = 'Authentication/RegisterByPatient';
 String registerByPharmcistEndPoint = 'Authentication/RegisterByPharmacist';
-String resetPasswordEndPoint = 'Authentication/ResetPassword';
+String resetPasswordByPatientEndPoint = 'Authentication/ResetPasswordByPatient';
+String resetPasswordByPharmacistEndPoint = 'Authentication/ResetPasswordByPharmacist';
 
 // 2- area endpoints:
 String getAreaByIdEndPoint = 'Area/:id';
@@ -306,6 +307,7 @@ String postPharmacyEndPoint = 'Pharmacy';
 String getPharmacyByIdEndPoint = 'Pharmacy/:id';
 String putPharmacyByIdEndPoint = 'Pharmacy/:id';
 String deletePharmacyByIDEndPoint = 'Pharmacy/:id';
+String GetPharmacyCheckEndPoint = 'Pharmacy/CheckIsPharmacyExist/';
 
 //PharmaciesByMedicine
 String getPharmaciesByMedicineIDEndPoint = 'PharmacyMedicine/GetPharmaciesByMedicineId/';
@@ -336,3 +338,5 @@ String postUnitEndPoint = 'Unit';
 String getUnitByIdEndPoint = 'Unit/:id';
 String putUnitByIdEndPoint = 'Unit/:id';
 String deleteUnitByIDEndPoint = 'Unit/:id';
+
+

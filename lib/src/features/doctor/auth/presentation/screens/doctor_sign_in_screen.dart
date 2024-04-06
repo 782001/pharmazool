@@ -68,7 +68,6 @@ class _DoctorSigninState extends State<DoctorSignin> {
         if (state is DoctorLoginSuccesState) {
           setState(() {
             isloading = false;
-          
           });
           print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv$state");
         }
@@ -178,7 +177,6 @@ class _DoctorSigninState extends State<DoctorSignin> {
                                   emailController: emailController,
                                   passwordController: passwordController,
                                   isloading: isloading,
-                                
                                 ),
                               );
                             }
@@ -452,13 +450,11 @@ class DoctorLoginCheckDialog extends StatefulWidget {
   final TextEditingController passwordController;
   bool isloading;
 
-
   DoctorLoginCheckDialog({
     super.key,
     required this.emailController,
     required this.passwordController,
     required this.isloading,
-
   });
 
   @override
@@ -564,6 +560,9 @@ class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
                                           pharmacyName: nameController.text,
                                           context: context,
                                         );
+                                        cubit.getDoctorPharmacy(
+                                            licenceId:
+                                                licenceIdController.text);
                                       }).then((value) {
                                         {
                                           setState(
@@ -571,14 +570,12 @@ class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
                                               widget.isloading = false;
                                             },
                                           );
-                                        
                                         }
                                       });
                                       // if (DoctorLoginSuccesState == true) {
-                                      // cubit.getDoctorPharmacy(
-                                      //     licenceId:
-                                      //         licenceIdController.text);
-
+                                      //   cubit.getDoctorPharmacy(
+                                      //       licenceId:
+                                      //           licenceIdController.text);
                                       // }
 
                                       // if (await cubit.checkpharmacy(
