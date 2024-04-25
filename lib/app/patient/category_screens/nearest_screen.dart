@@ -9,6 +9,7 @@ import 'package:pharmazool/constants_widgets/main_widgets/loadingwidget.dart';
 import 'package:pharmazool/files_doctor/nav_screens/floating_botton.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
+import 'package:pharmazool/src/core/utils/styles.dart';
 
 class NearbyPharmacies extends StatefulWidget {
   const NearbyPharmacies({super.key});
@@ -32,7 +33,7 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Scaffold(      resizeToAvoidBottomInset: false,
+          return Scaffold(
             backgroundColor: AppColors.kGreyColor,
             appBar: AppBar(
               backgroundColor: Colors.green.withOpacity(0.7),
@@ -79,7 +80,15 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
                                   child: ConditionalBuilder(
                                       condition:
                                           cubit.nearestpharmacies.isNotEmpty,
-                                      fallback: (context) => loading(),
+                                      fallback: (context) {
+                                        return const Center(
+                                          child: Text(
+                                            "نتاسف يبدو ان الدواء الذي تقوم بالبحث عنه غير متوفر في صيدليات فارمازول بالقرب من منطقتك فالوقت الحالي.  ولكن يمكننا مساعدتك  جرب البحث في منطقة اخرى.",
+                                            style: TextStyles.styleblackDefault,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      },
                                       builder: (context) {
                                         return SizedBox(
                                           width: double.infinity,

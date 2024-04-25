@@ -57,6 +57,11 @@ class PharmacyItem extends StatelessWidget {
                       style: TextStyles.styleblackbold20,
                     ),
                     AutoSizeText(
+                      model.street ?? '',
+                      maxLines: 3,
+                      style: TextStyles.styleellipsisbold15,
+                    ),
+                    AutoSizeText(
                       model.locality ?? '',
                       maxLines: 3,
                       style: TextStyles.styleellipsisbold15,

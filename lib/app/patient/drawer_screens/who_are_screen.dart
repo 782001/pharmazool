@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class WhoAreScreenPatient extends StatelessWidget {
-  const WhoAreScreenPatient({Key? key}) : super(key: key);
+  const WhoAreScreenPatient({super.key});
 
   @override
   Widget build(BuildContext context) {

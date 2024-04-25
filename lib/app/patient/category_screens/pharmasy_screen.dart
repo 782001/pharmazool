@@ -1,5 +1,5 @@
- import 'package:pharmazool/src/core/config/routes/app_imports.dart';
- 
+import 'package:pharmazool/src/core/config/routes/app_imports.dart';
+
 class PharmasyScreen extends StatelessWidget {
   const PharmasyScreen({Key? key}) : super(key: key);
 
@@ -9,7 +9,7 @@ class PharmasyScreen extends StatelessWidget {
 
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
-        return Scaffold(      resizeToAvoidBottomInset: false,
+        return Scaffold(
           backgroundColor: AppColors.kGreyColor,
           appBar: AppBar(
             backgroundColor: Colors.green.withOpacity(0.7),

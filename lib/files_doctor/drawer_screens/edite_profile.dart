@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:pharmazool/app/patient/category_screens/locationinfo.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class EditeProfile extends StatefulWidget {
@@ -88,9 +91,9 @@ class _EditeProfileState extends State<EditeProfile> {
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(50))),
-        child: SingleChildScrollView(
-          child: Form(
-            key: formkey,
+        child: Form(
+          key: formkey,
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 CustomSelectAreaAndLocalityTextField(
@@ -104,12 +107,12 @@ class _EditeProfileState extends State<EditeProfile> {
                     );
                     setState(() {});
                   },
-                  // validator: (value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return 'برجاء ادخال بيانات';
-                  //   }
-                  //   return null;
-                  // },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'برجاء ادخال بيانات';
+                    }
+                    return null;
+                  },
                   onPressCancel: () => selectedStateController.clear(),
                 ),
                 CustomSelectAreaAndLocalityTextField(
@@ -124,12 +127,12 @@ class _EditeProfileState extends State<EditeProfile> {
                     );
                     setState(() {});
                   },
-                  // validator: (value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return 'برجاء ادخال بيانات';
-                  //   }
-                  //   return null;
-                  // },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'برجاء ادخال بيانات';
+                    }
+                    return null;
+                  },
                 ),
                 CustomSelectAreaAndLocalityTextField(
                   controller: selectedAreaController,
@@ -183,9 +186,9 @@ class _EditeProfileState extends State<EditeProfile> {
                 ),
                 DefaultTextFormFieldForProblem(
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return 'برجاء ادخال بيانات';
-                    }
+                    // if (value.isEmpty) {
+                    //   return 'برجاء ادخال بيانات';
+                    // }
                   },
                   textEditingController: addressController,
                   textInputType: TextInputType.text,
@@ -212,8 +215,13 @@ class _EditeProfileState extends State<EditeProfile> {
 
                     if (state is UpdatePharmacySuccessProfileState) {
                       BlocProvider.of<AppCubit>(context)
-                          .getDoctorPharmacy(licenceId: cubit.licenceID ?? '');
-
+                          // .getDoctorPharmacy(licenceId: cubit.licenceID ?? '');
+.getPharmacyNameFromSignIn(
+                                                    PharmacyNameFromController:
+                                                        PharmacyNameFromController!,
+                                                    // licenceId:
+                                                    //     licenceidcontroller.text
+                                                  );
                       Navigator.pop(context);
                       Navigator.pop(context);
                       flutterToast(msg: 'تم تغيير بيانات الصيدلية');
@@ -227,6 +235,7 @@ class _EditeProfileState extends State<EditeProfile> {
 
                     return MaterialButton(
                       onPressed: () {
+                        // showCheckDialogToEdit(context);
                         if (formkey.currentState!.validate()) {
                           if (cubit.areaId == null ||
                               cubit.localityId == null ||
@@ -292,122 +301,143 @@ class _EditeProfileState extends State<EditeProfile> {
                 child: Form(
                   key: formKey,
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            controller: namecontroller,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (namecontoller) {
-                              if (namecontoller!.isEmpty) {
-                                return 'برجاء ادخال اسم الصيدلية';
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'اسم الصيدلية',
-                              labelText: 'أسم الصيدلية',
-                              labelStyle: TextStyles.styleblackDefault,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: TextFormField(
+                              controller: namecontroller,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (namecontoller) {
+                                if (namecontoller!.isEmpty) {
+                                  return 'برجاء ادخال اسم الصيدلية';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                hintText: 'اسم الصيدلية',
+                                labelText: 'أسم الصيدلية',
+                                labelStyle: TextStyles.styleblackDefault,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            controller: licenceidcontroller,
-                            keyboardType: TextInputType.number,
-                            validator: (licenceController) {
-                              if (licenceController!.isEmpty) {
-                                return 'برجاء ادخال رقم الرخصة';
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              BlocProvider.of<ProfilePharmacyCubit>(context)
-                                  .licenceID = value;
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'رقم الرخصة',
-                              labelText: 'رقم الرخصة',
-                              labelStyle: TextStyles.styleblackDefault,
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: TextFormField(
+                              controller: licenceidcontroller,
+                              keyboardType: TextInputType.number,
+                              validator: (licenceController) {
+                                if (licenceController!.isEmpty) {
+                                  return 'برجاء ادخال رقم الرخصة';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (value) {
+                                BlocProvider.of<ProfilePharmacyCubit>(context)
+                                    .licenceID = value;
+                              },
+                              decoration: const InputDecoration(
+                                hintText: 'رقم الرخصة',
+                                labelText: 'رقم الرخصة',
+                                labelStyle: TextStyles.styleblackDefault,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const AutoSizeText(
-                                    'رجوع',
-                                    style: TextStyles.styleblackBold15,
-                                  )),
-                            ),
-                            const SizedBox(width: 30),
-                            Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (formKey.currentState!.validate()) {
-                                      if (await cubit.checkpharmacy(
-                                          licenceidcontroller.text,
-                                          namecontroller.text)) {
-                                        cubit.getDoctorPharmacy(
-                                            licenceId:
-                                                licenceidcontroller.text);
-                                        // ignore: use_build_context_synchronously
-                                        BlocProvider.of<ProfilePharmacyCubit>(context).ahmedUpdatePharmacyOptional(
-                                            newLocation: BlocProvider.of<
-                                                        ProfilePharmacyCubit>(
-                                                    context)
-                                                .linkLocationController
-                                                .text,
-                                            phone: phoneController.text,
-                                            context: context,
-                                            areaId: BlocProvider.of<
-                                                            ProfilePharmacyCubit>(
-                                                        context)
-                                                    .areaId ??
-                                                0,
-                                            localityId: BlocProvider.of<
-                                                            ProfilePharmacyCubit>(
-                                                        context)
-                                                    .localityId ??
-                                                0,
-                                            stateId: BlocProvider.of<
-                                                            ProfilePharmacyCubit>(
-                                                        context)
-                                                    .stateId ??
-                                                0,
-                                            street:
-                                                selectedStateController.text,
-                                            address: addressController.text);
-                                      } else {
-                                        // ignore: use_build_context_synchronously
-                                        showmydialog(
-                                            context,
-                                            'البيانات غير صحيحة',
-                                            Icons.warning);
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const AutoSizeText(
+                                      'رجوع',
+                                      style: TextStyles.styleblackBold15,
+                                    )),
+                              ),
+                              const SizedBox(width: 30),
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        if (await cubit.checkpharmacy(
+                                            licenceidcontroller.text,
+                                            namecontroller.text)) {
+                                          // cubit.getDoctorPharmacy(
+                                          //     licenceId:
+                                          //         licenceidcontroller.text);
+                                          print("check Pharmacy done ");
+                                          Future.delayed(Duration.zero)
+                                              .then((value) => setState(() {
+                                                    pharmamodel = null;
+                                                  }))
+                                              .then((value) => cubit
+                                                      .getPharmacyNameFromSignIn(
+                                                    PharmacyNameFromController:
+                                                        PharmacyNameFromController!,
+                                                    // licenceId:
+                                                    //     licenceidcontroller.text
+                                                  ));
+
+                                          // ignore: use_build_context_synchronously
+                                          BlocProvider.of<
+                                                  ProfilePharmacyCubit>(context)
+                                              .ahmedUpdatePharmacyOptional(
+                                                  newLocation:
+                                                      BlocProvider
+                                                              .of<
+                                                                      ProfilePharmacyCubit>(
+                                                                  context)
+                                                          .linkLocationController
+                                                          .text,
+                                                  phone: phoneController.text,
+                                                  context: context,
+                                                  areaId: BlocProvider.of<ProfilePharmacyCubit>(
+                                                              context)
+                                                          .areaId ??
+                                                      0,
+                                                  localityId: BlocProvider.of<
+                                                                  ProfilePharmacyCubit>(
+                                                              context)
+                                                          .localityId ??
+                                                      0,
+                                                  stateId:
+                                                      BlocProvider.of<ProfilePharmacyCubit>(
+                                                                  context)
+                                                              .stateId ??
+                                                          0,
+                                                  street:
+                                                      selectedStateController
+                                                          .text,
+                                                  address:
+                                                      addressController.text);
+                                        } else {
+                                          // ignore: use_build_context_synchronously
+                                          showmydialog(
+                                              context,
+                                              'البيانات غير صحيحة',
+                                              Icons.warning);
+                                        }
                                       }
-                                    }
-                                  },
-                                  child: const AutoSizeText(
-                                    'تأكيد ',
-                                    style: TextStyles.styleblackBold15,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ],
+                                    },
+                                    child: const AutoSizeText(
+                                      'تأكيد ',
+                                      style: TextStyles.styleblackBold15,
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

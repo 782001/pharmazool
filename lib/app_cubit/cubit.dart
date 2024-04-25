@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
 import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 import 'package:pharmazool/repo/services.dart';
@@ -34,7 +35,7 @@ class AppCubit extends Cubit<AppStates> {
   ];
   int doctorindex = 0;
   List doctorscreens = [
-    HomeScreenDoctor1(),
+    const HomeScreenDoctor1(),
     const HistoryScreen(),
     const BarCode(),
   ];
@@ -52,8 +53,14 @@ class AppCubit extends Cubit<AppStates> {
       url: 'Medicine/GetAllMedicine?PageSize=40&Search=$search',
     ).then((value) {
       value.data['data'].forEach((element) {
-        if (search.isNotEmpty) {
-          searchList.add(MedicineModel.fromJson(element));
+        MedicineModel medicine = MedicineModel.fromJson(element);
+
+        // Check if the name starts with the specified character
+        if ((medicine.name!.toLowerCase().startsWith(search.toLowerCase()) ||
+                medicine.name!.startsWith(search)) &&
+            search.isNotEmpty) {
+          // If it does, add it to the list
+          searchList.add(medicine);
         }
       });
       search = '';
@@ -99,7 +106,14 @@ class AppCubit extends Cubit<AppStates> {
           'Medicine/GetMedicineByGeneric?genericId=$id&Search=$search&PageSize=15',
     ).then((value) {
       value.data['data'].forEach((element) {
-        medicinesbyId.add(MedicineModel.fromJson(element));
+        MedicineModel medicine = MedicineModel.fromJson(element);
+        // Check if the name starts with the specified character
+        if ((medicine.name!.toLowerCase().startsWith(search.toLowerCase()) ||
+                medicine.name!.startsWith(search)) &&
+            search.isNotEmpty) {
+          // If it does, add it to the list
+          medicinesbyId.add(medicine);
+        }
       });
       emit(SearchGenericMedicinePatientSuccesState());
     }).catchError((error) {
@@ -115,7 +129,12 @@ class AppCubit extends Cubit<AppStates> {
           'Medicine/GetMedicineByGeneric?genericId=$id&PageSize=15&Search=$search',
     ).then((value) {
       value.data['data'].forEach((element) {
-        medicinesbyId.add(MedicineModel.fromJson(element));
+        MedicineModel medicine = MedicineModel.fromJson(element);
+        // Check if the name starts with the specified character
+        if (medicine.name!.startsWith(search)) {
+          // If it does, add it to the list
+          medicinesbyId.add(medicine);
+        }
       });
       updatestatus(medicinesbyId);
       emit(GetMedicinesByIdSuccesState());
@@ -207,6 +226,9 @@ class AppCubit extends Cubit<AppStates> {
       DoctoruserName = response.data['userName'];
       Doctortoken = response.data['token'];
       print("sucsess${response.data['title']}");
+      getPharmacyNameFromSignIn(PharmacyNameFromController: pharmacyName);
+      PharmacyNameFromController = pharmacyName;
+      print("$PharmacyNameFromController 00000000000");
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const HomeLayoutDoctor()));
       secureStorage.write(
@@ -481,12 +503,16 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   List<String> streetAllPharmacy = [];
-  void getpharmacies(
-      {int? id, String? area, String? locality, String? street}) {
+  void getpharmacies({
+    int? id,
+    String? area,
+    String? locality,
+    String? street,
+  }) {
     getCurrentLocation();
     nearestpharmacies = [];
     emit(GetPharmaciesLoadingState());
-    DioHelper.getData(url: getPharmacyEndPoint).then((value) {
+    DioHelper.getData(url: "Pharmacy").then((value) {
       pharmacyModelData = PharmacyModelData.fromJson(value.data);
       // to Store all pharmacy
       pharmacyModelData?.data?.forEach((element) {
@@ -494,108 +520,17 @@ class AppCubit extends Cubit<AppStates> {
         // to Store All Street Pharmaces
         streetAllPharmacy.add(element.street ?? '');
       });
-      // lets go to filter List Pharmacy
-      // if (localityModel != null ||
-      //     areaModel != null ||
-      //     streetAllPharmacy.isEmpty) {
-      //   pharmacyModelData?.data?.forEach((pharmacyElement) {
-      //     if (pharmacyElement.locality == locality) {
-      //       filteredpharmacyList = [];
-      //       filteredpharmacyList?.add(pharmacyElement);
-      //     }else{
-      //       print("filteredpharmacyList is $filteredpharmacyList");
-      //      }
-      //   });
-      // }
 
-      // to get nearby List pharmacy by location
-      // for (GetPharmaciesByMedicineModel pharmacyItem in pharmacyModelData?.data ?? []) {
-      //   if (pharmacyItem.latitude!= '' || pharmacyItem.longitude != '') {
-      //     var distance = Geolocator.distanceBetween(
-      //       double.parse(pharmacyItem.latitude ?? '0.0'),
-      //       double.parse(pharmacyItem.longitude ?? '0.0'),
-      //       position?.latitude ?? 0.0,
-      //       position?.longitude ?? 0.0,
-      //     );
-
-      //     if (distance <= 199909) {
-      //       nearestpharmacies.add(
-      //         pharmacyItem,
-      //       );
-      //     }
+      // for (PharmacyModel pharmacy in pharmacyModelData!.data!) {
+      //   if (pharmacy.name == PharmacyNameFromController) {
+      //     pharmamodel = pharmacy;
+      //     print("${pharmamodel!.id}================");
+      //     emit(GetPharmaciesSuccesState());
+      //     return;
       //   }
       // }
 
-      // pharmacyModelData?.data?.forEach(
-      //   (element) {
-      //     print(element.address);
-      //   },
-      // );
-      // print("****************");
-      // value.data['data'].forEach((element) {
-      //   element['pharmacyMedicines'].forEach((pharmacieselement) {
-      //     if (pharmacieselement['medicineId'] == id) {
-      //       pharmacyList.add(PharmacyModel.fromJson(element));
-      //       if (element['latitude'] != null) {
-      //         double distance = calculateDistance(
-      //             myLat,
-      //             mylong,
-      //             double.parse(element['latitude']),
-      //             double.parse(element['longitude']));
-      //         print(distance.toInt());
-      //         if (distance.toInt() < 5000) {
-      //           /*  pharmaciesmarkers.add(
-      //             Marker(
-      //               markerId: MarkerId(element['name']),
-      //               position: LatLng(double.parse(element['latitude']),
-      //                   double.parse(element['longitude'])),
-      //               infoWindow:
-      //                   InfoWindow(onTap: () {}, title: element['name']),
-      //             ),
-      //           );*/
-      //           nearestpharmacies.add(PharmacyModel(
-      //               address: element['address'],
-      //               area: element['area']['name'],
-      //               street: element['street'],
-      //               id: element['id'].toString(),
-      //               distance: distance.toInt(),
-      //               licenseId: element['licenceId'],
-      //               locality: element['locality']['name'],
-      //               name: element['name'],
-      //               phone: element['phone'],
-      //               medicines: element['pharmacyMedicines']));
-      //           nearestpharmacies
-      //               .sort((a, b) => a.distance!.compareTo(b.distance!));
-      //         } else {
-      //           return;
-      //         }
-      //       }
-      //     }
-      //   });
-      // });
-      // if (area.isNotEmpty) {
-      //   checkarea = !checkarea;
-      //   pharmacyList.forEach((element) {
-      //     if (locality.isEmpty) {
-      //       if (element.area == area) {
-      //         filteredpharmacyList.add(element);
-      //       }
-      //     } else {
-      //       if (element.locality == locality && element.area == area) {
-      //         if (street.isNotEmpty) {
-      //           if (element.street == street) {
-      //             filteredpharmacyList.add(element);
-      //           } else {
-      //             return;
-      //           }
-      //         } else {
-      //           filteredpharmacyList.add(element);
-      //         }
-      //       }
-      //     }
-      //   });
-      // }
-      // print(pharmacyList.length);
+      print("${pharmamodel!.id}================");
       emit(GetPharmaciesSuccesState());
     }).catchError((error) {
       print(error);
@@ -603,13 +538,58 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void getPharmaciesByMedicineIdmodel({required String? MedicineId}) async {
+  void getPharmacyNameFromSignIn(
+      {int? id,
+      String? area,
+      String? locality,
+      String? street,
+      required String PharmacyNameFromController}) {
+    getCurrentLocation();
+    nearestpharmacies = [];
+    emit(GetPharmaciesLoadingState());
+    DioHelper.getData(url: "Pharmacy?Search=$PharmacyNameFromController")
+        .then((value) {
+      pharmacyModelData = PharmacyModelData.fromJson(value.data);
+      // to Store all pharmacy
+      pharmacyModelData?.data?.forEach((element) {
+        pharmacyList.add(element);
+        // to Store All Street Pharmaces
+        streetAllPharmacy.add(element.street ?? '');
+      });
+
+      // Clear previous data
+      // pharmamodel = null;
+      // Find the pharmacy with matching name
+      for (PharmacyModel pharmacy in pharmacyModelData!.data!) {
+        if (pharmacy.name == PharmacyNameFromController) {
+          pharmamodel = pharmacy;
+          print("${pharmamodel!.id}================");
+          emit(GetPharmaciesSuccesState());
+          return;
+        }
+      }
+      // // Create PharmacyModel instances
+      // pharmamodel = pharmacyModelData!.data![index];
+      print("${pharmamodel!.id}================");
+      emit(GetPharmaciesSuccesState());
+    }).catchError((error) {
+      print(error);
+      emit(GetPharmaciesErrorState());
+    });
+  }
+
+  void getPharmaciesByMedicineIdmodel(
+      {required String? MedicineId,
+      String? localityName,
+      String? areaName,
+      String? stateName}) async {
     PharmaciesByMedicineIdList = [];
     getCurrentLocation();
     emit(GetPharmaciesByMedicineLoadingState());
 
     await DioHelper.getData(
-            url: "$getPharmaciesByMedicineIDEndPoint$MedicineId")
+            url:
+                "$getPharmaciesByMedicineIDEndPoint$MedicineId?localityName=$localityName&areaName=$areaName&stateName=$stateName")
         .then((value) {
       List<dynamic> data = value.data;
       List<GetPharmaciesByMedicineModel> pharmacies = data
@@ -1188,10 +1168,15 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetDoctorPharmacyLoadingState());
     DioHelper.getData(url: getPharmacyEndPoint).then((value) {
       value.data['data'].forEach((element) {
+        print("${pharmamodel!.id}================");
         if (element['licenceId'] == licenceId) {
           pharmamodel = PharmacyModel.fromJson(element);
+          print("${pharmamodel!.id}================");
         }
+        pharmamodel = PharmacyModel.fromJson(element);
+        print("${pharmamodel!.id}================");
       });
+
       /*pharmamodel!.medicines!.forEach((element) {
         productstatusid.add(element['productStatusId']);
         mediciensid.add(element['medicineId']);

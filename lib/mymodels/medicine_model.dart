@@ -31,8 +31,10 @@ class MedicineModel {
     name = json['name'].toString();
     desc = json['description'];
     manufacturerName = json['manufacturer']['name'];
+
     image = json['image'];
     status = false;
+
     categoryId = json['genericId'].toString();
     originCountryName = json['originCountryName'];
     pharmacyMedicines = json['pharmacyMedicines'];

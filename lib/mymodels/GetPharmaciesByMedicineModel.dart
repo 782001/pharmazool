@@ -19,24 +19,24 @@ class GetPharmaciesByMedicineModel {
   final int? stateId;
 
   GetPharmaciesByMedicineModel({
-     this.id,
-     this.name,
-     this.licenceId,
-     this.email,
-     this.mobile,
-     this.phone,
-     this.address,
-     this.location,
-     this.workTime,
-     this.street,
-     this.block,
-     this.longitude,
-     this.latitude,
-     this.areaId,
-     this.localityId,
-     this.stateId,
-     this.area,
-     this.locality,
+    this.id,
+    this.name,
+    this.licenceId,
+    this.email,
+    this.mobile,
+    this.phone,
+    this.address,
+    this.location,
+    this.workTime,
+    this.street,
+    this.block,
+    this.longitude,
+    this.latitude,
+    this.areaId,
+    this.localityId,
+    this.stateId,
+    this.area,
+    this.locality,
   });
 
   factory GetPharmaciesByMedicineModel.fromJson(Map<String?, dynamic> json) {
@@ -57,8 +57,8 @@ class GetPharmaciesByMedicineModel {
       areaId: json['areaId'],
       localityId: json['localityId'],
       stateId: json['stateId'],
-      area: json['area'],
-      locality: json['locality'],
+      area: json['area']["name"],
+      locality: json['locality']["name"],
     );
   }
 }

@@ -54,7 +54,7 @@ class ConfirmEdit extends StatelessWidget {
                             ),
                             const Text(
                               ':موقع الصيدلية',
-                            style: TextStyles.styleblackbold25,
+                              style: TextStyles.styleblackbold25,
                             ),
                           ],
                         ),
@@ -63,12 +63,12 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 loc,
-                               style: TextStyles.styleblackBold18,
+                                style: TextStyles.styleblackBold18,
                               ),
                             ),
                             const Text(
                               ':رابط الخدمات',
-                            style: TextStyles.styleblackbold25,
+                              style: TextStyles.styleblackbold25,
                             ),
                           ],
                         ),
@@ -77,11 +77,13 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 phone,
-                                style: TextStyles.styleblackBold18, ),
+                                style: TextStyles.styleblackBold18,
+                              ),
                             ),
                             const Text(
                               ':رقم التليفون',
-                          style: TextStyles.styleblackbold25,  ),
+                              style: TextStyles.styleblackbold25,
+                            ),
                           ],
                         ),
                         // Row(
@@ -105,11 +107,13 @@ class ConfirmEdit extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 licence,
-                                  style: TextStyles.styleblackBold18,),
+                                style: TextStyles.styleblackBold18,
+                              ),
                             ),
                             const Text(
                               ':رقم الرخصة',
-                         style: TextStyles.stylewhitebold25, ),
+                              style: TextStyles.stylewhitebold25,
+                            ),
                           ],
                         ),
                       ],
@@ -137,7 +141,7 @@ class ConfirmEdit extends StatelessWidget {
                     ),
                     child: const Text(
                       "تعديل",
-                style: TextStyles.stylewhitebold20,
+                      style: TextStyles.stylewhitebold20,
                     ),
                   ),
                 ),
@@ -161,7 +165,7 @@ class ConfirmEdit extends StatelessWidget {
                     ),
                     child: const Text(
                       "حفظ",
-                                 style: TextStyles.stylewhitebold20,
+                      style: TextStyles.stylewhitebold20,
                     ),
                   ),
                 ),

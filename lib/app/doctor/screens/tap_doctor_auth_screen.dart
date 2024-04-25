@@ -9,7 +9,7 @@ import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import 'doctor_sign_up_screen.dart';
 
 class TabBarScreen_doctor extends StatefulWidget {
-  const TabBarScreen_doctor({Key? key}) : super(key: key);
+  const TabBarScreen_doctor({super.key});
 
   @override
   _TabBarScreen_doctorState createState() => _TabBarScreen_doctorState();
@@ -19,6 +19,7 @@ class _TabBarScreen_doctorState extends State<TabBarScreen_doctor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

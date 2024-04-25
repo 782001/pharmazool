@@ -7,7 +7,7 @@ import 'package:pharmazool/constants_widgets/utils/media_query_values.dart';
 import '../../../constants_widgets/utils/app_theme_colors.dart';
 
 class OnBoardingScreen extends StatelessWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+  const OnBoardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +57,14 @@ class OnBoardingScreen extends StatelessWidget {
                         color: Colors.white30,
                       ),
                       child: TextButton(
-                          onPressed: ()  {
+                          onPressed: () {
                             Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return const PatientDoctorScreen();
-        }),
-        (Route<dynamic> route) => false,
-      );
-                         
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return const PatientDoctorScreen();
+                              }),
+                              (Route<dynamic> route) => false,
+                            );
                           },
                           child: const AutoSizeText(
                             'البدء',

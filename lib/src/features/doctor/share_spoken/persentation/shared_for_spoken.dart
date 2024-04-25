@@ -10,7 +10,7 @@ class SharedForSpoken extends StatelessWidget {
   TextEditingController explainYourProblemController = TextEditingController();
   GlobalKey<FormState> reportKey = GlobalKey<FormState>();
 
-  SharedForSpoken({Key? key}) : super(key: key);
+  SharedForSpoken({super.key});
 
   @override
   Widget build(BuildContext context) {

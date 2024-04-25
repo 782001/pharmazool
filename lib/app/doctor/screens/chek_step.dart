@@ -19,7 +19,7 @@ class _CheckStepState extends State<CheckStep> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
+      body: SizedBox(
         width: 600,
         height: 600,
         child: Directionality(

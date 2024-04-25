@@ -3,7 +3,7 @@ import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class WhoAreScreen extends StatelessWidget {
-  const WhoAreScreen({Key? key}) : super(key: key);
+  const WhoAreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +44,19 @@ class WhoAreScreen extends StatelessWidget {
                 "من اجل تحسين الخدمة الصحية و رفع الامكانيات",
                 textAlign: TextAlign.center,
                 textDirection: TextDirection.rtl,
-                  style: TextStyles.stylewhite20,
+                style: TextStyles.stylewhite20,
               ),
               Text(
                 "نقدم فارمازول هو صديق لمساعدة الصيدلي للوصول الى اقصى قدرة اداة  ممكنه وتوفير الوقت والمجهود",
                 textAlign: TextAlign.center,
                 textDirection: TextDirection.rtl,
-                  style: TextStyles.stylewhite20,
+                style: TextStyles.stylewhite20,
               ),
               Text(
                 "الهدف من فارمازول",
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
-                  style: TextStyles.stylewhite20,
+                style: TextStyles.stylewhite20,
               ),
               Text(
                 "تم انساء فارمازول بغرض مساعدة المرضى وتوجيههم الى اقرب صيدلية تتوفر فيها حوجتهم.",
@@ -68,7 +68,7 @@ class WhoAreScreen extends StatelessWidget {
                 "اضافة الى مساعدة كل صيدلي في ادارة الصيدلية باقل مجهود ودقة عاليه وحفظ الوقت الضائع.",
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.center,
-                  style: TextStyles.stylewhite20,
+                style: TextStyles.stylewhite20,
               ),
               SizedBox(
                 height: 30,
@@ -77,7 +77,7 @@ class WhoAreScreen extends StatelessWidget {
                 'قريب من البيت , قريب للقلب.',
                 textAlign: TextAlign.center,
                 textDirection: TextDirection.rtl,
-                  style: TextStyles.stylewhite22,
+                style: TextStyles.stylewhite22,
               ),
             ],
           ),

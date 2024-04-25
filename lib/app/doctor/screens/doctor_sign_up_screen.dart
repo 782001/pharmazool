@@ -29,16 +29,15 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
   var phonecontroller = TextEditingController();
   var licencecontroller = TextEditingController();
   var pharmacynamecontroller = TextEditingController();
-   late StreamSubscription subscription;
+  late StreamSubscription subscription;
   var isDeviceConnected = false;
   bool isAlertSet = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  
-    getConnectivity();
 
+    getConnectivity();
   }
 
   getConnectivity() =>
@@ -160,12 +159,14 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                       controller: passwordController,
                       keyboardType: TextInputType.text,
                       onTap: () {},
-                      validator: (String? value) {
+                      validator: (value) {
                         if (value!.isEmpty) {
                           return 'الرجاء ادخال كلمة المرور ';
-                        } else {
-                          return null;
                         }
+                        if (value.length < 8 || value.length > 8) {
+                          return 'برجاء ادخال 8 مدخلات فقط';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         prefixIcon: Icon(
@@ -254,7 +255,9 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
         );
       }),
     );
-  }  void showDialogBox() => showCupertinoDialog(
+  }
+
+  void showDialogBox() => showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: const Text(
@@ -289,5 +292,4 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
           ],
         ),
       );
-
 }

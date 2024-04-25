@@ -11,7 +11,7 @@ import 'package:pharmazool/mymodels/medicine_model.dart';
 import 'package:pharmazool/mymodels/pharmacy_model.dart';
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  const HistoryScreen({super.key});
 
   @override
   _HistoryScreenState createState() => _HistoryScreenState();
@@ -26,10 +26,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         elevation: 0,
         leading: Container(),
         centerTitle: true,
-        title: const AutoSizeText(
-          "History",
-          style: TextStyles.styleblack19
-        ),
+        title: const AutoSizeText("History", style: TextStyles.styleblack19),
         backgroundColor: AppColors.kGreyColor,
       ),
       body: ListView.separated(
@@ -127,7 +124,7 @@ Widget history(BuildContext context, GetPharmaciesByMedicineModel model) {
                   model.name.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style:  TextStyles.styleblackBold17,
+                  style: TextStyles.styleblackBold17,
                 ),
               )
             ],

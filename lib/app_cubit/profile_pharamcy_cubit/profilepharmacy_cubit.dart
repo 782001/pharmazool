@@ -52,6 +52,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
       required int stateId,
       required String address}) {
     pressPosition == null ? _extractLatLng(link: newLocation) : null;
+    print("${pharmamodel!.id}================");
     DioHelper.updatedata(url: 'Pharmacy/${pharmamodel?.id}', data: {
       "id": int.parse("${pharmamodel?.id}"),
       "licenceId": "${pharmamodel?.licenseId}",
@@ -106,7 +107,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
           filteredList?.add(element); //
         } else {
           if (element.state?.name?.contains(state) ?? false) {
-          //
+            //
             print("in state the state is $state");
             if (element.locality?.contains(locality) ?? false) {
               print("in locality the input is $locality");
@@ -114,7 +115,7 @@ class ProfilePharmacyCubit extends Cubit<ProfilePharmacyState> {
               print(filteredList?.length); //
               if (element.area?.contains(area) ?? false) {
                 print("in locality");
-  //
+                //
                 filteredList?.add(element);
               }
             }

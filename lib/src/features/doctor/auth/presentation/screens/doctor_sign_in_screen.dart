@@ -10,6 +10,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
+import 'package:pharmazool/src/core/utils/app_strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class DoctorSignin extends StatefulWidget {
@@ -116,9 +117,12 @@ class _DoctorSigninState extends State<DoctorSignin> {
                       validator: (passwordController) {
                         if (passwordController!.isEmpty) {
                           return 'برجاء ادخال كلمة المرور';
-                        } else {
-                          return null;
                         }
+                        if (passwordController.length < 8 ||
+                            passwordController.length > 8) {
+                          return 'برجاء ادخال 8 مدخلات فقط';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         prefixIcon: Icon(
@@ -196,7 +200,14 @@ class _DoctorSigninState extends State<DoctorSignin> {
                         } else {
                           if (await _authenticate() == true) {
                             BlocProvider.of<AppCubit>(context)
-                                .getDoctorPharmacy(licenceId: doctorLicense);
+                                // .getDoctorPharmacy(licenceId: doctorLicense);
+                                .getPharmacyNameFromSignIn(
+                              PharmacyNameFromController:
+                                  PharmacyNameFromController!,
+                              // licenceId:
+                              //     licenceidcontroller.text
+                            );
+
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(builder: (context) {
@@ -463,6 +474,7 @@ class DoctorLoginCheckDialog extends StatefulWidget {
 
 class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController licenceIdController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -560,9 +572,19 @@ class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
                                           pharmacyName: nameController.text,
                                           context: context,
                                         );
-                                        cubit.getDoctorPharmacy(
-                                            licenceId:
-                                                licenceIdController.text);
+                                        cubit.getPharmacyNameFromSignIn(
+                                          PharmacyNameFromController:
+                                              PharmacyNameFromController!,
+                                          // licenceId:
+                                          //     licenceidcontroller.text
+                                        );
+                                        // .getDoctorPharmacy(
+                                        //     licenceId:
+                                        //         licenceIdController.text);
+
+                                        // cubit.getpharmacies(
+                                        //     PharmacyNameFromController:
+                                        //     nameController.text);
                                       }).then((value) {
                                         {
                                           setState(

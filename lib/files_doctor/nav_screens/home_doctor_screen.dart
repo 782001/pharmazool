@@ -6,7 +6,7 @@ import 'package:pharmazool/src/core/utils/strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
 
 class HomeScreenDoctor1 extends StatefulWidget {
-   HomeScreenDoctor1({super.key});
+  const HomeScreenDoctor1({super.key});
 
   @override
   State<HomeScreenDoctor1> createState() => _HomeScreenDoctor1State();
@@ -15,10 +15,8 @@ class HomeScreenDoctor1 extends StatefulWidget {
 class _HomeScreenDoctor1State extends State<HomeScreenDoctor1> {
   TextEditingController searchcontroller = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-  
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
@@ -31,6 +29,7 @@ class _HomeScreenDoctor1State extends State<HomeScreenDoctor1> {
           },
           builder: (context) {
             return Scaffold(
+              //
               body: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.only(bottom: size.height * 0.12),

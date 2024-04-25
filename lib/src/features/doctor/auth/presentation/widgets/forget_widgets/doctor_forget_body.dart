@@ -63,11 +63,13 @@ class DoctorForgetBody extends StatelessWidget {
                 controller: newPasswordController,
                 labelText: "كلمة المرور الجديدة",
                 validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'كلمة المرور غير مسجلة';
-                  } else {
-                    return null;
-                  }
+                   if (value!.isEmpty) {
+                           return 'كلمة المرور غير مسجلة';
+                        }
+                        if (value.length < 8 || value.length > 8) {
+                          return 'برجاء ادخال 8 مدخلات فقط';
+                        }
+                        return null;
                 },
               ),
               const SizedBox(height: 25),

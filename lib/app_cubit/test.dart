@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class PDFreaderExample extends StatefulWidget {
+  const PDFreaderExample({super.key});
+
   @override
   _PDFreaderExampleState createState() => _PDFreaderExampleState();
 }

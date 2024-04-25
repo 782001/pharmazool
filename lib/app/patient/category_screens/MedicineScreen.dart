@@ -63,7 +63,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
     var cubit = AppCubit.get(context);
 
     return BlocBuilder<AppCubit, AppStates>(builder: (context, state) {
-      return Scaffold(      resizeToAvoidBottomInset: false,
+      return Scaffold(
         backgroundColor: AppColors.kGreyColor,
         appBar: AppBar(
           backgroundColor: Colors.green.withOpacity(0.7),

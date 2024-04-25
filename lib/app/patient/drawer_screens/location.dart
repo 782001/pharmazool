@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pharmazool/constants_widgets/utils/app_theme_colors.dart';
 
 class Location extends StatefulWidget {
-  const Location({Key? key}) : super(key: key);
+  const Location({super.key});
 
   @override
   State<Location> createState() => _LocationState();

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppString {
   static const String id = 'id';
   static const String name = 'name';
@@ -5,3 +7,4 @@ class AppString {
   
 }
  String? uId;
+    String? PharmacyNameFromController ;

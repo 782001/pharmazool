@@ -64,9 +64,9 @@ class _HomeLayoutDoctorState extends State<HomeLayoutDoctor> {
                 onPageChanged: (index) {
                   cubit.changeBottomNAv(index, _pageController);
                 },
-                children: [
+                children: const [
                   HomeScreenDoctor1(),
-                  const HistoryScreen(),
+                  HistoryScreen(),
                 ],
               ),
             ),

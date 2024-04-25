@@ -4,14 +4,13 @@ import 'package:pharmazool/src/core/utils/styles.dart';
 import 'package:pharmazool/src/features/patient/share_spoken/logic/share_spoken_cubit.dart';
 import 'package:pharmazool/src/features/patient/share_spoken/persentation/widgets/head_shared_spoken_screen.dart';
 
-
 class SharedForSpokenPatient extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController explainYourProblemController = TextEditingController();
   GlobalKey<FormState> reportKey = GlobalKey<FormState>();
 
-  SharedForSpokenPatient({Key? key}) : super(key: key);
+  SharedForSpokenPatient({super.key});
 
   @override
   Widget build(BuildContext context) {

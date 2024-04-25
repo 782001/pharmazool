@@ -7,8 +7,9 @@ import 'package:pharmazool/constants_widgets/main_widgets/loadingwidget.dart';
 class loadingData extends StatefulWidget {
   const loadingData({
     super.key,
+    required this.widget,
   });
-
+  final Widget widget;
   @override
   _loadingDataState createState() => _loadingDataState();
 }
@@ -18,10 +19,10 @@ class _loadingDataState extends State<loadingData> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   statrDelay() {
     timer = Timer(
-        const Duration(seconds: 2),
+        const Duration(seconds: 3),
         () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const PharmasyScreen()),
+              MaterialPageRoute(builder: (context) => widget.widget),
               // (Route<dynamic> route) => false,
             )
         // () => router.navigateTo(

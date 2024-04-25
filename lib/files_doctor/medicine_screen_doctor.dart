@@ -18,7 +18,7 @@ import '../constants_widgets/utils/assets_images_path.dart';
 class MedicineScreenDoctor extends StatefulWidget {
   int? id;
 
-  MedicineScreenDoctor(this.id);
+  MedicineScreenDoctor(this.id, {super.key});
 
   @override
   State<MedicineScreenDoctor> createState() => _MedicineScreenDoctorState();
@@ -65,7 +65,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Scaffold(      resizeToAvoidBottomInset: false,
+          return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.green.withOpacity(0.7),
               elevation: 0,
@@ -177,7 +177,8 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                                                 prefixIcon: Icon(
                                                   Icons.search,
                                                   size: context.height * 0.03,
-                                                  color: Color(0xFF949098),
+                                                  color:
+                                                      const Color(0xFF949098),
                                                 ),
                                                 suffixIcon: InkWell(
                                                   onTap: () {
@@ -289,13 +290,13 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                         imageScale: 1,
                         image: model.image!,
                         imageErrorBuilder: (context, error, stackTrace) {
-                          return Text('error occured');
+                          return const Text('error occured');
                         },
                         fit: BoxFit.fill,
                       )),
           ),
-          title: Text(model.name.toString(),
-              style:  TextStyles.styleblackBold15),
+          title:
+              Text(model.name.toString(), style: TextStyles.styleblackBold15),
           trailing: Switch(
             value: model.status!,
             onChanged: (value) {

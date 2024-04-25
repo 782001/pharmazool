@@ -46,6 +46,7 @@ class _LocationInfoState extends State<LocationInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         // appBar: AppBar(elevation: 0),
         body: SafeArea(
       child: Stack(
@@ -64,7 +65,7 @@ class _LocationInfoState extends State<LocationInfo> {
               SizedBox(
                 height: context.height * 15 / 100,
                 child: const Text(
-                  'حددالولايةاوالمحليةاوالمنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دواءك في الصيدليات المتوفرة بها',
+                  'حدد الولاية او المحلية او المنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دوائك في الصيدليات المتوفرة بها',
                   textAlign: TextAlign.center,
                   style: TextStyles.stylewhitebold20,
                 ),
@@ -166,11 +167,12 @@ class _LocationInfoState extends State<LocationInfo> {
                                       style: TextStyles.stylewhiteboldDefault,
                                     ),
                                     onPressed: () {
-                                      // AppCubit.get(context).getpharmacies(
-                                      //     id: int.parse(widget.id.toString()),
-                                      //     area: area.text,
-                                      //     locality: locality.text,
-                                      //     street: stateController.text);
+                                      AppCubit.get(context).getpharmacies(
+                                        id: int.parse(widget.id.toString()),
+                                        area: area.text,
+                                        locality: locality.text,
+                                        street: stateController.text,
+                                      );
                                       AppCubit.get(context)
                                           .getFilteredPharmaciesByMedicineIdmodel(
                                               MedicineId: widget.id);
@@ -178,12 +180,13 @@ class _LocationInfoState extends State<LocationInfo> {
                                       print(area.text +
                                           locality.text +
                                           stateController.text);
-
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const NearbyPharmacies()));
+                                                  const loadingData(
+                                                    widget: NearbyPharmacies(),
+                                                  )));
                                     },
                                   ),
                                 ),
@@ -289,10 +292,16 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const loadingData()));
+                        builder: (context) => const loadingData(
+                              widget: PharmasyScreen(),
+                            )));
 
                 AppCubit.get(context)
-                    .getPharmaciesByMedicineIdmodel(MedicineId: id);
+                    .getPharmaciesByMedicineIdmodel(MedicineId: id,
+                    localityName:locality.text,
+                    areaName:area.text,
+                    stateName:stateController.text,
+                    );
 
                 // profileCubit.filterPharmacyByLocalityAndStateAndArea(
                 //     locality: locality.text,

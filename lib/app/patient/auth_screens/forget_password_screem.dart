@@ -86,9 +86,11 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'كلمة المرور غير مسجلة';
-                        } else {
-                          return null;
                         }
+                        if (value.length < 8 || value.length > 8) {
+                          return 'برجاء ادخال 8 مدخلات فقط';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(
@@ -118,11 +120,10 @@ class ConfirmPasswordPatientScreen extends StatelessWidget {
                         onPressed: () {
                           if (formkey.currentState!.validate()) {
                             AppCubit.get(context).resetPasswordByPatient(
-                                context: context,
-                                phonenumber: phonecontroller.text,
-                                newPassword: newpasswordcontroller.text,
-                              
-                                );
+                              context: context,
+                              phonenumber: phonecontroller.text,
+                              newPassword: newpasswordcontroller.text,
+                            );
                           }
                         },
                         child: Container(
