@@ -66,8 +66,8 @@ class DoctorForgetBody extends StatelessWidget {
                    if (value!.isEmpty) {
                            return 'كلمة المرور غير مسجلة';
                         }
-                        if (value.length < 8 || value.length > 8) {
-                          return 'برجاء ادخال 8 مدخلات فقط';
+                        if (value.length < 8 ) {
+                          return 'برجاء ادخال 8 مدخلات أو أكثر';
                         }
                         return null;
                 },

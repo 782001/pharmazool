@@ -118,9 +118,9 @@ class _DoctorSigninState extends State<DoctorSignin> {
                         if (passwordController!.isEmpty) {
                           return 'برجاء ادخال كلمة المرور';
                         }
-                        if (passwordController.length < 8 ||
-                            passwordController.length > 8) {
-                          return 'برجاء ادخال 8 مدخلات فقط';
+                        if (passwordController.length < 8 ) {
+                    return 'برجاء ادخال 8 مدخلات أو أكثر';
+                          
                         }
                         return null;
                       },

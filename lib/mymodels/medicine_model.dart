@@ -9,6 +9,8 @@ class MedicineModel {
   String? originCountryName;
   String? image;
   bool? status;
+  String? Stringstatus;
+
   double? price;
   int? quantity;
   List? pharmacyMedicines;
@@ -24,6 +26,7 @@ class MedicineModel {
       this.originCountryName,
       this.quantity,
       this.status,
+      this.Stringstatus,
       this.pharmacyMedicines});
 
   MedicineModel.fromJson(Map<String, dynamic> json) {
@@ -33,7 +36,14 @@ class MedicineModel {
     manufacturerName = json['manufacturer']['name'];
 
     image = json['image'];
-    status = false;
+    Stringstatus = json['productStatus']["name"];
+    // status = json['productStatus']["name"];
+    print("$Stringstatus=======");
+    if (Stringstatus == "on") {
+      status = true;
+    } else {
+      status = false;
+    }
 
     categoryId = json['genericId'].toString();
     originCountryName = json['originCountryName'];
