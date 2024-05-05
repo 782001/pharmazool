@@ -44,27 +44,30 @@ class AppCubit extends Cubit<AppStates> {
     emit(changeBottomNAvState());
   }
 
-  var searchList = [];
-  void getsearchmedicine(String search) {
-    searchList = [];
+  var searchPatientList = [];
+  void getsearchmedicinePatient(String search) {
+    searchPatientList = [];
     emit(GetMedicinesByIdLoadingState());
     //get data without pagination
     DioHelper.getData(
-      url: 'Medicine/GetAllMedicine?PageSize=40&Search=$search',
+      url: 'Medicine/GetAllMedicine?Search=$search',
     ).then((value) {
       value.data['data'].forEach((element) {
         MedicineModel medicine = MedicineModel.fromJson(element);
 
         // Check if the name starts with the specified character
         if ((medicine.name!.toLowerCase().startsWith(search.toLowerCase()) ||
-                medicine.name!.startsWith(search)) &&
-            search.isNotEmpty) {
+            medicine.name!.startsWith(search) ||
+            medicine.tradeName!
+                .toLowerCase()
+                .startsWith(search.toLowerCase()) ||
+            medicine.tradeName!.startsWith(search))) {
           // If it does, add it to the list
-          searchList.add(medicine);
+          searchPatientList.add(medicine);
         }
       });
       search = '';
-      updatestatus(searchList);
+      updatestatus(searchPatientList);
       emit(GetMedicinesByIdSuccesState());
     }).catchError((error) {
       print(error);
@@ -72,7 +75,73 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  List<MedicineModel> medicinesbyId = [];
+  var searchDoctorList = [];
+  Future<void> getsearchmedicineDoctor(String search) async {
+    searchDoctorList = [];
+    emit(GetMedicinesByIdLoadingState());
+    //get data without pagination
+    await DioHelper.getData(
+      url: 'Medicine/GetAllMedicine?Search=$search',
+    )
+        .then((value) {
+          value.data['data'].forEach((element) {
+            MedicineModel medicine = MedicineModel.fromJson(element);
+
+            // Check if the name starts with the specified character
+            if ((medicine.name!
+                    .toLowerCase()
+                    .startsWith(search.toLowerCase()) ||
+                medicine.name!.startsWith(search) ||
+                medicine.tradeName!
+                    .toLowerCase()
+                    .startsWith(search.toLowerCase()) ||
+                medicine.tradeName!.startsWith(search))) {
+              // If it does, add it to the list
+              searchDoctorList.add(medicine);
+            }
+          });
+        })
+        .then((value) async => {
+              await DioHelper.getData(
+                url:
+                    'PharmacyMedicine/GetMedicinesByPharmacyId/${int.parse(pharmamodel!.id!)}',
+              ).then((value) {
+                List<dynamic> secondApiResponse = value.data;
+                print(secondApiResponse);
+                print("${value.data[0]["name"]}======");
+                // Update status based on matching names
+                for (var medicine in searchDoctorList) {
+                  var matchingItems = secondApiResponse
+                      .where(
+                        (item) => item['name'] == medicine.name,
+                      )
+                      .toList();
+                  print("${medicine.name}   medicine.namemedicine.name");
+                  if (matchingItems.isNotEmpty) {
+                    medicine.status = true;
+                    print("${medicine.status}  medicine.statusmedicine.status");
+                  } else {
+                    medicine.status = false;
+                    print("${medicine.status}  medicine.statusmedicine.status");
+                  }
+                }
+
+                search = '';
+                // updatestatus(searchDoctorList);
+                emit(GetMedicinesByIdSuccesState());
+              }).catchError((error) {
+                print(error);
+                emit(GetMedicinesByIdErrorState());
+              })
+            })
+        .catchError((error) {
+          print(error);
+          emit(GetMedicinesByIdErrorState());
+        });
+  }
+
+  List<MedicineModel> medicinesPatientbyId = [];
+  List<MedicineModel> medicinesDoctorbyId = [];
 
   // void getmedicinebyrepo({int id = 0, String search = ''}) async {
   // medicinesbyId = [];
@@ -99,20 +168,22 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void searchGenericMedicinePatient(String search, int id) {
-    medicinesbyId = [];
+    medicinesPatientbyId = [];
     emit(SearchGenericMedicinePatientLoadingState());
     DioHelper.getData(
-      url:
-          'Medicine/GetMedicineByGeneric?genericId=$id&Search=$search&PageSize=15',
+      url: 'Medicine/GetMedicineByGeneric?genericId=$id&Search=$search',
     ).then((value) {
       value.data['data'].forEach((element) {
         MedicineModel medicine = MedicineModel.fromJson(element);
         // Check if the name starts with the specified character
         if ((medicine.name!.toLowerCase().startsWith(search.toLowerCase()) ||
-                medicine.name!.startsWith(search)) &&
-            search.isNotEmpty) {
+            medicine.name!.startsWith(search) ||
+            medicine.tradeName!
+                .toLowerCase()
+                .startsWith(search.toLowerCase()) ||
+            medicine.tradeName!.startsWith(search))) {
           // If it does, add it to the list
-          medicinesbyId.add(medicine);
+          medicinesPatientbyId.add(medicine);
         }
       });
       emit(SearchGenericMedicinePatientSuccesState());
@@ -121,35 +192,183 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void getMedicinesByID({int id = 0, String search = ""}) {
-    medicinesbyId = [];
+  void getMedicinesDoctorByID({int id = 0, String search = ""}) async {
+    medicinesDoctorbyId = [];
+    emit(GetMedicinesByIdLoadingState());
+
+    try {
+      // Make the first API call
+      var value = await DioHelper.getData(
+        url:
+            'Medicine/GetMedicineByGeneric?genericId=$id&PageSize=15&Search=$search',
+      );
+
+      // Process the response
+      List<dynamic> data = value.data['data'];
+      for (var element in data) {
+        MedicineModel medicine = MedicineModel.fromJson(element);
+        if ((medicine.name!.toLowerCase().startsWith(search.toLowerCase()) ||
+            medicine.name!.startsWith(search) ||
+            medicine.tradeName!
+                .toLowerCase()
+                .startsWith(search.toLowerCase()) ||
+            medicine.tradeName!.startsWith(search))) {
+          medicinesDoctorbyId.add(medicine);
+        }
+      }
+
+      // Make the second API call
+      value = await DioHelper.getData(
+        url:
+            'PharmacyMedicine/GetMedicinesByPharmacyId/${int.parse(pharmamodel!.id!)}',
+      );
+
+      // Process the second response and update medicine status
+      List<dynamic> secondApiResponse = value.data;
+      for (var medicine in medicinesDoctorbyId) {
+        var matchingItems =
+            secondApiResponse.where((item) => item['name'] == medicine.name);
+        medicine.status = matchingItems.isNotEmpty;
+      }
+
+      // Update UI state
+      search = '';
+      emit(GetMedicinesByIdSuccesState());
+    } catch (error) {
+      print("$error errorrrr");
+      emit(GetMedicinesByIdErrorState());
+    }
+  }
+
+  void getMedicinesPatientByID({int id = 0, String search = ""}) {
+    medicinesPatientbyId = [];
     emit(GetMedicinesByIdLoadingState());
     DioHelper.getData(
-      url:
-          'Medicine/GetMedicineByGeneric?genericId=$id&PageSize=15&Search=$search',
+      url: 'Medicine/GetMedicineByGeneric?genericId=$id&Search=$search',
     ).then((value) {
       value.data['data'].forEach((element) {
         MedicineModel medicine = MedicineModel.fromJson(element);
         // Check if the name starts with the specified character
-        if (medicine.name!.startsWith(search)) {
+        print(id);
+        if ((medicine.name!.toLowerCase().startsWith(search.toLowerCase()) ||
+            medicine.name!.startsWith(search) ||
+            medicine.tradeName!
+                .toLowerCase()
+                .startsWith(search.toLowerCase()) ||
+            medicine.tradeName!.startsWith(search))) {
           // If it does, add it to the list
-          medicinesbyId.add(medicine);
+          medicinesPatientbyId.add(medicine);
         }
       });
-      updatestatus(medicinesbyId);
+      updatestatus(medicinesPatientbyId);
       emit(GetMedicinesByIdSuccesState());
     }).catchError((error) {
       emit(GetMedicinesByIdErrorState());
     });
   }
 
-  void medicinelistpagination(
-      {var medicinelist, int? page, int? id, String? search}) async {
-    emit(IncreamentOfMedicineListLoadingState());
-    GetMedicineData data = GetMedicineData();
-    try {
-      await data.medicinelistpaginationRepo(medicinelist, id!, page!, search!);
+  // void medicinelistpagination(
+  //     {List<MedicineModel>? medicinelist,
+  //     int? page,
+  //     int? id,
+  //     String? search}) async {
+  //   emit(IncreamentOfMedicineListLoadingState());
+  //   GetMedicineData data = GetMedicineData();
+  //   try {
+  //     // await data.medicinelistpaginationRepo(medicinelist!, id!, page!, search!);
+  //     if (medicinelist!.isNotEmpty) {
+  //       await DioHelper.getData(
+  //         url:
+  //             'Medicine/GetMedicineByGeneric?genericId=$id&PageIndex=$page&PageSize=15',
+  //       ).then((value) {
+  //         value.data['data'].forEach((element) {
+  //           emit(IncreamentOfMedicineListLoadingState());
+  //           medicinelist.add(MedicineModel.fromJson(element));
+  //         });
+  //       }).then((value) async {
+  //         await DioHelper.getData(
+  //           url:
+  //               'PharmacyMedicine/GetMedicinesByPharmacyId/${int.parse(pharmamodel!.id!)}',
+  //         ).then((value) {
+  //           List<dynamic> secondApiResponse = value.data;
+  //           print(secondApiResponse);
+  //           print("${value.data[0]["name"]}======");
 
+  //           // Update status based on matching names
+  //           for (var medicine in medicinelist) {
+  //             var matchingItems = secondApiResponse
+  //                 .where(
+  //                   (item) => item['name'] == medicine.name,
+  //                 )
+  //                 .toList();
+  //             print("${medicine.name}   medicine.namemedicine.name");
+  //             if (matchingItems.isNotEmpty) {
+  //               medicine.status = true;
+  //               print("${medicine.status}  medicine.statusmedicine.status");
+  //             } else {
+  //               medicine.status = false;
+  //               print("${medicine.status}  medicine.statusmedicine.status");
+  //             }
+  //           }
+
+  //           search = '';
+  //           emit(IncreamentOfMedicineListSuccesState());
+  //         }).catchError((error) {
+  //           print(error);
+  //         });
+  //       }).catchError((error) {
+  //         print(error.toString());
+  //       });
+  //     }
+  //     // emit(IncreamentOfMedicineListSuccesState());
+  //     // return medicinelist;
+  //   } catch (error) {
+  //     print(error);
+  //     emit(IncreamentOfMedicineListErrorState());
+  //   }
+  // }
+
+  void medicinelistpagination({
+    List<MedicineModel>? medicinelist,
+    int? page,
+    int? id,
+    String? search,
+  }) async {
+    emit(IncreamentOfMedicineListLoadingState());
+
+    try {
+      if (medicinelist!.isEmpty) {
+        // If the list is empty, return early
+        return;
+      }
+
+      // Make the first API call to get medicines
+      var value = await DioHelper.getData(
+        url:
+            'Medicine/GetMedicineByGeneric?genericId=$id&PageIndex=$page&PageSize=15',
+      );
+
+      // Process the response and add medicines to the list
+      List<dynamic> data = value.data['data'];
+      for (var element in data) {
+        medicinelist.add(MedicineModel.fromJson(element));
+      }
+
+      // Make the second API call to get pharmacy medicines
+      value = await DioHelper.getData(
+        url:
+            'PharmacyMedicine/GetMedicinesByPharmacyId/${int.parse(pharmamodel!.id!)}',
+      );
+
+      // Process the second response and update medicine status
+      List<dynamic> secondApiResponse = value.data;
+      for (var medicine in medicinelist) {
+        var matchingItems =
+            secondApiResponse.where((item) => item['name'] == medicine.name);
+        medicine.status = matchingItems.isNotEmpty;
+      }
+
+      search = '';
       emit(IncreamentOfMedicineListSuccesState());
     } catch (error) {
       print(error);
@@ -937,7 +1156,7 @@ class AppCubit extends Cubit<AppStates> {
           actions: [
             TextButton(
                 onPressed: () {
-                  getsearchmedicine(search);
+                  getsearchmedicinePatient(search);
                   Navigator.pop(context);
                 },
                 child: const Text(
@@ -976,7 +1195,7 @@ class AppCubit extends Cubit<AppStates> {
           actions: [
             TextButton(
                 onPressed: () {
-                  getsearchmedicine(search);
+                  getsearchmedicineDoctor(search);
                   Navigator.pop(context);
                 },
                 child: const Text(
@@ -1107,6 +1326,68 @@ class AppCubit extends Cubit<AppStates> {
     }
     return data;
   }
+
+  void updatepharmacymedicineItem(
+      List<String> pharmacymedicine, String type, context) async {
+    // Map<String, dynamic> data = {};
+    var search = jsonEncode(pharmacymedicine);
+    print(search);
+    emit(UpdatePharmacyMedicineLoadingState());
+    try {
+      final response = await http.put(
+        Uri.parse(
+            'http://amc007-001-site8.etempurl.com/api/PharmacyMedicine/$type/${pharmamodel!.id}'),
+        body: search,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      // print('Status Code: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            title: Text(
+              response.body.contains("هذا المنتج ليس موجود داخل الصيدلية")
+                  ? "هذا المنتج ليس موجود داخل الصيدلية"
+                  : response.body.contains("تم اضافة هذا المنتج بنجاح")
+                      ? "تم اضافة هذا المنتج بنجاح"
+                      : response.body.contains("تم حذف هذا المنتج بنجاح")
+                          ? "تم حذف هذا المنتج بنجاح"
+                          : response.body ?? "",
+              style: TextStyles.styleblackDefault,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    // getsearchmedicine(pharmacymedicine);
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'تم',
+                    style: TextStyles.styleblackDefault,
+                  ))
+            ],
+          ),
+        );
+
+        emit(UpdatePharmacyMedicineSuccesState());
+      } else {
+        // Handle other status codes (e.g., 500 Internal Server Error)
+        print('Status Code: ${response.body}');
+        print('Error: ${response.reasonPhrase}');
+        emit(UpdatePharmacyMedicineErrorState());
+      }
+    } catch (error) {
+      // Handle other errors
+      print('Unexpected Error: $error');
+      emit(UpdatePharmacyMedicineErrorState());
+    }
+  }
+
   /*
    try {
       await DioHelper.updatedata(

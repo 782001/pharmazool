@@ -14,7 +14,7 @@ class PatientHomeGridViewItem extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => MedicineScreen(
                     int.parse(homeIconsModel.genericid.toString()))));
-        AppCubit.get(context).getMedicinesByID(id: homeIconsModel.genericid!);
+        AppCubit.get(context).getMedicinesPatientByID(id: homeIconsModel.genericid!);
       },
       child: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),

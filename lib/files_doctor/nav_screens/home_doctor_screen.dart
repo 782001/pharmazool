@@ -59,11 +59,12 @@ class _HomeScreenDoctor1State extends State<HomeScreenDoctor1> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           onSubmitted: (value) {
-                            AppCubit.get(context).getsearchmedicine(value);
+                            AppCubit.get(context)
+                                .getsearchmedicineDoctor(value);
                           },
-                          onChanged: (value) {
-                            AppCubit.get(context).getsearchmedicine(value);
-                          },
+                          // onChanged: (value) {
+                          //   AppCubit.get(context).getsearchmedicine(value);
+                          // },
                           controller: searchcontroller,
                           style: TextStyle(
                             fontFamily: cairoFont,
@@ -96,8 +97,8 @@ class _HomeScreenDoctor1State extends State<HomeScreenDoctor1> {
                                 searchcontroller.text =
                                     await AppCubit.get(context)
                                         .getImageForSeacrhPatient();
-                                AppCubit.get(context)
-                                    .getsearchmedicine(searchcontroller.text);
+                                AppCubit.get(context).getsearchmedicineDoctor(
+                                    searchcontroller.text);
                               },
                               child: Image.asset(
                                 scan,
@@ -153,11 +154,17 @@ homeGridViewDoctor(HomeIconsModel homeIconModel, BuildContext context) {
     onTap: () {
       mycategorymodel = homeIconModel;
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MedicineScreenDoctor(
-                  int.parse(homeIconModel.genericid.toString()))));
-      AppCubit.get(context).getMedicinesByID(id: homeIconModel.genericid!);
+        context,
+        MaterialPageRoute(
+          builder: (context) => MedicineScreenDoctor(
+            int.parse(
+              homeIconModel.genericid.toString(),
+            ),
+          ),
+        ),
+      );
+      AppCubit.get(context)
+          .getMedicinesDoctorByID(id: homeIconModel.genericid!);
     },
     child: SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),

@@ -31,14 +31,18 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
     if (controller.position.pixels == controller.position.maxScrollExtent) {
       page++;
       print(widget.id);
-      print(AppCubit.get(context).medicinesbyId.length);
+      print(AppCubit.get(context).medicinesDoctorbyId.length);
       print(page);
-      AppCubit.get(context).medicinelistpagination(
-          id: widget.id!,
-          medicinelist: AppCubit.get(context).medicinesbyId,
-          page: page,
-          search: searchcontrolled.text);
-      print('yess');
+      Future.delayed(Duration.zero)
+          .then((value) => AppCubit.get(context).medicinelistpagination(
+              id: widget.id!,
+              medicinelist: AppCubit.get(context).medicinesDoctorbyId,
+              page: page,
+              search: searchcontrolled.text))
+          .then((value) {
+        setState() {}
+      });
+      print('scrolllistener    yess');
     } else {
       print(controller.position.pixels);
     }
@@ -66,6 +70,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.green.withOpacity(0.7),
               elevation: 0,
@@ -151,7 +156,7 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                                                     context.height * 0.015,
                                               ),
                                               onSubmitted: (value) {
-                                                cubit.getMedicinesByID(
+                                                cubit.getMedicinesDoctorByID(
                                                     id: widget.id!,
                                                     search:
                                                         searchcontrolled.text);
@@ -212,11 +217,12 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
                                                       controller: controller,
                                                       children: [
                                                         ...List.generate(
-                                                            cubit.medicinesbyId
+                                                            cubit
+                                                                .medicinesDoctorbyId
                                                                 .length,
                                                             (index) {
                                                           return pharmacymedicineitem(
-                                                            cubit.medicinesbyId[
+                                                            cubit.medicinesDoctorbyId[
                                                                 index],
                                                           );
                                                         }),
@@ -300,15 +306,23 @@ class _MedicineScreenDoctorState extends State<MedicineScreenDoctor> {
           trailing: Switch(
             value: model.status!,
             onChanged: (value) {
+              print(model.id);
               if (model.status == true) {
-                AppCubit.get(context).deletepharmacymedicine(
-                    int.parse(model.id!),
-                    int.parse(pharmamodel!.id!),
-                    context,
-                    widget.id!);
+                // AppCubit.get(context).deletesearchpharmacymedicine(
+                //     int.parse(model.id!),
+                //     int.parse(pharmamodel!.id!),
+                //     context,
+                //     widget.searchController.text);
+                AppCubit.get(context).updatepharmacymedicineItem([model.name!],
+                    'ChangeStatusAllMedicineByPharmacyId', context);
               } else {
-                AppCubit.get(context).addpharmacymedicine(int.parse(model.id!),
-                    int.parse(pharmamodel!.id!), context, widget.id!);
+                AppCubit.get(context).updatepharmacymedicineItem(
+                    [model.name!], 'UpdateMedicineStateInPharmacy', context);
+                // AppCubit.get(context).addsearchpharmacymedicine(
+                //     int.parse(model.id!),
+                //     int.parse(pharmamodel!.id!),
+                //     context,
+                //     widget.searchController.text);
               }
               setState(() {
                 model.status = value;

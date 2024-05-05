@@ -54,7 +54,7 @@ class _SearchScreenPatientState extends State<SearchScreenPatient> {
               child: Column(children: [
                 TextField(
                   onSubmitted: (value) {
-                    AppCubit.get(context).getsearchmedicine(value);
+                    AppCubit.get(context).getsearchmedicinePatient(value);
                   },
                   controller: searchcontroller,
                   style: TextStyle(
@@ -115,9 +115,9 @@ class _SearchScreenPatientState extends State<SearchScreenPatient> {
                         },
                         itemBuilder: (context, index) {
                           return medicineItem(
-                              AppCubit.get(context).searchList[index], context);
+                              AppCubit.get(context).searchPatientList[index], context);
                         },
-                        itemCount: AppCubit.get(context).searchList.length,
+                        itemCount: AppCubit.get(context).searchPatientList.length,
                       ));
                     })
               ]),

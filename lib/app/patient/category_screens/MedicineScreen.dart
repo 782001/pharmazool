@@ -33,7 +33,7 @@ class _MedicineScreenState extends State<MedicineScreen> {
       page++;
       AppCubit.get(context).medicinelistpagination(
           id: widget.id!,
-          medicinelist: AppCubit.get(context).medicinesbyId,
+          medicinelist: AppCubit.get(context).medicinesPatientbyId,
           page: page,
           search: searchcontrolled.text);
 
@@ -211,10 +211,11 @@ class _MedicineScreenState extends State<MedicineScreen> {
                                                   controller: controller,
                                                   children: [
                                                     ...List.generate(
-                                                        cubit.medicinesbyId
+                                                        cubit
+                                                            .medicinesPatientbyId
                                                             .length, (index) {
                                                       return medicineItem(
-                                                          cubit.medicinesbyId[
+                                                          cubit.medicinesPatientbyId[
                                                               index],
                                                           context);
                                                     }),

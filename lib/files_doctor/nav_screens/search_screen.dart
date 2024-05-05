@@ -35,7 +35,7 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
           condition: state is! GetMedicinesByIdLoadingState,
           builder: (context) {
             return ConditionalBuilder(
-              condition: AppCubit.get(context).searchList.isNotEmpty,
+              condition: AppCubit.get(context).searchDoctorList.isNotEmpty,
               builder: (context) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -48,9 +48,9 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           return pharmacymedicineitem(
-                              AppCubit.get(context).searchList[index]);
+                              AppCubit.get(context).searchDoctorList[index]);
                         },
-                        itemCount: AppCubit.get(context).searchList.length,
+                        itemCount: AppCubit.get(context).searchDoctorList.length,
                       ),
                     )
                   ]),
@@ -125,17 +125,21 @@ class _SearchScreenDoctorState extends State<SearchScreenDoctor> {
             value: model.status!,
             onChanged: (value) {
               if (model.status == true) {
-                AppCubit.get(context).deletesearchpharmacymedicine(
-                    int.parse(model.id!),
-                    int.parse(pharmamodel!.id!),
-                    context,
-                    widget.searchController.text);
+                // AppCubit.get(context).deletesearchpharmacymedicine(
+                //     int.parse(model.id!),
+                //     int.parse(pharmamodel!.id!),
+                //     context,
+                //     widget.searchController.text);
+                AppCubit.get(context).updatepharmacymedicineItem([model.name!],
+                    'ChangeStatusAllMedicineByPharmacyId', context);
               } else {
-                AppCubit.get(context).addsearchpharmacymedicine(
-                    int.parse(model.id!),
-                    int.parse(pharmamodel!.id!),
-                    context,
-                    widget.searchController.text);
+                AppCubit.get(context).updatepharmacymedicineItem([model.name!],
+                    'UpdateMedicineStateInPharmacy', context);
+                // AppCubit.get(context).addsearchpharmacymedicine(
+                //     int.parse(model.id!),
+                //     int.parse(pharmamodel!.id!),
+                //     context,
+                //     widget.searchController.text);
               }
               setState(() {
                 model.status = value;

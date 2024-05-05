@@ -118,9 +118,8 @@ class _DoctorSigninState extends State<DoctorSignin> {
                         if (passwordController!.isEmpty) {
                           return 'برجاء ادخال كلمة المرور';
                         }
-                        if (passwordController.length < 8 ) {
-                    return 'برجاء ادخال 8 مدخلات أو أكثر';
-                          
+                        if (passwordController.length < 8) {
+                          return 'برجاء ادخال 8 مدخلات أو أكثر';
                         }
                         return null;
                       },
@@ -572,12 +571,7 @@ class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
                                           pharmacyName: nameController.text,
                                           context: context,
                                         );
-                                        cubit.getPharmacyNameFromSignIn(
-                                          PharmacyNameFromController:
-                                              PharmacyNameFromController!,
-                                          // licenceId:
-                                          //     licenceidcontroller.text
-                                        );
+
                                         // .getDoctorPharmacy(
                                         //     licenceId:
                                         //         licenceIdController.text);
@@ -586,13 +580,17 @@ class _DoctorLoginCheckDialogState extends State<DoctorLoginCheckDialog> {
                                         //     PharmacyNameFromController:
                                         //     nameController.text);
                                       }).then((value) {
-                                        {
-                                          setState(
-                                            () {
-                                              widget.isloading = false;
-                                            },
-                                          );
-                                        }
+                                        cubit.getPharmacyNameFromSignIn(
+                                          PharmacyNameFromController:
+                                              PharmacyNameFromController!,
+                                          // licenceId:
+                                          //     licenceidcontroller.text
+                                        );
+                                        setState(
+                                          () {
+                                            widget.isloading = false;
+                                          },
+                                        );
                                       });
                                       // if (DoctorLoginSuccesState == true) {
                                       //   cubit.getDoctorPharmacy(

@@ -41,10 +41,10 @@ class _PatientHomeBodyState extends State<PatientHomeBody> {
                     child: Column(children: [
                       TextField(
                         onSubmitted: (value) {
-                          AppCubit.get(context).getsearchmedicine(value);
+                          AppCubit.get(context).getsearchmedicinePatient(value);
                         },
                         onChanged: (value) {
-                          AppCubit.get(context).getsearchmedicine(value);
+                          AppCubit.get(context).getsearchmedicinePatient(value);
                         },
                         controller: searchController,
                         style: TextStyle(
@@ -78,8 +78,8 @@ class _PatientHomeBodyState extends State<PatientHomeBody> {
                               searchController.text =
                                   await AppCubit.get(context)
                                       .getGalleryImageForPatientSearch();
-                              AppCubit.get(context)
-                                  .getsearchmedicine(searchController.text);
+                              AppCubit.get(context).getsearchmedicinePatient(
+                                  searchController.text);
                             },
                             child: Image.asset(
                               scan,
@@ -122,7 +122,7 @@ class _PatientHomeBodyState extends State<PatientHomeBody> {
                               builder: (context) {
                                 return ConditionalBuilder(
                                   condition: AppCubit.get(context)
-                                      .searchList
+                                      .searchPatientList
                                       .isNotEmpty,
                                   builder: (context) {
                                     return SizedBox(
@@ -136,11 +136,11 @@ class _PatientHomeBodyState extends State<PatientHomeBody> {
                                           itemBuilder: (context, index) {
                                             return medicineItem(
                                                 AppCubit.get(context)
-                                                    .searchList[index],
+                                                    .searchPatientList[index],
                                                 context);
                                           },
                                           itemCount: AppCubit.get(context)
-                                              .searchList
+                                              .searchPatientList
                                               .length,
                                         ));
                                   },

@@ -39,6 +39,34 @@ class GetMedicineData {
         value.data['data'].forEach((element) {
           requiredlist.add(MedicineModel.fromJson(element));
         });
+        // DioHelper.getData(
+        //   url:
+        //       'PharmacyMedicine/GetMedicinesByPharmacyId/${int.parse(pharmamodel!.id!)}',
+        // ).then((value) {
+        //   List<dynamic> secondApiResponse = value.data;
+        //   print(secondApiResponse);
+        //   print("${value.data[0]["name"]}======");
+        //   // Update status based on matching names
+        //   for (var medicine in requiredlist) {
+        //     var matchingItems = secondApiResponse
+        //         .where(
+        //           (item) => item['name'] == medicine.name,
+        //         )
+        //         .toList();
+        //     print("${medicine.name}   medicine.namemedicine.name");
+        //     if (matchingItems.isNotEmpty) {
+        //       medicine.status = true;
+        //       print("${medicine.status}  medicine.statusmedicine.status");
+        //     } else {
+        //       medicine.status = false;
+        //       print("${medicine.status}  medicine.statusmedicine.status");
+        //     }
+        //   }
+
+        //   search = '';
+        // }).catchError((error) {
+        //   print(error);
+        // });
       }).catchError((error) {
         print(error.toString());
       });
