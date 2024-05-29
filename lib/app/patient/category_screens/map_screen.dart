@@ -29,8 +29,13 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       final marker = Marker(
         markerId: MarkerId(name!),
-        position: LatLng(double.parse(widget.model.latitude!),
-            double.parse(widget.model.longitude!)),
+        position: LatLng(
+            double.parse(widget.model.latitude == "string"
+                ? "0"
+                : widget.model.latitude as String),
+            double.parse(widget.model.longitude == "string"
+                ? "0"
+                : widget.model.longitude as String)),
         infoWindow: InfoWindow(title: name, snippet: address, onTap: () {}),
         onTap: () {
           print("Clicked on marker");
@@ -128,10 +133,18 @@ class _MapScreenState extends State<MapScreen> {
                                             initialCameraPosition:
                                                 CameraPosition(
                                               target: LatLng(
-                                                  double.parse(
-                                                      widget.model.latitude!),
-                                                  double.parse(
-                                                      widget.model.longitude!)),
+                                                  double.parse(widget
+                                                              .model.latitude ==
+                                                          "string"
+                                                      ? "0"
+                                                      : widget.model.latitude
+                                                          as String),
+                                                  double.parse(widget.model
+                                                              .longitude ==
+                                                          "string"
+                                                      ? "0"
+                                                      : widget.model.longitude
+                                                          as String)),
                                               zoom: 14.8,
                                             ),
                                             markers: markers.values.toSet(),

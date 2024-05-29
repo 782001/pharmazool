@@ -703,6 +703,7 @@ class AppCubit extends Cubit<AppStates> {
   Position? position;
   void getCurrentLocation() async {
     position = await Geolocator.getCurrentPosition();
+    print("position:$position");
   }
 
   var controller2 = TextEditingController();
@@ -838,11 +839,14 @@ class AppCubit extends Cubit<AppStates> {
 
     for (var pharmacy in pharmacies) {
       double distanceInMeters = Geolocator.distanceBetween(
-        position!.latitude,
-        position!.longitude,
-        double.parse(pharmacy.latitude!), // Assuming lat is a String
-        double.parse(pharmacy.longitude!), // Assuming long is a String
-      );
+          position!.latitude,
+          position!.longitude,
+          // double.parse(pharmacy.latitude!), // Assuming lat is a String
+          // double.parse(pharmacy.longitude!), // Assuming long is a String
+          double.parse(
+              pharmacy.latitude! == "string" ? "0" : pharmacy.latitude!),
+          double.parse(
+              pharmacy.longitude! == "string" ? "0" : pharmacy.longitude!));
 
       print(pharmacy.latitude!);
       print(pharmacy.longitude!);
@@ -864,7 +868,7 @@ class AppCubit extends Cubit<AppStates> {
     filteredPharmacies = [];
     getCurrentLocation();
     emit(GetFilteredPharmaciesByMedicineLoadingState());
-
+    print("$MedicineId MedicineIdMedicineIdMedicineId");
     await DioHelper.getData(
             url: "$getPharmaciesByMedicineIDEndPoint$MedicineId")
         .then((value) async {
@@ -876,7 +880,9 @@ class AppCubit extends Cubit<AppStates> {
       // Filter pharmacies by distance
       nearestpharmacies = await filterPharmaciesByDistance(
         pharmacies,
-        199909, // Max distance in meters
+        199909,
+        // 40000
+        // Max distance in meters
       );
 
       emit(GetFilteredPharmaciesByMedicineSuccesState());

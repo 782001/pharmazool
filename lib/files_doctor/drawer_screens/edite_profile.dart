@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pharmazool/app/patient/category_screens/locationinfo.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/pop_up.dart';
@@ -55,6 +56,39 @@ class _EditeProfileState extends State<EditeProfile> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => ShowCaseWidget.of(context).startShowCase([locationKey]));
+  }
+void showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'مطلوب إذن الموقع',
+            textAlign: TextAlign.center,
+          ),
+          content: const Text(
+            'هذا التطبيق يحتاج إلى الوصول إلى الموقع ليعمل بشكل صحيح.',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              child: const Text(
+                'منح الإذن',
+                textAlign: TextAlign.center,
+                style: TextStyles.styleblackbold20,
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                // await checkAndRequestLocationPermission(context);
+                // setmypost();
+                // openAppSettings();
+                setmypost();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -175,9 +209,32 @@ class _EditeProfileState extends State<EditeProfile> {
                             "تاكد من تشغيل خدمات الموقع وقم بالضغط هنا لتحديد موقع الصيدلية عن طريق الاقمار الصناعية",
                         child: IconButton(
                           icon: const Icon(Icons.location_on_outlined),
-                          onPressed: () {
-                            BlocProvider.of<ProfilePharmacyCubit>(context)
-                                .getPressLocation();
+                          onPressed: ()async {
+                           
+                                 PermissionStatus status =
+                                          await Permission.location.status;
+                                      if (status.isGranted) {
+                                  BlocProvider.of<ProfilePharmacyCubit>(context)
+                                .getPressLocation();   } else if (status.isPermanentlyDenied) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: const Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child: Text(
+                                                  'تم رفض إذن الموقع بشكل دائم. يرجى تمكينه من الإعدادات.'),
+                                            ),
+                                            action: SnackBarAction(
+                                              label: 'الإعدادات',
+                                              onPressed: () async {
+                                                openAppSettings();
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        showPermissionDialog(context);
+                                      }
                           },
                         ),
                       ),

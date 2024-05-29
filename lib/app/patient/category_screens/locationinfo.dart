@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:pharmazool/app/patient/category_screens/widgets/loading_data_screen.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/utils/strings.dart';
 import 'package:pharmazool/src/core/utils/styles.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LocationInfo extends StatefulWidget {
   final String id;
@@ -30,7 +33,6 @@ class _LocationInfoState extends State<LocationInfo> {
     appCubit?.getLocalityList();
     appCubit?.getStateList();
     appCubit?.getpharmacies();
-    AppCubit.get(context).getCurrentLocation();
     super.initState();
   }
 
@@ -39,47 +41,79 @@ class _LocationInfoState extends State<LocationInfo> {
     area.dispose();
     locality.dispose();
     stateController.dispose();
-
     super.dispose();
   }
 
+ 
+
+  void showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'مطلوب إذن الموقع',
+            textAlign: TextAlign.center,
+          ),
+          content: const Text(
+            'هذا التطبيق يحتاج إلى الوصول إلى الموقع ليعمل بشكل صحيح.',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              child: const Text(
+                'منح الإذن',
+                textAlign: TextAlign.center,
+                style: TextStyles.styleblackbold20,
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                // await checkAndRequestLocationPermission(context);
+                // setmypost();
+                // openAppSettings();
+                setmypost();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        // appBar: AppBar(elevation: 0),
-        body: SafeArea(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: Colors.teal,
-          ),
-          Column(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: context.height * 15 / 100,
-                child: const Text(
-                  'حدد الولاية او المحلية او المنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دوائك في الصيدليات المتوفرة بها',
-                  textAlign: TextAlign.center,
-                  style: TextStyles.stylewhitebold20,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.only(topLeft: Radius.circular(70)),
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.teal,
+            ),
+            Column(
+              children: [
+                const SizedBox(height: 30),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  child: const Text(
+                    'حدد الولاية او المحلية او المنطقة ثم اضغط بحث و سيقوم فارمازول بالبحث عن دوائك في الصيدليات المتوفرة بها',
+                    textAlign: TextAlign.center,
+                    style: TextStyles.stylewhitebold20,
                   ),
-                  width: double.infinity,
-                  child: Padding(
+                ),
+                Expanded(
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.only(topLeft: Radius.circular(70)),
+                    ),
+                    width: double.infinity,
+                    child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: BlocBuilder<AppCubit, AppStates>(
                         builder: (context, state) {
@@ -88,8 +122,7 @@ class _LocationInfoState extends State<LocationInfo> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              //الولاية
-
+                              // الولاية
                               CustomSelectAreaAndLocalityTextField(
                                 controller: stateController,
                                 labelText: "الولاية",
@@ -105,8 +138,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                   });
                                 },
                               ),
-
-                              //المحلية
+                              // المحلية
                               CustomSelectAreaAndLocalityTextField(
                                 controller: locality,
                                 onPressCancel: () => locality.clear(),
@@ -123,7 +155,7 @@ class _LocationInfoState extends State<LocationInfo> {
                                   });
                                 },
                               ),
-                              //المنطقة
+                              // المنطقة
                               CustomSelectAreaAndLocalityTextField(
                                 controller: area,
                                 onPressCancel: () => area.clear(),
@@ -140,7 +172,6 @@ class _LocationInfoState extends State<LocationInfo> {
                                   });
                                 },
                               ),
-
                               SearchButtonAreaAndLocalityAndState(
                                 area: area,
                                 locality: locality,
@@ -156,8 +187,9 @@ class _LocationInfoState extends State<LocationInfo> {
                               Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
-                                    color: Colors.teal,
-                                    borderRadius: BorderRadius.circular(30)),
+                                  color: Colors.teal,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10.0),
@@ -166,27 +198,54 @@ class _LocationInfoState extends State<LocationInfo> {
                                       'البحث عن طريق موقعي',
                                       style: TextStyles.stylewhiteboldDefault,
                                     ),
-                                    onPressed: () {
-                                      AppCubit.get(context).getpharmacies(
-                                        id: int.parse(widget.id.toString()),
-                                        area: area.text,
-                                        locality: locality.text,
-                                        street: stateController.text,
-                                      );
-                                      AppCubit.get(context)
-                                          .getFilteredPharmaciesByMedicineIdmodel(
-                                              MedicineId: widget.id);
+                                    onPressed: () async {
+                                      // checkAndRequestLocationPermission(context);
 
-                                      print(area.text +
-                                          locality.text +
-                                          stateController.text);
-                                      Navigator.push(
+                                      PermissionStatus status =
+                                          await Permission.location.status;
+                                      if (status.isGranted) {
+                                        AppCubit.get(context).getpharmacies(
+                                          id: int.parse(widget.id.toString()),
+                                          area: area.text,
+                                          locality: locality.text,
+                                          street: stateController.text,
+                                        );
+                                        AppCubit.get(context)
+                                            .getFilteredPharmaciesByMedicineIdmodel(
+                                                MedicineId: widget.id);
+
+                                        print(area.text +
+                                            locality.text +
+                                            stateController.text);
+                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const loadingData(
-                                                    widget: NearbyPharmacies(),
-                                                  )));
+                                            builder: (context) =>
+                                                const loadingData(
+                                              widget: NearbyPharmacies(),
+                                            ),
+                                          ),
+                                        );
+                                      } else if (status.isPermanentlyDenied) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: const Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child: Text(
+                                                  'تم رفض إذن الموقع بشكل دائم. يرجى تمكينه من الإعدادات.'),
+                                            ),
+                                            action: SnackBarAction(
+                                              label: 'الإعدادات',
+                                              onPressed: () async {
+                                                openAppSettings();
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        showPermissionDialog(context);
+                                      }
                                     },
                                   ),
                                 ),
@@ -194,14 +253,16 @@ class _LocationInfoState extends State<LocationInfo> {
                             ],
                           );
                         },
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -215,12 +276,14 @@ class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
     this.readOnly,
     this.validator,
   });
+
   final TextEditingController controller;
   final VoidCallback onPress;
   final VoidCallback onPressCancel;
   final String labelText;
   final String? Function(String?)? validator;
   final bool? readOnly;
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -229,8 +292,9 @@ class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-            border: Border.all(width: 1),
-            borderRadius: BorderRadius.circular(10.0)),
+          border: Border.all(width: 1),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         child: Row(
           children: [
             Expanded(
@@ -251,7 +315,10 @@ class CustomSelectAreaAndLocalityTextField extends StatelessWidget {
                 validator: validator,
               ),
             ),
-            IconButton(onPressed: onPressCancel, icon: const Icon(Icons.cancel))
+            IconButton(
+              onPressed: onPressCancel,
+              icon: const Icon(Icons.cancel),
+            ),
           ],
         ),
       ),
@@ -267,6 +334,7 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
     required this.stateController,
     required this.id,
   });
+
   final TextEditingController locality;
   final TextEditingController area;
   final TextEditingController stateController;
@@ -280,7 +348,9 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
         return Container(
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-              color: Colors.teal, borderRadius: BorderRadius.circular(30)),
+            color: Colors.teal,
+            borderRadius: BorderRadius.circular(30),
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: TextButton(
@@ -290,23 +360,20 @@ class SearchButtonAreaAndLocalityAndState extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const loadingData(
-                              widget: PharmasyScreen(),
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const loadingData(
+                      widget: PharmasyScreen(),
+                    ),
+                  ),
+                );
 
-                AppCubit.get(context)
-                    .getPharmaciesByMedicineIdmodel(MedicineId: id,
-                    localityName:locality.text,
-                    areaName:area.text,
-                    stateName:stateController.text,
-                    );
-
-                // profileCubit.filterPharmacyByLocalityAndStateAndArea(
-                //     locality: locality.text,
-                //     area: area.text,
-                //     state: stateController.text);
+                AppCubit.get(context).getPharmaciesByMedicineIdmodel(
+                  MedicineId: id,
+                  localityName: locality.text,
+                  areaName: area.text,
+                  stateName: stateController.text,
+                );
               },
             ),
           ),

@@ -174,7 +174,7 @@ class _PatientSigninState extends State<PatientSignin> {
                           );
                         },
                         child: const Text(
-                          'نسيت كلمة المرور',
+                          "تعديل رقم الهاتف",
                           style: TextStyles.styleblackBold15,
                         ),
                       )

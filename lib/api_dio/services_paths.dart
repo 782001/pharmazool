@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pharmazool/main.dart';
 import 'package:pharmazool/mymodels/GetPharmaciesByMedicineModel.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/constant/app_constant.dart';
@@ -228,7 +229,8 @@ String loginByPharmacistEndPoint = 'Authentication/LoginByPharmacist';
 String registerByPatientEndPoint = 'Authentication/RegisterByPatient';
 String registerByPharmcistEndPoint = 'Authentication/RegisterByPharmacist';
 String resetPasswordByPatientEndPoint = 'Authentication/ResetPasswordByPatient';
-String resetPasswordByPharmacistEndPoint = 'Authentication/ResetPasswordByPharmacist';
+String resetPasswordByPharmacistEndPoint =
+    'Authentication/ResetPasswordByPharmacist';
 
 // 2- area endpoints:
 String getAreaByIdEndPoint = 'Area/:id';
@@ -310,7 +312,8 @@ String deletePharmacyByIDEndPoint = 'Pharmacy/:id';
 String GetPharmacyCheckEndPoint = 'Pharmacy/CheckIsPharmacyExist/';
 
 //PharmaciesByMedicine
-String getPharmaciesByMedicineIDEndPoint = 'PharmacyMedicine/GetPharmaciesByMedicineId/';
+String getPharmaciesByMedicineIDEndPoint =
+    'PharmacyMedicine/GetPharmaciesByMedicineId/';
 
 // 11- pharmacymedicine endpoints:
 String getPharmacyMedicineEndPoint =
@@ -338,5 +341,3 @@ String postUnitEndPoint = 'Unit';
 String getUnitByIdEndPoint = 'Unit/:id';
 String putUnitByIdEndPoint = 'Unit/:id';
 String deleteUnitByIDEndPoint = 'Unit/:id';
-
-
