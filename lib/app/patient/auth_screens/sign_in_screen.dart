@@ -241,17 +241,11 @@ class _PatientSigninState extends State<PatientSignin> {
                         } else {
                           if (await _authenticate() == true) {
                             // ignore: use_build_context_synchronously
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return const ShowWidget(
-                                  child: PatientLayout(
-                                    fromOnBoard: false,
-                                  ),
-                                );
-                              }),
-                              (Route<dynamic> route) => false,
-                            );
+                               AppCubit.get(context).Patientlogin(
+                                        context: context,
+                                        username: patientName,
+                                        password:patientPhone);
+                                        
                           } else {
                             flutterToast(msg: "Not Recognized");
                           }

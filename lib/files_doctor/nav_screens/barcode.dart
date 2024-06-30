@@ -148,7 +148,8 @@ class BarCodeDoctor extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Text(
-                    "لتقليل نسبة الخطأ وحفظ الوقت والجهد يمكنك اضافة الادوية عن طريق الماسح الضوئي اعلاه",
+                    // "لتقليل نسبة الخطأ وحفظ الوقت والجهد يمكنك اضافة الادوية عن طريق الماسح الضوئي اعلاه",
+                    "يمكنك استخراج اسم العلاج من الصندوق او الروشته عن طريق استعمال الماسح الضوئي اعلاه",
                     style: TextStyles.styleblack15,
                     textAlign: TextAlign.center,
                   ),

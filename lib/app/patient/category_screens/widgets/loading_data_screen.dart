@@ -19,7 +19,7 @@ class _loadingDataState extends State<loadingData> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   statrDelay() {
     timer = Timer(
-        const Duration(seconds: 3),
+        const Duration(seconds: 4),
         () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => widget.widget),

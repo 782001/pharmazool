@@ -84,9 +84,12 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                     controller: useRController,
                     keyboardType: TextInputType.text,
                     onTap: () {},
-                    validator: (String? value) {
+                    validator: (value) {
                       if (value!.isEmpty) {
-                        return ' الرجاء ادخال الاسم';
+                        return ' الاسم غير مسجل';
+                      } else if (!AppCubit.get(context)
+                          .doesNotHaveArabic(useRController.text)) {
+                        return "تأكد من ان اسم المستخدم بالأحرف الانجليزية ى ولم تم استعماله من قبل";
                       } else {
                         return null;
                       }
@@ -163,7 +166,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                         if (value!.isEmpty) {
                           return 'الرجاء ادخال كلمة المرور ';
                         }
-                        if (value.length < 8 ) {
+                        if (value.length < 8) {
                           return 'برجاء ادخال 8 مدخلات أو أكثر';
                         }
                         return null;
@@ -188,12 +191,12 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                       controller: phonecontroller,
                       keyboardType: TextInputType.phone,
                       onTap: () {},
-                      validator: (String? value) {
+                      validator: (value) {
                         if (value!.isEmpty) {
-                          return 'الرجاء ادخال رقم التليفون';
+                          return 'رقم الهاتف غير مسجل';
                         }
                         if (value.length < 10 || value.length > 10) {
-                          return 'برجاء ادخال 10 ارقام فقط';
+                          return 'تأكد من ان رقم الهاتف فقط 10 ارقام \nولم يتم استخدامه من قبل';
                         }
                         return null;
                       },

@@ -23,15 +23,16 @@ class PatientRegister extends StatefulWidget {
 
 class _PatientRegisterState extends State<PatientRegister> {
   bool isloading = false;
-   late StreamSubscription subscription;
+  late StreamSubscription subscription;
   var isDeviceConnected = false;
   bool isAlertSet = false;
   @override
   void initState() {
     super.initState();
-  getConnectivity();
+    getConnectivity();
   }
- getConnectivity() =>
+
+  getConnectivity() =>
       subscription = Connectivity().onConnectivityChanged.listen(
         (ConnectivityResult result) async {
           isDeviceConnected = await InternetConnectionChecker().hasConnection;
@@ -83,7 +84,7 @@ class _PatientRegisterState extends State<PatientRegister> {
                       return ' الاسم غير مسجل';
                     } else if (!AppCubit.get(context)
                         .doesNotHaveArabic(namEController.text)) {
-                      return "من فضلك ادخل احرف انجليزيه فقط";
+                      return "تأكد من ان اسم المستخدم بالأحرف الانجليزية \ى ولم تم استعماله من قبل";
                     } else {
                       return null;
                     }
@@ -103,13 +104,15 @@ class _PatientRegisterState extends State<PatientRegister> {
                   controller: phonEController,
                   keyboardType: TextInputType.number,
                   onTap: () {},
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'رقم الهاتف غير مسجل';
-                    } else {
-                      return null;
-                    }
-                  },
+               validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'رقم الهاتف غير مسجل';
+                        }
+                        if (value.length < 10 || value.length > 10) {
+                          return 'تأكد من ان رقم الهاتف فقط 10 ارقام \nولم يتم استخدامه من قبل';
+                        }
+                        return null;
+                      },
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.phone,
@@ -149,12 +152,12 @@ class _PatientRegisterState extends State<PatientRegister> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'الموقع غير صحيح';
-                      }  else if (!AppCubit.get(context)
-                        .doesNotHaveArabic(namEController.text)) {
-                      return "من فضلك ادخل احرف انجليزيه فقط";
-                    } else {
-                      return null;
-                    }
+                      } else if (!AppCubit.get(context)
+                          .doesNotHaveArabic(namEController.text)) {
+                        return "من فضلك ادخل احرف انجليزيه فقط";
+                      } else {
+                        return null;
+                      }
                     },
                     decoration: InputDecoration(
                         prefixIcon: Icon(
@@ -187,7 +190,7 @@ class _PatientRegisterState extends State<PatientRegister> {
                                     username: namEController.text.toString(),
                                     // password: 'no password',
                                     phone: phonEController.text,
-                                    // type: 1, 
+                                    // type: 1,
                                     context: context);
                               }
                             },
@@ -204,7 +207,9 @@ class _PatientRegisterState extends State<PatientRegister> {
         ),
       );
     });
-  } void showDialogBox() => showCupertinoDialog(
+  }
+
+  void showDialogBox() => showCupertinoDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
           title: const Text(
@@ -239,5 +244,4 @@ class _PatientRegisterState extends State<PatientRegister> {
           ],
         ),
       );
-
 }

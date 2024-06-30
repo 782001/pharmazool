@@ -23,19 +23,26 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   final Map<String, Marker> markers = {};
-
+  double? latitude;
+  double? longitude;
   Future<void> _onMapCreated(GoogleMapController controller) async {
     markers.clear();
+
+    try {
+      latitude = double.parse(widget.model.latitude!);
+    } catch (e) {
+      latitude = 0.0; // default to 0 if parsing fails
+    }
+
+    try {
+      longitude = double.parse(widget.model.longitude!);
+    } catch (e) {
+      longitude = 0.0; // default to 0 if parsing fails
+    }
     setState(() {
       final marker = Marker(
         markerId: MarkerId(name!),
-        position: LatLng(
-            double.parse(widget.model.latitude == "string"
-                ? "0"
-                : widget.model.latitude as String),
-            double.parse(widget.model.longitude == "string"
-                ? "0"
-                : widget.model.longitude as String)),
+        position: LatLng(latitude!, longitude!),
         infoWindow: InfoWindow(title: name, snippet: address, onTap: () {}),
         onTap: () {
           print("Clicked on marker");
@@ -57,6 +64,17 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    try {
+      latitude = double.parse(widget.model.latitude!);
+    } catch (e) {
+      latitude = 0.0; // default to 0 if parsing fails
+    }
+
+    try {
+      longitude = double.parse(widget.model.longitude!);
+    } catch (e) {
+      longitude = 0.0; // default to 0 if parsing fails
+    }
     return Scaffold(
       backgroundColor: AppColors.kGreyColor,
       appBar: AppBar(
@@ -132,19 +150,8 @@ class _MapScreenState extends State<MapScreen> {
                                             onMapCreated: _onMapCreated,
                                             initialCameraPosition:
                                                 CameraPosition(
-                                              target: LatLng(
-                                                  double.parse(widget
-                                                              .model.latitude ==
-                                                          "string"
-                                                      ? "0"
-                                                      : widget.model.latitude
-                                                          as String),
-                                                  double.parse(widget.model
-                                                              .longitude ==
-                                                          "string"
-                                                      ? "0"
-                                                      : widget.model.longitude
-                                                          as String)),
+                                              target:
+                                                  LatLng(latitude!, longitude!),
                                               zoom: 14.8,
                                             ),
                                             markers: markers.values.toSet(),

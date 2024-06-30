@@ -394,6 +394,10 @@ class AppCubit extends Cubit<AppStates> {
       PatientuserName = response.data['userName'];
       Patienttoken = response.data['token'];
       print("sucsess${response.data['title']}");
+      secureStorage.write(key: SecureStorageKey.patientName, value: username);
+
+      secureStorage.write(key: SecureStorageKey.patientPhone, value: password);
+
       emit(PatientLoginSuccesState(uId: Patienttoken!));
     } on DioException catch (error) {
       if (error.response != null) {
@@ -452,6 +456,13 @@ class AppCubit extends Cubit<AppStates> {
           MaterialPageRoute(builder: (context) => const HomeLayoutDoctor()));
       secureStorage.write(
           key: SecureStorageKey.doctorLicense, value: licenseId);
+
+      secureStorage.write(
+          key: SecureStorageKey.doctorPharmacyName, value: pharmacyName);
+      secureStorage.write(
+          key: SecureStorageKey.doctorUserName, value: username);
+      secureStorage.write(key: SecureStorageKey.doctorPass, value: password);
+
       emit(DoctorLoginSuccesState());
     } on DioException catch (error) {
       if (error.response != null) {
@@ -704,6 +715,7 @@ class AppCubit extends Cubit<AppStates> {
   void getCurrentLocation() async {
     position = await Geolocator.getCurrentPosition();
     print("position:$position");
+    print("position  :$position");
   }
 
   var controller2 = TextEditingController();
@@ -783,7 +795,7 @@ class AppCubit extends Cubit<AppStates> {
       for (PharmacyModel pharmacy in pharmacyModelData!.data!) {
         if (pharmacy.name == PharmacyNameFromController) {
           pharmamodel = pharmacy;
-          print("${pharmamodel!.id}================");
+          print("${pharmamodel!.id}=====0000000000===========");
           emit(GetPharmaciesSuccesState());
           return;
         }
@@ -838,15 +850,22 @@ class AppCubit extends Cubit<AppStates> {
     // Filter pharmacies by distance
 
     for (var pharmacy in pharmacies) {
+      double? latitude;
+      double? longitude;
+
+      try {
+        latitude = double.parse(pharmacy.latitude!);
+      } catch (e) {
+        latitude = 0.0; // default to 0 if parsing fails
+      }
+
+      try {
+        longitude = double.parse(pharmacy.longitude!);
+      } catch (e) {
+        longitude = 0.0; // default to 0 if parsing fails
+      }
       double distanceInMeters = Geolocator.distanceBetween(
-          position!.latitude,
-          position!.longitude,
-          // double.parse(pharmacy.latitude!), // Assuming lat is a String
-          // double.parse(pharmacy.longitude!), // Assuming long is a String
-          double.parse(
-              pharmacy.latitude! == "string" ? "0" : pharmacy.latitude!),
-          double.parse(
-              pharmacy.longitude! == "string" ? "0" : pharmacy.longitude!));
+          position!.latitude, position!.longitude, latitude, longitude);
 
       print(pharmacy.latitude!);
       print(pharmacy.longitude!);
@@ -879,11 +898,11 @@ class AppCubit extends Cubit<AppStates> {
 
       // Filter pharmacies by distance
       nearestpharmacies = await filterPharmaciesByDistance(
-        pharmacies,
-        199909,
-        // 40000
-        // Max distance in meters
-      );
+          pharmacies,
+          // 199909,
+          40000
+          // Max distance in meters
+          );
 
       emit(GetFilteredPharmaciesByMedicineSuccesState());
     }).catchError((error) {
