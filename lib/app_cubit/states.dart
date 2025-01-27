@@ -13,12 +13,11 @@ class changeBarCodeResultState extends AppStates {}
 class DoctorLoginLoadingState extends AppStates {}
 
 class DoctorLoginSuccesState extends AppStates {
-
-
   DoctorLoginSuccesState();
 }
 
 class DoctorLoginErrorState extends AppStates {}
+
 class PatientLoginLoadingState extends AppStates {}
 
 class PatientLoginSuccesState extends AppStates {
@@ -70,6 +69,7 @@ class GetDoctorGroubListErrorState extends AppStates {}
 class AppResetPasswordByPatientErrorState extends AppStates {}
 
 class AppResetPasswordByPatientSuccesState extends AppStates {}
+
 class AppResetPasswordByDoctorErrorState extends AppStates {}
 
 class AppResetPasswordByDoctorSuccesState extends AppStates {}
@@ -105,6 +105,17 @@ class GetMedicinesByIdLoadingState extends AppStates {}
 class GetMedicinesByIdSuccesState extends AppStates {}
 
 class GetMedicinesByIdErrorState extends AppStates {}
+
+// patient google login
+class GoogleLoginLoadingState extends AppStates {}
+
+class GoogleLoginSuccesState extends AppStates {
+  final String uId;
+
+  GoogleLoginSuccesState({required this.uId});
+}
+
+class GoogleLoginErrorState extends AppStates {}
 
 // getmedicines by id
 class SearchGenericMedicinePatientLoadingState extends AppStates {}

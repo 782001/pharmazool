@@ -220,12 +220,13 @@ showmydialog(context, String content, IconData icon) {
           ));
 }
 
-String baseurl = 'http://amc007-001-site8.etempurl.com/api/';
+String baseurl = 'https://api.pharmazool.org/api/';
 
 // 1- login endpoints:
 String loginEndPoint = 'Authentication/Login';
 String loginByPatientEndPoint = 'Authentication/LoginByPatient';
 String loginByPharmacistEndPoint = 'Authentication/LoginByPharmacist';
+String patientGoogleloginEndPoint = 'Authentication/callback-google';
 String registerByPatientEndPoint = 'Authentication/RegisterByPatient';
 String registerByPharmcistEndPoint = 'Authentication/RegisterByPharmacist';
 String resetPasswordByPatientEndPoint = 'Authentication/ResetPasswordByPatient';

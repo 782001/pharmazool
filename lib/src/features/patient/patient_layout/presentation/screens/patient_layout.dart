@@ -56,11 +56,12 @@ class _PatientLayoutState extends State<PatientLayout> {
               ),
             ),
             floatingActionButton: widget.fromOnBoard
-                ? const SizedBox.shrink()
+                ? const FloatingBottonPatient()
                 : Showcase(
                     descriptionTextDirection: TextDirection.rtl,
                     descTextStyle: TextStyles.styleblackDefault,
                     key: floatingKey,
+                    
                     description:
                         "من هنا يمكنك البحث عن علاجك بنسخ اسم الدواء ( روشتة / ملف / علبة دواء)",
                     child: const FloatingBottonPatient()),

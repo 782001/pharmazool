@@ -4,7 +4,7 @@ class DioHelper {
   static Dio dio = Dio();
   static init() {
     dio = Dio(BaseOptions(
-        baseUrl: 'http://amc007-001-site8.etempurl.com',
+        baseUrl: 'https://api.pharmazool.org',
         receiveDataWhenStatusError: true,
         headers: {
           'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     required Map<String, dynamic> data,
   }) async {
-    return await dio.post('http://amc007-001-site8.etempurl.com/api/$url',
+    return await dio.post('https://api.pharmazool.org/api/$url',
         queryParameters: query, data: data);
   }
 
@@ -28,7 +28,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     required Map<String, dynamic> data,
   }) async {
-    return await dio.delete('http://amc007-001-site8.etempurl.com/api/$url',
+    return await dio.delete('https://api.pharmazool.org/api/$url',
         queryParameters: query, data: data);
   }
 
@@ -37,7 +37,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     required var data,
   }) async {
-    return await dio.put('http://amc007-001-site8.etempurl.com/api/$url',
+    return await dio.put('https://api.pharmazool.org/api/$url',
         queryParameters: query, data: data);
   }
 
@@ -46,7 +46,7 @@ class DioHelper {
     Map<String, dynamic>? query,
   }) async {
     return await dio.get(
-      'http://amc007-001-site8.etempurl.com/api/$url',
+      'https://api.pharmazool.org/api/$url',
       queryParameters: query,
     );
   }

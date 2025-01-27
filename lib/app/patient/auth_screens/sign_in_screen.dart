@@ -95,6 +95,28 @@ class _PatientSigninState extends State<PatientSignin> {
             );
           });
         }
+        if (state is GoogleLoginSuccesState) {
+          setState(() {
+            isloading = false;
+          });
+          CashHelper.SaveData(
+            key: 'uId',
+            value:Patienttoken,
+          ).then((value) {
+            print("uId Saved succses");
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return const ShowWidget(
+                  child: PatientLayout(
+                    fromOnBoard: false,
+                  ),
+                );
+              }),
+              (Route<dynamic> route) => false,
+            );
+          });
+        }
         // if (state is PatientLoginErrorState) {
         //   setState(() {
         //     isloading = false;
@@ -111,7 +133,7 @@ class _PatientSigninState extends State<PatientSignin> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: context.height * 0.1,
+                    height: context.height * 0.03,
                   ),
                   TextFormField(
                     controller: namEController,
@@ -232,6 +254,75 @@ class _PatientSigninState extends State<PatientSignin> {
                             ),
                           ),
                         ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          color: AppColors.greyLight,
+                          height: 1 / 4,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text('أو', style: TextStyles.stylegreyBold15),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: Container(
+                          color: AppColors.greyLight,
+                          height: 1 / 3,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(10), // Set the border radius
+                    ),
+                    width: double.infinity,
+                    height: 60,
+                    child: OutlinedButton(
+                      onPressed: () async {
+                        // await AppCubit.get(context).signInWithGoogle(context);
+                        await AppCubit.get(context)
+                            .signInWithGoogle(context)
+                            .then((value) => AppCubit.get(context)
+                                .Googlelogin(context: context));
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(
+                            color: Colors.teal), // Add teal border
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(10), // Match border radius
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: Image.asset(
+                              'assets/images/Google Icon.png',
+                              width: 30,
+                              height: 30,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text(
+                            'تسجيل الدخول بحساب جوجل',
+                            style: TextStyle(color: Colors.teal),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.center,
                     child: InkWell(
@@ -241,11 +332,10 @@ class _PatientSigninState extends State<PatientSignin> {
                         } else {
                           if (await _authenticate() == true) {
                             // ignore: use_build_context_synchronously
-                               AppCubit.get(context).Patientlogin(
-                                        context: context,
-                                        username: patientName,
-                                        password:patientPhone);
-                                        
+                            AppCubit.get(context).Patientlogin(
+                                context: context,
+                                username: patientName,
+                                password: patientPhone);
                           } else {
                             flutterToast(msg: "Not Recognized");
                           }

@@ -84,7 +84,7 @@ class _PatientRegisterState extends State<PatientRegister> {
                       return ' الاسم غير مسجل';
                     } else if (!AppCubit.get(context)
                         .doesNotHaveArabic(namEController.text)) {
-                      return "تأكد من ان اسم المستخدم بالأحرف الانجليزية \ى ولم تم استعماله من قبل";
+                      return "تأكد من ان اسم المستخدم بالأحرف الانجليزية ى ولم تم استعماله من قبل";
                     } else {
                       return null;
                     }
@@ -104,15 +104,15 @@ class _PatientRegisterState extends State<PatientRegister> {
                   controller: phonEController,
                   keyboardType: TextInputType.number,
                   onTap: () {},
-               validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'رقم الهاتف غير مسجل';
-                        }
-                        if (value.length < 10 || value.length > 10) {
-                          return 'تأكد من ان رقم الهاتف فقط 10 ارقام \nولم يتم استخدامه من قبل';
-                        }
-                        return null;
-                      },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'رقم الهاتف غير مسجل';
+                    }
+                    if (value.length < 10 || value.length > 10) {
+                      return 'تأكد من ان رقم الهاتف فقط 10 ارقام \nولم يتم استخدامه من قبل';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.phone,
@@ -153,7 +153,7 @@ class _PatientRegisterState extends State<PatientRegister> {
                       if (value!.isEmpty) {
                         return 'الموقع غير صحيح';
                       } else if (!AppCubit.get(context)
-                          .doesNotHaveArabic(namEController.text)) {
+                          .doesNotHaveArabic(locatioNController.text)) {
                         return "من فضلك ادخل احرف انجليزيه فقط";
                       } else {
                         return null;

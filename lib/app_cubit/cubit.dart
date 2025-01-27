@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -7,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pharmazool/app/patient/nav_screens/barcode.dart';
@@ -441,29 +444,30 @@ class AppCubit extends Cubit<AppStates> {
         "licenseId": licenseId,
         "pharmacyName": pharmacyName
       });
+      if (response.statusCode == 200) {
+        print("Doctor login ******");
 
-      print("Doctor login ******");
+        print(response.data);
+        print("Doctor login ******");
+        DoctoruserName = response.data['userName'];
+        Doctortoken = response.data['token'];
+        print("sucsess${response.data['title']}");
+        getPharmacyNameFromSignIn(PharmacyNameFromController: pharmacyName);
+        PharmacyNameFromController = pharmacyName;
+        print("$PharmacyNameFromController 00000000000");
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomeLayoutDoctor()));
+        secureStorage.write(
+            key: SecureStorageKey.doctorLicense, value: licenseId);
 
-      print(response.data);
-      print("Doctor login ******");
-      DoctoruserName = response.data['userName'];
-      Doctortoken = response.data['token'];
-      print("sucsess${response.data['title']}");
-      getPharmacyNameFromSignIn(PharmacyNameFromController: pharmacyName);
-      PharmacyNameFromController = pharmacyName;
-      print("$PharmacyNameFromController 00000000000");
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeLayoutDoctor()));
-      secureStorage.write(
-          key: SecureStorageKey.doctorLicense, value: licenseId);
+        secureStorage.write(
+            key: SecureStorageKey.doctorPharmacyName, value: pharmacyName);
+        secureStorage.write(
+            key: SecureStorageKey.doctorUserName, value: username);
+        secureStorage.write(key: SecureStorageKey.doctorPass, value: password);
 
-      secureStorage.write(
-          key: SecureStorageKey.doctorPharmacyName, value: pharmacyName);
-      secureStorage.write(
-          key: SecureStorageKey.doctorUserName, value: username);
-      secureStorage.write(key: SecureStorageKey.doctorPass, value: password);
-
-      emit(DoctorLoginSuccesState());
+        emit(DoctorLoginSuccesState());
+      }
     } on DioException catch (error) {
       if (error.response != null) {
         final statusCode = error.response!.statusCode;
@@ -1324,7 +1328,7 @@ class AppCubit extends Cubit<AppStates> {
     try {
       final response = await http.put(
         Uri.parse(
-            'http://amc007-001-site8.etempurl.com/api/PharmacyMedicine/$type/${pharmamodel!.id}'),
+            'https://api.pharmazool.org/api/PharmacyMedicine/$type/${pharmamodel!.id}'),
         body: search,
         headers: {
           'Content-Type': 'application/json',
@@ -1361,7 +1365,7 @@ class AppCubit extends Cubit<AppStates> {
     try {
       final response = await http.put(
         Uri.parse(
-            'http://amc007-001-site8.etempurl.com/api/PharmacyMedicine/$type/${pharmamodel!.id}'),
+            'https://api.pharmazool.org/api/PharmacyMedicine/$type/${pharmamodel!.id}'),
         body: search,
         headers: {
           'Content-Type': 'application/json',
@@ -1617,5 +1621,87 @@ class AppCubit extends Cubit<AppStates> {
   void changeBarCodeResult(String ScanMethodResult) {
     result = ScanMethodResult;
     emit(changeBarCodeResultState());
+  }
+
+  String? access_provider_token;
+
+  Future<UserCredential> signInWithGoogle(context) async {
+    await GoogleSignIn().signOut();
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    final String accessToken = googleAuth!.idToken!;
+    access_provider_token = accessToken;
+    // Now you can pass this accessToken to your backend
+    log('Access Provider Token:$accessToken');
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    // Print credential details
+    log('Credential: ${credential.accessToken!}');
+    log('idToken: ${googleAuth.idToken}');
+
+    // Once signed in, return the UserCredential
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // Print the UserCredential details
+    log('UserCredential: ${userCredential.toString()}');
+    log('User Info: ${userCredential.user.toString()}');
+    log('Additional Info: ${userCredential.additionalUserInfo.toString()}');
+
+    return userCredential;
+  }
+
+  void Googlelogin({
+    required context,
+  }) async {
+    emit(GoogleLoginLoadingState());
+    try {
+      final response = await DioHelper.postData(
+          url: patientGoogleloginEndPoint,
+          data: {'tokenId': access_provider_token});
+
+      print("Google Patient login ******");
+
+      print(response.data);
+      print(" GooglePatient login ******");
+      PatientuserName = response.data['userName'];
+      Patienttoken = response.data['token'];
+      print("sucsess${response.data['title']}");
+      // secureStorage.write(key: SecureStorageKey.patientName, value: username);
+
+      // secureStorage.write(key: SecureStorageKey.patientPhone, value: password);
+
+      emit(GoogleLoginSuccesState(uId: Patienttoken!));
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 409) {
+          // Handle conflict error
+          final errorBody = error.response!.data;
+          final errorMessage = errorBody['title'];
+          showmydialog(context, errorMessage, Icons.warning);
+          emit(GoogleLoginErrorState());
+        } else {
+          // Handle other errors
+          showmydialog(context, 'حدث خطأ ما', Icons.warning);
+          emit(GoogleLoginErrorState());
+        }
+      } else {
+        // Handle DioError without response
+        showmydialog(context, error.toString(), Icons.warning);
+        emit(GoogleLoginErrorState());
+      }
+    } catch (error) {
+      // Handle other errors
+      showmydialog(context, 'حدث خطأ ما', Icons.warning);
+      emit(GoogleLoginErrorState());
+    }
   }
 }

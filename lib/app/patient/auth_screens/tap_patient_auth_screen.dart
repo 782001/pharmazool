@@ -19,7 +19,7 @@ class _TabBarScreen_patientState extends State<TabBarScreen_patient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

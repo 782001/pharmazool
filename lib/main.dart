@@ -2,9 +2,12 @@ import 'package:flutter/services.dart';
 import 'package:pharmazool/src/core/config/routes/app_imports.dart';
 import 'package:pharmazool/src/core/network/local/cashhelper.dart';
 import 'package:pharmazool/src/core/utils/app_strings.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   await CashHelper.init();
   uId = (await CashHelper.GetData(key: 'uId'));
 
@@ -16,10 +19,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(   
+    return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (BuildContext context) => AppCubit()),
+        BlocProvider(create: (BuildContext context) => AppCubit()),
         BlocProvider(create: (BuildContext context) => ProfilePharmacyCubit()),
       ],
       child: BlocConsumer<AppCubit, AppStates>(

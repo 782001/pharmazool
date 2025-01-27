@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "976865290709",
+    "project_id": "pharmazool-40f34",
+    "storage_bucket": "pharmazool-40f34.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976865290709:android:cf20e3d50df5a2f4db755c",
+        "android_client_info": {
+          "package_name": "com.ph.pharmazool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976865290709-idq68qos0bk5n11hc63r1naga227qgu6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ph.pharmazool",
+            "certificate_hash": "0f106e49265efb3bc5c4deff347d12e26a8fe522"
+          }
+        },
+        {
+          "client_id": "976865290709-9jma1pq1c3ha2i9qeto4hjtcqhsp20cq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDgOo_BTGwS1TZyTVGoIIMTI5XExEsnV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976865290709-9jma1pq1c3ha2i9qeto4hjtcqhsp20cq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
